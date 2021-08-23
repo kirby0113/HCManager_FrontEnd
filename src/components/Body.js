@@ -1,4 +1,5 @@
 import GroupInfo from "./GroupInfo"
+import "./Body.css"
 
 const dummyData = [
     {
@@ -36,7 +37,7 @@ const dummyData = [
 const Body = () => {
 
     return (
-        <div>
+        <div className="Body">
             {dummyData.map((data) => <GroupInfo data={data}></GroupInfo>)}
         </div>
     );
