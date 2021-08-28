@@ -47,10 +47,13 @@ const Body = () => {
     }
 
     const [offset,setOffset] = useState(0);
-    const perPage = 1; // 1ページあたりに表示したいアイテムの数
+    const perPage = 10; // 1ページあたりに表示したいアイテムの数
 
     return (
         <div className="Body">
+            <div class="PageTitle">
+                グループ一覧
+            </div>
             <ReactPaginate
             style={{ marginTop: 10, marginBottom: 100 }}
             pageCount={Math.ceil(dummyData.length/perPage)} // 全部のページ数。端数の場合も考えて切り上げに。
@@ -72,6 +75,7 @@ const Body = () => {
             breakClassName='page-item'
             breakLinkClassName='page-link'
             />
+            <div class="addGroupButton">グループ追加</div>
             <div className="GroupList">
             {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data}></GroupInfo>)}
             </div>
