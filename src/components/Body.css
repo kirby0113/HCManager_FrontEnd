@@ -10,4 +10,15 @@
     position:relative;
     left:50%;
     transform:translateX(-50%);
+    margin-bottom:50px;
+}
+
+.addGroupButton{
+    display:inline;
+    font-size:18px;
+    border:solid 2px #777;
+    background-color:#ddd;
+    padding:5px 20px;
+    
+    box-shadow: 5px 5px 5px #00000040;
 }
