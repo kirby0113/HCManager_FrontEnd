@@ -6,3 +6,11 @@
     background-color:#000;
     color:#fff;
 }
+
+.HeaderLink,
+.HeaderLink:active,
+.HeaderLink:hover{
+    text-decoration:none;
+    color:inherit;
+    outline:none;
+}
