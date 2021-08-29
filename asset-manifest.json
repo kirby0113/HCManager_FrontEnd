@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/HCManager_FrontEnd/static/css/main.0127bf58.chunk.css",
+    "main.js": "/HCManager_FrontEnd/static/js/main.7e0ed416.chunk.js",
+    "main.js.map": "/HCManager_FrontEnd/static/js/main.7e0ed416.chunk.js.map",
+    "runtime-main.js": "/HCManager_FrontEnd/static/js/runtime-main.f624024e.js",
+    "runtime-main.js.map": "/HCManager_FrontEnd/static/js/runtime-main.f624024e.js.map",
+    "static/css/2.d103c08b.chunk.css": "/HCManager_FrontEnd/static/css/2.d103c08b.chunk.css",
+    "static/js/2.ca366f74.chunk.js": "/HCManager_FrontEnd/static/js/2.ca366f74.chunk.js",
+    "static/js/2.ca366f74.chunk.js.map": "/HCManager_FrontEnd/static/js/2.ca366f74.chunk.js.map",
+    "static/js/3.51cccbd3.chunk.js": "/HCManager_FrontEnd/static/js/3.51cccbd3.chunk.js",
+    "static/js/3.51cccbd3.chunk.js.map": "/HCManager_FrontEnd/static/js/3.51cccbd3.chunk.js.map",
+    "index.html": "/HCManager_FrontEnd/index.html",
+    "static/css/2.d103c08b.chunk.css.map": "/HCManager_FrontEnd/static/css/2.d103c08b.chunk.css.map",
+    "static/css/main.0127bf58.chunk.css.map": "/HCManager_FrontEnd/static/css/main.0127bf58.chunk.css.map",
+    "static/js/2.ca366f74.chunk.js.LICENSE.txt": "/HCManager_FrontEnd/static/js/2.ca366f74.chunk.js.LICENSE.txt",
+    "static/media/bootstrap.min.css": "/HCManager_FrontEnd/static/media/glyphicons-halflings-regular.be810be3.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f624024e.js",
+    "static/css/2.d103c08b.chunk.css",
+    "static/js/2.ca366f74.chunk.js",
+    "static/css/main.0127bf58.chunk.css",
+    "static/js/main.7e0ed416.chunk.js"
+  ]
+}
