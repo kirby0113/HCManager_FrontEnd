@@ -1,0 +1,23 @@
+.UsersPageTitleFrame{
+    margin-top:20px;
+}
+
+.UsersPageTitle{
+    text-align:left;
+    font-size:30px;
+    padding:10px 30px;
+    padding-left:15px;
+      background: #f4f4f4;/*背景色*/
+    border-left: solid 8px #66f086;/*左線*/
+    border-bottom: solid 3px #d7d7d7;/*下線*/
+}
+
+.UserList > tr > th{
+    padding:5px 10px;
+}
+
+.UserList{
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+}
