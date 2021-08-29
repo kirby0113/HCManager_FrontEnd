@@ -25,6 +25,7 @@
     background-color:#ddd;
     padding:5px 20px;
     box-shadow: 5px 5px 5px #00000040;
+    cursor:pointer;
 }
 
 .PageTitleFrame{

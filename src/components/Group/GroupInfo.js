@@ -24,7 +24,7 @@ const GroupInfo = (props) => {
                     </div>
                 </div>
                 <div className="GroupInfoLinkGrid">
-                    <div class="GroupInfoDeleteButtonFrame">
+                    <div className="GroupInfoDeleteButtonFrame">
                     <span className="GroupInfoDeleteButton">削除する</span>
                     </div>
                     <div className="GroupInfoDetailButtonFrame">
