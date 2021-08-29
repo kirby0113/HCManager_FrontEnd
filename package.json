@@ -19,7 +19,7 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
-  "homepage": "",
+  "homepage": "https://kirby0113.github.io/HCManager_FrontEnd/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
