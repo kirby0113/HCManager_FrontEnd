@@ -60,20 +60,29 @@ const Body = () => {
                     <span className="UsersPageTitle">
                         ユーザー一覧
                     </span>
-
-                    <UserPagination setOffset={setOffset} dataleng={UserDummyData.length} perPage={perPage}></UserPagination>
-
-                    <table border="1"className="UserList">
-                        <tr>
-                            <th>名前</th>
-                            <th>メールアドレス</th>
-                            <th>権限</th>
-                            <th>変更</th>
-                            <th>削除</th>
-                        </tr>
-                    {UserDummyData.slice(offset,offset + perPage).map((data) => <UserInfo data={data} key={data.UserName}></UserInfo>)}
-                    </table>
                 </div>
+
+                <div className="UserCreateButtons">
+                    <div class="CreateUserButton">
+                        新しく
+                    </div>
+                    <div className="CreateUsersButton">
+                        複数
+                    </div>
+                </div>
+
+                <UserPagination setOffset={setOffset} dataleng={UserDummyData.length} perPage={perPage}></UserPagination>
+
+                <table border="1"className="UserList">
+                    <tr>
+                        <th>名前</th>
+                        <th>メールアドレス</th>
+                        <th>権限</th>
+                        <th>変更</th>
+                        <th>削除</th>
+                    </tr>
+                {UserDummyData.slice(offset,offset + perPage).map((data) => <UserInfo data={data} key={data.UserName}></UserInfo>)}
+                </table>
     </div>
 }
 
