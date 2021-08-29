@@ -1,9 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
 import Body from "./components/Body";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import {
     BrowserRouter as Router,
     Switch,
@@ -11,6 +8,7 @@ import {
     Link
   } from "react-router-dom";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {

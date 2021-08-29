@@ -15,10 +15,11 @@
     "react-chartjs-2": "^3.0.4",
     "react-dom": "^17.0.2",
     "react-paginate": "^7.1.3",
+    "react-router-dom": "^5.2.1",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
-  "homepage": "https://kirby0113.github.io/RESAS_API_Population",
+  "homepage": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
