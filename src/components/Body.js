@@ -1,8 +1,11 @@
 import React,{useState} from "react";
+import ReactDOM from "react-dom";
 
 
 import GroupInfo from "./GroupInfo";
 import Pagination from "./Pagination";
+import CreateGroupModal from "./CreateGroupModal";
+
 import "./Body.css"
 
 
@@ -39,6 +42,12 @@ const dummyData = [
     },
 ];
 
+const CreateGroup = (props) => {
+    return ReactDOM.createPortal(
+        <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
+        document.getElementById("modal-creategroup")
+    );
+}
 
 const Body = () => {
 
