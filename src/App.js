@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./components/Header";
-import Body from "./components/Group/Body";
+import GroupBody from "./components/Group/Body";
+import UsersBody from "./components/Users/Body";
 import {
     BrowserRouter as Router,
     Switch,
@@ -51,12 +52,12 @@ function Home() {
   
   function Group() {
     return <div>
-            <Body></Body>
+            <GroupBody></GroupBody>
     </div>;
   }
   
   function Users() {
-    return <h2>Users</h2>;
+    return <UsersBody></UsersBody>;
   }
 
 export default App;
