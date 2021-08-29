@@ -49,13 +49,16 @@ const CreateGroup = (props) => {
     );
 }
 
+
 const Body = () => {
 
     const [offset,setOffset] = useState(0);
     const perPage = 2; // 1ページあたりに表示したいアイテムの数
+    const [modalVisible,setModalVisible] = useState(false);
 
     return (
         <div className="Body">
+            <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup>
             <div className="PageTitleFrame">
             <span className="PageTitle">
                 グループ一覧
@@ -63,7 +66,7 @@ const Body = () => {
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
             <div className="addGroupButtonFrame">
-            <span className="addGroupButton">グループ追加</span>
+            <span className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</span>
             </div>
             <div className="GroupList">
             {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data}></GroupInfo>)}
