@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
-import Body from "./components/Body";
+import Body from "./components/Group/Body";
 import {
     BrowserRouter as Router,
     Switch,
@@ -28,6 +28,7 @@ const App = () => {
             </li>
           </ul>
         </nav>
+        <Header></Header>
         <Switch>
           <Route path="/group">
             <Group></Group>
@@ -50,7 +51,6 @@ function Home() {
   
   function Group() {
     return <div>
-            <Header></Header>
             <Body></Body>
     </div>;
   }

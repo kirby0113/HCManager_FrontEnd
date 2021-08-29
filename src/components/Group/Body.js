@@ -69,7 +69,7 @@ const Body = () => {
             <span className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</span>
             </div>
             <div className="GroupList">
-            {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data}></GroupInfo>)}
+            {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data} key={data.groupName}></GroupInfo>)}
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
         </div>
