@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./components/Header";
 import GroupBody from "./components/Group/Body";
 import UsersBody from "./components/Users/Body";
+import QuestionsBody from "./components/Questions/Questions";
 import {
     BrowserRouter as Router,
     Switch,
@@ -27,17 +28,23 @@ const App = () => {
             <li>
               <Link to="/users">Users</Link>
             </li>
+            <li>
+              <Link to="/questions">Questions</Link>
+            </li>
           </ul>
         </nav>
         <Header></Header>
         <Switch>
-          <Route path="/group">
+          <Route exact path="/group">
             <Group></Group>
           </Route>
-          <Route path="/users">
+          <Route exact path="/users">
             <Users />
           </Route>
-          <Route path="/">
+          <Route exact path="/questions">
+            <Questions />
+          </Route>
+          <Route exact path="/">
             <Home />
           </Route>
         </Switch>
@@ -58,6 +65,10 @@ function Home() {
   
   function Users() {
     return <UsersBody></UsersBody>;
+  }
+
+  function Questions() {
+    return <QuestionsBody></QuestionsBody>
   }
 
 export default App;
