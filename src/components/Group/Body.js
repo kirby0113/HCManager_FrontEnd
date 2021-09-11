@@ -11,30 +11,35 @@ import "./Body.css"
 
 const dummyData = [
     {
+        id:1,
         groupName:"group1",
         createdBy:"admin1",
         accesskey:"test",
         date:"dummy1"
     },
     {
+        id:2,
         groupName:"group2",
         createdBy:"admin2",
         accesskey:"test",
         date:"dummy2"
     },
     {
+        id:3,
         groupName:"group3",
         createdBy:"admin3",
         accesskey:"test",
         date:"dummy3"
     },
     {
+        id:4,
         groupName:"group4",
         createdBy:"admin4",
         accesskey:"test",
         date:"dummy4"
     },
     {
+        id:5,
         groupName:"group5",
         createdBy:"admin5",
         accesskey:"test",
@@ -69,7 +74,7 @@ const Body = () => {
             <span className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</span>
             </div>
             <div className="GroupList">
-            {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data} key={data.groupName}></GroupInfo>)}
+            {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data} key={data.id}></GroupInfo>)}
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
         </div>

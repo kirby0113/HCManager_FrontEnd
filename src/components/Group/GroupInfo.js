@@ -28,7 +28,7 @@ const GroupInfo = (props) => {
                     <span className="GroupInfoDeleteButton">削除する</span>
                     </div>
                     <div className="GroupInfoDetailButtonFrame">
-                    <span className="GroupInfoDetailButton">詳細を見る</span>
+                    <a className="GroupInfoDetailButton" href={"/group/detail/".concat(props.data.id)}>詳細を見る</a>
                     </div>
                 </div>
             </div>

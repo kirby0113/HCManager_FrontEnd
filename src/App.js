@@ -3,13 +3,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
 } from "react-router-dom";
 
 
 
-//一覧ページ
+//一覧ページ等
+import Home from "./components/Home/Home";
 import Header from "./components/Header";
+import Navigation from "./components/Navigation";
 import GroupBody from "./components/Group/Body";
 import UsersBody from "./components/Users/Body";
 import QuestionsBody from "./components/Questions/Questions";
@@ -25,26 +26,9 @@ const App = () => {
     return (
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/group">group</Link>
-              </li>
-              <li>
-                <Link to="/users">Users</Link>
-              </li>
-              <li>
-                <Link to="/questions">Questions</Link>
-              </li>
-              <li>
-                <Link to="/teachingMaterials">TeachingMaterials</Link>
-              </li>
-            </ul>
-          </nav>
+
           <Header></Header>
+          <Navigation></Navigation>
           <Switch>
 
             {/* 一覧ページのルーティング */}
@@ -75,10 +59,6 @@ const App = () => {
     );
 }
 
-function Home() {
-    return <h2>Home</h2>;
-  }
-  
   function Group() {
     return <div>
             <GroupBody></GroupBody>
