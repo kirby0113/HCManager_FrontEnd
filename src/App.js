@@ -9,6 +9,7 @@ import {
 
 
 //一覧ページ
+import Home from "./components/Home/Home";
 import Header from "./components/Header";
 import GroupBody from "./components/Group/Body";
 import UsersBody from "./components/Users/Body";
@@ -75,10 +76,6 @@ const App = () => {
     );
 }
 
-function Home() {
-    return <h2>Home</h2>;
-  }
-  
   function Group() {
     return <div>
             <GroupBody></GroupBody>
