@@ -1,15 +1,22 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom";
+
+
+
+//一覧ページ
 import Header from "./components/Header";
 import GroupBody from "./components/Group/Body";
 import UsersBody from "./components/Users/Body";
 import QuestionsBody from "./components/Questions/Questions";
 import TeachingMaterialsBody from "./components/TeachingMaterials/TeachingMaterials";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+
+//詳細ページ
+import GroupDetail from "./components/GroupDetail/GroupDetail";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,6 +46,8 @@ const App = () => {
           </nav>
           <Header></Header>
           <Switch>
+
+            {/* 一覧ページのルーティング */}
             <Route exact path="/group">
               <Group></Group>
             </Route>
