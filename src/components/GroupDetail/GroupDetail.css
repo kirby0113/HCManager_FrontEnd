@@ -1,0 +1,48 @@
+.GroupDetailPageTitleFrame{
+    margin-top:20px;
+}
+
+.GroupDetailPageTitle{
+    text-align:left;
+    font-size:30px;
+    padding:10px 30px;
+    padding-left:15px;
+      background: #f4f4f4;/*背景色*/
+    border-left: solid 8px #0659a5;/*左線*/
+    border-bottom: solid 3px #d7d7d7;/*下線*/
+}
+
+.GroupDetailFrame{
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    width:85%;
+    margin-top:50px;
+    margin-bottom:50px;
+    background-color:antiquewhite;
+    border:solid 1px rgb(170, 169, 169);
+    padding-top:20px;
+    padding-bottom:20px;
+    box-shadow: 5px 5px 5px #00000040;
+}
+
+.GroupDetailTopGrid{
+    padding:0 10px;
+    padding-bottom:20px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    grid-row-gap:20px;
+}
+
+.GroupDetailBottom{
+    padding:0 10px;
+    padding-top:20px;
+}
+
+.GroupDetailTextRange{
+    margin:10px 10px;
+    font-size:16px;
+    letter-spacing:1px;
+    line-height:2;
+    margin-bottom:0;
+}
