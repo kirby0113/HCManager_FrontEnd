@@ -102,6 +102,9 @@ const GroupDetail = () => {
                 </span>
             </div>
 
+            <div className="editGroupDetailButtonFrame">
+                <span className="editGroupDetailButton">編集</span>
+            </div>
             <div class="GroupDetailFrame">
                 <div className="GroupDetailTopGrid">
                     <div>
@@ -129,6 +132,12 @@ const GroupDetail = () => {
                         return item.match(/\n/) ? <br /> : item
                     })}</div>
                 </div>
+            </div>
+
+            <div className="GroupDetailPageTitleFrame-sub">
+                <span className="GroupDetailPageTitle-sub">
+                    グループ内教材一覧
+                </span>
             </div>
 
             <div className="addTMButtonFrame">
