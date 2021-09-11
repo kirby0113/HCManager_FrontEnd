@@ -54,6 +54,12 @@ const App = () => {
             <Route exact path="/">
               <Home />
             </Route>
+
+            {/* 詳細ページのルーティング */}
+
+            <Route render = {() => <GroupDetail/>
+            } path="/group/detail/:id(\d+)"/>
+
           </Switch>
         </div>
       </Router>
