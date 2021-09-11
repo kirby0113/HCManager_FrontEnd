@@ -17,17 +17,17 @@ const Navigation = () => {
                     <span >グループ一覧</span>
                 </li>
               </a>
-              <a href="./users" className="NavigationAnc">
+              <a href="/users" className="NavigationAnc">
                 <li className="NavigationUnit">
                     <span >ユーザ一覧</span>
                 </li>
               </a>
-              <a href="./questions" className="NavigationAnc">
+              <a href="/questions" className="NavigationAnc">
                 <li className="NavigationUnit">
                     <span >問題一覧</span>
                 </li>
               </a>
-              <a href="./teachingMaterials" className="NavigationAnc">
+              <a href="/teachingMaterials" className="NavigationAnc">
                 <li className="NavigationUnit">
                     <span >教材一覧</span>
                 </li>
