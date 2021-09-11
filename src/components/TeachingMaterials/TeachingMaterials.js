@@ -2,7 +2,7 @@ import React,{useState} from "react";
 //import ReactDOM from "react-dom";
 
 
-import QuestionInfo from "./TeachingMaterialInfo";
+import TeachingMaterialInfo from "./TeachingMaterialInfo";
 import Pagination from "./Pagination";
 //import CreateGroupModal from "./CreateGroupModal";
 
@@ -16,31 +16,36 @@ const dummyData = [
         TeachingMaterialName:"TM1",
         createdBy:"admin1",
         accesskey:"test",
-        date:"dummy1"
+        date:"dummy1",
+        groupId:1
     },
     {
         TeachingMaterialName:"TM2",
         createdBy:"admin2",
         accesskey:"test",
-        date:"dummy2"
+        date:"dummy2",
+        groupId:2
     },
     {
         TeachingMaterialName:"TM3",
         createdBy:"admin3",
         accesskey:"test",
-        date:"dummy3"
+        date:"dummy3",
+        groupId:3
     },
     {
         TeachingMaterialName:"TM4",
         createdBy:"admin4",
         accesskey:"test",
-        date:"dummy4"
+        date:"dummy4",
+        groupId:4
     },
     {
         TeachingMaterialName:"TM5",
         createdBy:"admin5",
         accesskey:"test",
-        date:"dummy5"
+        date:"dummy5",
+        groupId:5
     },
 ];
 
@@ -72,7 +77,7 @@ const Questions = () => {
             <span className="addTMsButton" >複数追加</span>
             </div>
             <div className="TMList">
-            {dummyData.slice(offset,offset + perPage).map((data) => <QuestionInfo data={data} key={data.groupName}></QuestionInfo>)}
+            {dummyData.slice(offset,offset + perPage).map((data) => <TeachingMaterialInfo data={data} key={data.groupName}></TeachingMaterialInfo>)}
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
         </div>
