@@ -20,6 +20,13 @@
     position:relative;
     left:50%;
     transform:translateX(-50%);
+    background-color:rgb(232, 251, 255) !important;
+}
+.UserTable{
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    width:80% !important;
 }
 
 .UserCreateButtons{
@@ -33,20 +40,16 @@
 
 .CreateUserButton{
     text-align:center;
-    font-size:18px;
-    border:solid 2px #777;
-    background-color:#ddd;
-    padding:5px 20px;
+    font-size:16px !important;
+    padding:5px 20px !important;
     box-shadow: 5px 5px 5px #00000040;
     cursor:pointer;
 }
 
 .CreateUsersButton{
     text-align:center;
-    font-size:18px;
-    border:solid 2px #777;
-    background-color:#ddd;
-    padding:5px 20px;
+    font-size:16px !important;
+    padding:5px 20px !important;
     box-shadow: 5px 5px 5px #00000040;
     cursor:pointer;
 }

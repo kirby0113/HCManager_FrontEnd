@@ -1,5 +1,17 @@
 import React,{useState} from "react";
 
+import Button from "@material-ui/core/Button";
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+
+
 
 import UserPagination from "./Pagination";
 import UserInfo from "./UserInfo";
@@ -63,26 +75,33 @@ const Body = () => {
                 </div>
 
                 <div className="UserCreateButtons">
-                    <div class="CreateUserButton">
+                    <Button variant="contained" color="primary" className="CreateUserButton">
                         新しく
-                    </div>
-                    <div className="CreateUsersButton">
+                    </Button>
+                    <Button variant="contained" color="primary" className="CreateUsersButton">
                         複数
-                    </div>
+                    </Button>
                 </div>
 
                 <UserPagination setOffset={setOffset} dataleng={UserDummyData.length} perPage={perPage}></UserPagination>
 
-                <table border="1"className="UserList">
-                    <tr>
-                        <th>名前</th>
-                        <th>メールアドレス</th>
-                        <th>権限</th>
-                        <th>変更</th>
-                        <th>削除</th>
-                    </tr>
-                {UserDummyData.slice(offset,offset + perPage).map((data) => <UserInfo data={data} key={data.UserName}></UserInfo>)}
-                </table>
+                <TableContainer className="UserTable" component={Paper} >
+                <Table aria-label="simple table">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>名前</TableCell>
+                        <TableCell align="center">メールアドレス</TableCell>
+                        <TableCell align="center">権限</TableCell>
+                        <TableCell align="center">変更</TableCell>
+                        <TableCell align="center">削除</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {UserDummyData.slice(offset,offset + perPage).map((data) => <UserInfo data={data} key={data.UserName}></UserInfo>)}
+                    </TableBody>
+                </Table>
+                </TableContainer>
+
     </div>
 }
 
