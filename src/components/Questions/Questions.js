@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 //import ReactDOM from "react-dom";
 
+import Button from "@material-ui/core/Button";
+
 
 import QuestionInfo from "./QuestionInfo";
 import Pagination from "./Pagination";
@@ -68,8 +70,8 @@ const Questions = () => {
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
             <div className="addQuestionButtonFrame">
-            <span className="addQuestionButton" >追加</span>
-            <span className="addQuestionsButton" >複数追加</span>
+            <Button color="primary" variant="contained" className="addQuestionButton" >追加</Button>
+            <Button color="primary" variant="contained" className="addQuestionsButton" >複数追加</Button>
             </div>
             <div className="QuestionList">
             {dummyData.slice(offset,offset + perPage).map((data) => <QuestionInfo data={data} key={data.groupName}></QuestionInfo>)}

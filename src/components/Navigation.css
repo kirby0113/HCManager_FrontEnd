@@ -22,10 +22,7 @@ li.NavigationUnit:hover{
     background-color:rgba(255, 255, 255, 0.523);
 }
 
-a.NavigationAnc,
-a.NavigationAnc:hover{
-    text-decoration:none;
-    color:#fff;
-    font-size:16px;
-    letter-spacing:1.4px;
+a:hover{
+    text-decoration:none !important;
+    color:#fff !important;
 }

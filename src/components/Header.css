@@ -1,10 +1,11 @@
 .Header{
     text-align:center;
-    padding:20px 0;
     font-size:20px;
     letter-spacing:1.3px;
-    background-color:#000;
     color:#fff;
+    flex-direction:row !important;
+    align-items: center; /* 縦方向中央揃え */
+    padding:5px 0;
 }
 
 .HeaderLink,
@@ -13,4 +14,13 @@
     text-decoration:none;
     color:inherit;
     outline:none;
+}
+
+.Title{
+    letter-spacing:1px !important;
+}
+
+.MenuIcon{
+    width:100% !important;
+    height:100% !important;
 }

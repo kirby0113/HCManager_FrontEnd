@@ -5,12 +5,13 @@ import {
   Route,
 } from "react-router-dom";
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 
 //一覧ページ等
 import Home from "./components/Home/Home";
 import Header from "./components/Header";
-import Navigation from "./components/Navigation";
 import GroupBody from "./components/Group/Body";
 import UsersBody from "./components/Users/Body";
 import QuestionsBody from "./components/Questions/Questions";
@@ -25,10 +26,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
     return (
       <Router>
-        <div>
+        <MuiThemeProvider>
+         <div>
 
           <Header></Header>
-          <Navigation></Navigation>
           <Switch>
 
             {/* 一覧ページのルーティング */}
@@ -55,6 +56,7 @@ const App = () => {
 
           </Switch>
         </div>
+        </MuiThemeProvider>
       </Router>
     );
 }
