@@ -1,10 +1,15 @@
 import "./QuestionInfo.css";
 
+import Card from "@material-ui/core/Card";
+
+
+import Button from "@material-ui/core/Button";
+
 
 const GroupInfo = (props) => {
 
     return (
-            <div className="QuestionInfoFrame">
+            <Card className="QuestionInfoFrame">
                 <div className="QuestionInfoGrid">
                     <div>
                         <span className="elementName">問題名</span>
@@ -25,13 +30,13 @@ const GroupInfo = (props) => {
                 </div>
                 <div className="QuestionInfoLinkGrid">
                     <div className="QuestionInfoDeleteButtonFrame">
-                    <span className="QuestionInfoDeleteButton">削除する</span>
+                    <Button variant="contained" color="secondary" className="QuestionInfoDeleteButton">削除する</Button>
                     </div>
                     <div className="QuestionInfoDetailButtonFrame">
-                    <span className="QuestionInfoDetailButton">詳細を見る</span>
+                    <Button variant="contained" color="primary" className="QuestionInfoDetailButton">詳細を見る</Button>
                     </div>
                 </div>
-            </div>
+            </Card>
     )
 }
 
