@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 import ReactDOM from "react-dom";
 
+import Button from "@material-ui/core/Button";
+
 
 import GroupInfo from "./GroupInfo";
 import Pagination from "./Pagination";
@@ -71,7 +73,7 @@ const Body = () => {
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
             <div className="addGroupButtonFrame">
-            <span className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</span>
+            <Button variant="contained" color="primary" className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</Button>
             </div>
             <div className="GroupList">
             {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data} key={data.id}></GroupInfo>)}

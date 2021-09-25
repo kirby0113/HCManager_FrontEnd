@@ -1,10 +1,15 @@
 import "./GroupInfo.css";
 
+import Card from "@material-ui/core/Card";
+
+
+import Button from "@material-ui/core/Button";
+
 
 const GroupInfo = (props) => {
 
     return (
-            <div className="GroupInfoFrame">
+            <Card className="GroupInfoFrame">
                 <div className="GroupInfoGrid">
                     <div>
                         <span className="elementName">グループ名</span>
@@ -23,15 +28,16 @@ const GroupInfo = (props) => {
                         {props.data.date}
                     </div>
                 </div>
+
                 <div className="GroupInfoLinkGrid">
                     <div className="GroupInfoDeleteButtonFrame">
-                    <span className="GroupInfoDeleteButton">削除する</span>
+                    <Button variant="contained" color="secondary" className="GroupInfoDeleteButton">削除する</Button>
                     </div>
                     <div className="GroupInfoDetailButtonFrame">
-                    <a className="GroupInfoDetailButton" href={"/group/detail/".concat(props.data.id)}>詳細を見る</a>
+                    <Button variant="contained" color="primary" className="GroupInfoDetailButton" href={"/group/detail/".concat(props.data.id)}>詳細を見る</Button>
                     </div>
                 </div>
-            </div>
+            </Card>
     )
 }
 
