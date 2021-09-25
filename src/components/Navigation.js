@@ -1,37 +1,52 @@
 import React from "react";
+import styled from 'styled-components';
+
+import {
+  Link,
+} from "react-router-dom";
 
 
 import "./Navigation.css";
+
+const StyledLink = styled(Link)`
+text-decoration:none;
+color:#fff;
+font-size:16px;
+letter-spacing:1.4px;
+"&:hover":{
+  text-decoration:none;
+}
+`
 
 const Navigation = () => {
     return (
           <nav className="Navigation">
             <ul className="NavigationList">
-            <a href="/" className="NavigationAnc">
+            <StyledLink to="/">
                 <li className="NavigationUnit">
                     <span >TOP</span>
                 </li>
-              </a>
-              <a href="/group" className="NavigationAnc">
+              </StyledLink>
+              <StyledLink to="/group">
                 <li className="NavigationUnit">
                     <span >グループ一覧</span>
                 </li>
-              </a>
-              <a href="/users" className="NavigationAnc">
+              </StyledLink>
+              <StyledLink to="/users">
                 <li className="NavigationUnit">
                     <span >ユーザ一覧</span>
                 </li>
-              </a>
-              <a href="/questions" className="NavigationAnc">
+              </StyledLink>
+              <StyledLink to="/questions">
                 <li className="NavigationUnit">
                     <span >問題一覧</span>
                 </li>
-              </a>
-              <a href="/teachingMaterials" className="NavigationAnc">
+              </StyledLink>
+              <StyledLink to="/teachingMaterials">
                 <li className="NavigationUnit">
                     <span >教材一覧</span>
                 </li>
-              </a>
+              </StyledLink>
             </ul>
         </nav>
     )
