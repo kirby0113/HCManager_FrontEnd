@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 //import ReactDOM from "react-dom";
 
+import Button from "@material-ui/core/Button";
 
 import TeachingMaterialInfo from "./TeachingMaterialInfo";
 import Pagination from "./Pagination";
@@ -73,8 +74,8 @@ const Questions = () => {
             </div>
             <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
             <div className="addTMButtonFrame">
-            <span className="addTMButton" >追加</span>
-            <span className="addTMsButton" >複数追加</span>
+            <Button variant="contained" color="primary" className="addTMButton" >追加</Button>
+            <Button variant="contained" color="primary" className="addTMsButton" >複数追加</Button>
             </div>
             <div className="TMList">
             {dummyData.slice(offset,offset + perPage).map((data) => <TeachingMaterialInfo data={data} key={data.groupName}></TeachingMaterialInfo>)}
