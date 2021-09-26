@@ -19,6 +19,7 @@ import TeachingMaterialsBody from "./components/TeachingMaterials/TeachingMateri
 
 //詳細ページ
 import GroupDetail from "./components/GroupDetail/GroupDetail";
+import TeachingMaterialDetail from "./components/TMDetail/TeachingMaterialDetail";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -53,6 +54,9 @@ const App = () => {
 
             <Route render = {() => <GroupDetail/>
             } path="/group/detail/:id(\d+)"/>
+
+            <Route render = {() => <TeachingMaterialDetail/>
+            } path="/TeachingMaterial/detail/:id(\d+)"/>
 
           </Switch>
         </div>
