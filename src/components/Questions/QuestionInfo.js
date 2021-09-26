@@ -6,7 +6,7 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 
 
-const GroupInfo = (props) => {
+const QuestionInfo = (props) => {
 
     return (
             <Card className="QuestionInfoFrame">
@@ -40,4 +40,4 @@ const GroupInfo = (props) => {
     )
 }
 
-export default GroupInfo;
+export default QuestionInfo;
