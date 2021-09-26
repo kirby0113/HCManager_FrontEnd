@@ -4,6 +4,8 @@ import { useParams } from "react-router";
 
 import TeachingMaterialInfo from "../TeachingMaterials/TeachingMaterialInfo";
 
+import Button from "@material-ui/core/Button";
+
 import "./GroupDetail.css";
 
 
@@ -103,7 +105,7 @@ const GroupDetail = () => {
             </div>
 
             <div className="editGroupDetailButtonFrame">
-                <span className="editGroupDetailButton">編集</span>
+                <Button variant="contained" color="secondary" className="editGroupDetailButton">編集</Button>
             </div>
             <div class="GroupDetailFrame">
                 <div className="GroupDetailTopGrid">
@@ -141,8 +143,8 @@ const GroupDetail = () => {
             </div>
 
             <div className="addTMButtonFrame">
-                <span className="addTMButton" >追加</span>
-                <span className="addTMsButton" >複数追加</span>
+                <Button variant="contained" color="primary" className="addTMButton" >追加</Button>
+                <Button variant="contained" color="primary" className="addTMsButton" >複数追加</Button>
             </div>
             <div className="TMList">
                     {dummyTM.filter(element => element.groupId == param["id"]).map((data) => <TeachingMaterialInfo data={data} key={data.groupName}></TeachingMaterialInfo>)}

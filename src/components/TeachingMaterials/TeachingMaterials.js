@@ -14,6 +14,7 @@ import "./TeachingMaterials.css";
 
 const dummyData = [
     {
+        id:"1",
         TeachingMaterialName:"TM1",
         createdBy:"admin1",
         accesskey:"test",
@@ -21,6 +22,7 @@ const dummyData = [
         groupId:1
     },
     {
+        id:"2",
         TeachingMaterialName:"TM2",
         createdBy:"admin2",
         accesskey:"test",
@@ -28,6 +30,7 @@ const dummyData = [
         groupId:2
     },
     {
+        id:"3",
         TeachingMaterialName:"TM3",
         createdBy:"admin3",
         accesskey:"test",
@@ -35,6 +38,7 @@ const dummyData = [
         groupId:3
     },
     {
+        id:"4",
         TeachingMaterialName:"TM4",
         createdBy:"admin4",
         accesskey:"test",
@@ -42,6 +46,7 @@ const dummyData = [
         groupId:4
     },
     {
+        id:"5",
         TeachingMaterialName:"TM5",
         createdBy:"admin5",
         accesskey:"test",

@@ -15,31 +15,41 @@ import "./Questions.css";
 
 const dummyData = [
     {
-        questionName:"group1",
+        id:1,
+        TMId:1,
+        questionName:"question1",
         createdBy:"admin1",
         questionType:"test",
         date:"dummy1"
     },
     {
-        questionName:"group2",
+        id:2,
+        TMId:2,
+        questionName:"question2",
         createdBy:"admin2",
         questionType:"test",
         date:"dummy2"
     },
     {
-        questionName:"group3",
+        id:3,
+        TMId:3,
+        questionName:"question3",
         createdBy:"admin3",
         questionType:"test",
         date:"dummy3"
     },
     {
-        questionName:"group4",
+        id:4,
+        TMId:4,
+        questionName:"question4",
         createdBy:"admin4",
         questionType:"test",
         date:"dummy4"
     },
     {
-        questionName:"group5",
+        id:5,
+        TMId:5,
+        questionName:"question5",
         createdBy:"admin5",
         questionType:"test",
         date:"dummy5"
