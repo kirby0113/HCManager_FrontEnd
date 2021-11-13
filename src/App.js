@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {UsersAPI} from './APILink';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -19,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   useEffect(() => {
-    fetch('http://192.168.100.130:4000/api/books/') //api
+    fetch(UsersAPI) //api
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
