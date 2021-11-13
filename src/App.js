@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {UsersAPI} from './APILink';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -19,14 +18,6 @@ import TeachingMaterialDetail from './components/TMDetail/TeachingMaterialDetail
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
-  useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-      });
-  }, []);
-
   return (
     <Router>
       <MuiThemeProvider>
