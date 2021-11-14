@@ -1,60 +1,14 @@
-import React,{useState} from "react";
+import {useState, useEffect} from 'react';
 //import ReactDOM from "react-dom";
+import {QuestionsAPI} from '../../APILink';
 
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
-
-import QuestionInfo from "./QuestionInfo";
-import Pagination from "./Pagination";
+import QuestionInfo from './QuestionInfo';
+import Pagination from './Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
-import "./Questions.css";
-
-
-
-
-const dummyData = [
-    {
-        id:1,
-        TMId:1,
-        questionName:"question1",
-        createdBy:"admin1",
-        questionType:"test",
-        date:"dummy1"
-    },
-    {
-        id:2,
-        TMId:2,
-        questionName:"question2",
-        createdBy:"admin2",
-        questionType:"test",
-        date:"dummy2"
-    },
-    {
-        id:3,
-        TMId:3,
-        questionName:"question3",
-        createdBy:"admin3",
-        questionType:"test",
-        date:"dummy3"
-    },
-    {
-        id:4,
-        TMId:4,
-        questionName:"question4",
-        createdBy:"admin4",
-        questionType:"test",
-        date:"dummy4"
-    },
-    {
-        id:5,
-        TMId:5,
-        questionName:"question5",
-        createdBy:"admin5",
-        questionType:"test",
-        date:"dummy5"
-    },
-];
+import './Questions.css';
 
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
@@ -63,32 +17,48 @@ const dummyData = [
 //     );
 // }
 
-
 const Questions = () => {
+  const [offset, setOffset] = useState(0);
+  const [Questions, setQuestions] = useState();
 
-    const [offset,setOffset] = useState(0);
-    const perPage = 2; // 1ページあたりに表示したいアイテムの数
-    //const [modalVisible,setModalVisible] = useState(false);
+  useEffect(() => {
+    fetch(QuestionsAPI) //api
+      .then((res) => res.json())
+      .then((json) => {
+        setQuestions(json);
+        console.log(json);
+      });
+  }, []);
+  const perPage = 2; // 1ページあたりに表示したいアイテムの数
+  //const [modalVisible,setModalVisible] = useState(false);
 
-    return (
-        <div className="Body">
-            {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
-            <div className="QuestionPageTitleFrame">
-            <span className="QuestionPageTitle">
-                問題一覧
-            </span>
-            </div>
-            <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
-            <div className="addQuestionButtonFrame">
-            <Button color="primary" variant="contained" className="addQuestionButton" >追加</Button>
-            <Button color="primary" variant="contained" className="addQuestionsButton" >複数追加</Button>
-            </div>
-            <div className="QuestionList">
-            {dummyData.slice(offset,offset + perPage).map((data) => <QuestionInfo data={data} key={data.groupName}></QuestionInfo>)}
-            </div>
-            <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
+  return (
+    <div className='Body'>
+      {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
+      <div className='QuestionPageTitleFrame'>
+        <span className='QuestionPageTitle'>問題一覧</span>
+      </div>
+      <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
+      <div className='addQuestionButtonFrame'>
+        <Button color='primary' variant='contained' className='addQuestionButton'>
+          追加
+        </Button>
+        <Button color='primary' variant='contained' className='addQuestionsButton'>
+          複数追加
+        </Button>
+      </div>
+      {Questions ? (
+        <div className='QuestionList'>
+          {Questions.slice(offset, offset + perPage).map((data) => (
+            <QuestionInfo data={data} key={data.question_id}></QuestionInfo>
+          ))}
         </div>
-    );
-}
+      ) : (
+        ''
+      )}
+      <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
+    </div>
+  );
+};
 
 export default Questions;
