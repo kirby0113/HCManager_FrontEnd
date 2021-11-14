@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 const UserInfo = (props) => {
   return (
-    <TableRow key={props.key} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+    <TableRow key={props.data.user_id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
       <TableCell component='th' scope='row'>
         {props.data.name}
       </TableCell>
