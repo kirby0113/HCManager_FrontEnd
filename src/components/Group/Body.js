@@ -1,86 +1,71 @@
-import React,{useState} from "react";
-import ReactDOM from "react-dom";
+import React, {useState, useEffect} from 'react';
+import ReactDOM from 'react-dom';
 
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
+import GroupInfo from './GroupInfo';
+import Pagination from './Pagination';
+import CreateGroupModal from './CreateGroupModal';
 
-import GroupInfo from "./GroupInfo";
-import Pagination from "./Pagination";
-import CreateGroupModal from "./CreateGroupModal";
+import {GroupsAPI} from '../../APILink';
 
-import "./Body.css"
-
-
-const dummyData = [
-    {
-        id:1,
-        groupName:"group1",
-        createdBy:"admin1",
-        accesskey:"test",
-        date:"dummy1"
-    },
-    {
-        id:2,
-        groupName:"group2",
-        createdBy:"admin2",
-        accesskey:"test",
-        date:"dummy2"
-    },
-    {
-        id:3,
-        groupName:"group3",
-        createdBy:"admin3",
-        accesskey:"test",
-        date:"dummy3"
-    },
-    {
-        id:4,
-        groupName:"group4",
-        createdBy:"admin4",
-        accesskey:"test",
-        date:"dummy4"
-    },
-    {
-        id:5,
-        groupName:"group5",
-        createdBy:"admin5",
-        accesskey:"test",
-        date:"dummy5"
-    },
-];
+import './Body.css';
 
 const CreateGroup = (props) => {
-    return ReactDOM.createPortal(
-        <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
-        document.getElementById("modal-creategroup")
-    );
-}
-
+  return ReactDOM.createPortal(
+    <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
+    document.getElementById('modal-creategroup')
+  );
+};
 
 const Body = () => {
+  const [offset, setOffset] = useState(0);
+  const [Groups, setGroups] = useState();
+  const perPage = 2; // 1ページあたりに表示したいアイテムの数
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const [offset,setOffset] = useState(0);
-    const perPage = 2; // 1ページあたりに表示したいアイテムの数
-    const [modalVisible,setModalVisible] = useState(false);
+  useEffect(() => {
+    fetch(GroupsAPI) //api
+      .then((res) => res.json())
+      .then((json) => {
+        setGroups(json);
+      });
+  }, []);
 
-    return (
-        <div className="Body">
-            <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup>
-            <div className="PageTitleFrame">
-            <span className="PageTitle">
-                グループ一覧
-            </span>
-            </div>
-            <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
-            <div className="addGroupButtonFrame">
-            <Button variant="contained" color="primary" className="addGroupButton" onClick={ () => {setModalVisible(true)}}>グループ追加</Button>
-            </div>
-            <div className="GroupList">
-            {dummyData.slice(offset,offset + perPage).map((data) => <GroupInfo data={data} key={data.id}></GroupInfo>)}
-            </div>
-            <Pagination setOffset={setOffset} dataleng={dummyData.length} perPage={perPage}></Pagination>
+  Groups ? console.log(Groups) : '';
+
+  return (
+    <div className='Body'>
+      <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup>
+      <div className='PageTitleFrame'>
+        <span className='PageTitle'>グループ一覧</span>
+      </div>
+      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+      <div className='addGroupButtonFrame'>
+        <Button
+          variant='contained'
+          color='primary'
+          className='addGroupButton'
+          onClick={() => {
+            setModalVisible(true);
+          }}
+        >
+          グループ追加
+        </Button>
+      </div>
+
+      {Groups ? (
+        <div className='GroupList'>
+          {Groups.slice(offset, offset + perPage).map((data) => (
+            <GroupInfo data={data} key={data.group_id}></GroupInfo>
+          ))}
         </div>
-    );
-}
+      ) : (
+        ''
+      )}
+      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+    </div>
+  );
+};
 
 export default Body;

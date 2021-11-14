@@ -1,11 +1,11 @@
 import React,{useState} from "react";
-//import ReactDOM from "react-dom";
+import ReactDOM from "react-dom";
 
 import Button from "@material-ui/core/Button";
 
 import TeachingMaterialInfo from "./TeachingMaterialInfo";
 import Pagination from "./Pagination";
-//import CreateGroupModal from "./CreateGroupModal";
+import CreateTeachingMaterialModal from "./CreateTeachingMaterialModal";
 
 import "./TeachingMaterials.css";
 
@@ -55,23 +55,23 @@ const dummyData = [
     },
 ];
 
-// const CreateGroup = (props) => {
-//     return ReactDOM.createPortal(
-//         <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
-//         document.getElementById("modal-creategroup")
-//     );
-// }
+const CreateTeachingMaterial = (props) => {
+    return ReactDOM.createPortal(
+        <CreateTeachingMaterialModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateTeachingMaterialModal>,
+        document.getElementById("modal-creategroup")
+    );
+}
 
 
 const Questions = () => {
 
     const [offset,setOffset] = useState(0);
     const perPage = 2; // 1ページあたりに表示したいアイテムの数
-    //const [modalVisible,setModalVisible] = useState(false);
+    const [modalVisible,setModalVisible] = useState(false);
 
     return (
         <div className="Body">
-            {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
+            <CreateTeachingMaterial modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateTeachingMaterial>
             <div className="TMPageTitleFrame">
             <span className="TMPageTitle">
                 教材一覧
