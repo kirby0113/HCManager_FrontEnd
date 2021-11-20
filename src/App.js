@@ -1,3 +1,5 @@
+// API GitHubリンク: https://github.com/HIT-matsumotolab/HelloC_API
+
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
