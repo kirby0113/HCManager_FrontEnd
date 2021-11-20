@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 
 import {useParams} from 'react-router';
 
-import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
+import {GroupsAPI, UsersAPI} from '../../APILink';
 
 import TeachingMaterialInfo from '../TeachingMaterials/TeachingMaterialInfo';
 
@@ -54,7 +54,13 @@ const GroupDetail = () => {
 
   const [GroupData, setGroupData] = useState();
   const [CreatedBy, setCreatedBy] = useState();
-  const [Books, setBooks] = useState();
+  const [Books, setBooks] = useState([]);
+
+  const registBookBody = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({group_id: param['id'], book_id: '1'}),
+  };
 
   useEffect(() => {
     //最初にGroupデータを取得
@@ -80,13 +86,29 @@ const GroupDetail = () => {
   useEffect(() => {
     //Groupデータ更新時に教材を取得
     if (typeof GroupData !== 'undefined') {
-      fetch(BooksAPI + '/' + GroupData.book_id) //api *book_idが定義されてないので取得できない状態
+      fetch(GroupsAPI + '/' + param['id'] + '/books') //api *book_idが定義されてないので取得できない状態
         .then((res) => res.json())
         .then((json) => {
-          setBooks(json);
+          console.log(json);
+          if (Array.isArray(json)) {
+            setBooks(json);
+          } else {
+            setBooks([json]);
+          }
         });
     }
   }, [GroupData]);
+
+  const registBook = () => {
+    fetch(GroupsAPI + '/addBook', registBookBody) //api *book_idが定義されてないので取得できない状態
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
   return (
     <div>
@@ -143,7 +165,7 @@ const GroupDetail = () => {
       </div>
 
       <div className='addTMButtonFrame'>
-        <Button variant='contained' color='primary' className='addTMButton'>
+        <Button variant='contained' color='primary' className='addTMButton' onClick={registBook}>
           追加
         </Button>
         <Button variant='contained' color='primary' className='addTMsButton'>
