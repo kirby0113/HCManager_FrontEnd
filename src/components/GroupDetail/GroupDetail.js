@@ -124,7 +124,7 @@ const GroupDetail = () => {
   useEffect(() => {
     //Groupデータ更新時に作成者名を取得
     if (typeof GroupData !== 'undefined') {
-      fetch(UsersAPI + '/' + param['id']) //api
+      fetch(UsersAPI + '/' + GroupData.user_id) //api
         .then((res) => res.json())
         .then((json) => {
           setCreatedBy(json.name);

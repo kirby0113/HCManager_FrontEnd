@@ -23,8 +23,9 @@ import Button from '@material-ui/core/Button';
 
 /* TM = TeachingMaterial */
 
-const GroupInfo = (props) => {
+const TeachingMaterialInfo = (props) => {
   const [user, setUser] = useState();
+
   useEffect(() => {
     fetch(UsersAPI + '/' + props.data.user_id) //api
       .then((res) => res.json())
@@ -71,4 +72,4 @@ const GroupInfo = (props) => {
   );
 };
 
-export default GroupInfo;
+export default TeachingMaterialInfo;
