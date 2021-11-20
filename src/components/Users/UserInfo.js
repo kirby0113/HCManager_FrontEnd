@@ -1,7 +1,21 @@
 import './UserInfo.css';
 
+import styled from 'styled-components';
+
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+
+import {Delete, Edit} from '@material-ui/icons';
+
+const StyledDelete = styled(Delete)`
+  color: red;
+  cursor: pointer;
+`;
+
+const StyledEdit = styled(Edit)`
+  color: green;
+  cursor: pointer;
+`;
 
 const UserInfo = (props) => {
   return (
@@ -11,8 +25,12 @@ const UserInfo = (props) => {
       </TableCell>
       <TableCell align='center'>{props.data.mail}</TableCell>
       <TableCell align='center'>{props.data.role}</TableCell>
-      <TableCell align='center'>変更</TableCell>
-      <TableCell align='center'>削除</TableCell>
+      <TableCell align='center'>
+        <StyledEdit></StyledEdit>
+      </TableCell>
+      <TableCell align='center'>
+        <StyledDelete></StyledDelete>
+      </TableCell>
     </TableRow>
   );
 };
