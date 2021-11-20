@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 
 import {useParams} from 'react-router';
 
-import {GroupsAPI, UsersAPI} from '../../APILink';
+import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
 
 import TeachingMaterialInfo from '../TeachingMaterials/TeachingMaterialInfo';
 
@@ -54,12 +54,61 @@ const GroupDetail = () => {
 
   const [GroupData, setGroupData] = useState();
   const [CreatedBy, setCreatedBy] = useState();
-  const [Books, setBooks] = useState([]);
+  const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
+  const [Books, setBooks] = useState([]); //全てのBooksを入れておく
 
-  const registBookBody = {
+  const [BookPostBody, setBookPostBody] = useState({
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({group_id: param['id'], book_id: '1'}),
+  });
+
+  const getBookInGroup = () => {
+    if (typeof GroupData !== 'undefined') {
+      fetch(GroupsAPI + '/' + param['id'] + '/Books') //api
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          if (Array.isArray(json)) {
+            setBooksInGroup(json);
+          } else {
+            setBooksInGroup([json]);
+          }
+        });
+    }
+  };
+
+  const registerBook = () => {
+    fetch(GroupsAPI + '/addBook', BookPostBody) //api groups/addBook
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        getBookInGroup();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+  const removeBook = () => {
+    fetch(GroupsAPI + '/removeBook', BookPostBody) //api groups/removeBook
+      .then((response) => response)
+      .then((data) => {
+        console.log('Success:', data);
+        getBookInGroup();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+  const BookPostChange = (id) => {
+    setBookPostBody({
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({group_id: param['id'], book_id: id}),
+    });
+    console.log(BookPostBody);
   };
 
   useEffect(() => {
@@ -84,12 +133,17 @@ const GroupDetail = () => {
   }, [GroupData]);
 
   useEffect(() => {
-    //Groupデータ更新時に教材を取得
+    //Groupデータ更新時にグループに対応した教材を取得
+    getBookInGroup();
+  }, [GroupData]);
+
+  useEffect(() => {
+    //Groupデータ更新時に全ての教材を取得（教材登録などに使う）
     if (typeof GroupData !== 'undefined') {
-      fetch(GroupsAPI + '/' + param['id'] + '/books') //api *book_idが定義されてないので取得できない状態
+      fetch(BooksAPI) //api
         .then((res) => res.json())
         .then((json) => {
-          console.log(json);
+          //console.log(json);
           if (Array.isArray(json)) {
             setBooks(json);
           } else {
@@ -98,17 +152,6 @@ const GroupDetail = () => {
         });
     }
   }, [GroupData]);
-
-  const registBook = () => {
-    fetch(GroupsAPI + '/addBook', registBookBody) //api *book_idが定義されてないので取得できない状態
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
 
   return (
     <div>
@@ -164,18 +207,29 @@ const GroupDetail = () => {
         <span className='GroupDetailPageTitle-sub'>グループ内教材一覧</span>
       </div>
 
-      <div className='addTMButtonFrame'>
-        <Button variant='contained' color='primary' className='addTMButton' onClick={registBook}>
+      <div className='TMEditButtonFrameInGroup'>
+        <select
+          onChange={(e) => {
+            BookPostChange(e.target.value);
+          }}
+        >
+          {Books.map((data) => (
+            <option value={data.book_id} key={data.book_id}>
+              {data.name}
+            </option>
+          ))}
+        </select>
+        <Button variant='contained' color='primary' className='addTMButton' onClick={registerBook}>
           追加
         </Button>
-        <Button variant='contained' color='primary' className='addTMsButton'>
-          複数追加
+        <Button variant='contained' color='secondary' className='addTMsButton' onClick={removeBook}>
+          削除
         </Button>
       </div>
-      {Books ? (
+      {BooksInGroup ? (
         <div className='TMList'>
-          {Books.map((data) => (
-            <TeachingMaterialInfo data={data} key={data.groupName}></TeachingMaterialInfo>
+          {BooksInGroup.map((data) => (
+            <TeachingMaterialInfo data={data.book} key={data.book.book_id}></TeachingMaterialInfo>
           ))}
         </div>
       ) : (
