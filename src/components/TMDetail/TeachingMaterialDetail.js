@@ -161,7 +161,7 @@ const TeachingMaterialDetail = () => {
       <div className='TMDetailPageTitleFrame-sub'>
         <span className='TMDetailPageTitle-sub'>教材内問題一覧</span>
       </div>
-      <div className='addQuestionButtonFrame'>
+      <div className='QuestionButtonsFrame'>
         <select
           onChange={(e) => {
             QuestionPostChange(e.target.value);
@@ -178,7 +178,7 @@ const TeachingMaterialDetail = () => {
         <Button variant='contained' color='primary' className='addTMButton' onClick={() => registerQuestion()}>
           追加
         </Button>
-        <Button variant='contained' color='primary' className='addTMsButton' onClick={() => removeQuestion()}>
+        <Button variant='contained' color='secondary' className='addTMsButton' onClick={() => removeQuestion()}>
           削除
         </Button>
       </div>
