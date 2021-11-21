@@ -24,12 +24,16 @@ const Body = () => {
   const perPage = 2; // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
+  const getGroups = () => {
     fetch(GroupsAPI) //api
       .then((res) => res.json())
       .then((json) => {
         setGroups(json);
       });
+  };
+
+  useEffect(() => {
+    getGroups();
   }, []);
 
   Groups ? console.log(Groups) : '';
@@ -57,7 +61,7 @@ const Body = () => {
       {Groups ? (
         <div className='GroupList'>
           {Groups.slice(offset, offset + perPage).map((data) => (
-            <GroupInfo data={data} key={data.group_id}></GroupInfo>
+            <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
           ))}
         </div>
       ) : (

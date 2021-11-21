@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 
 import Button from '@material-ui/core/Button';
 
-import {UsersAPI} from '../../APILink';
+import {UsersAPI, GroupsAPI} from '../../APILink';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -30,6 +30,23 @@ const GroupInfo = (props) => {
         setUser(json);
       });
   }, []);
+
+  const DeleteGroup = (id) => {
+    fetch(GroupsAPI + '/' + id, {
+      method: 'DELETE',
+    }) //api
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+      });
+  };
+
+  const Delete = (id, name) => {
+    console.log(id);
+    if (confirm('グループ名：' + name + ' 本当に削除しますか？')) {
+      DeleteGroup(id);
+    }
+  };
 
   return (
     <Card className='GroupInfoFrame'>
@@ -54,7 +71,12 @@ const GroupInfo = (props) => {
 
       <div className='GroupInfoLinkGrid'>
         <div className='GroupInfoDeleteButtonFrame'>
-          <Button variant='contained' color='secondary' className='GroupInfoDeleteButton'>
+          <Button
+            variant='contained'
+            color='secondary'
+            className='GroupInfoDeleteButton'
+            onClick={() => Delete(props.data.group_id, props.data.name)}
+          >
             削除する
           </Button>
         </div>
