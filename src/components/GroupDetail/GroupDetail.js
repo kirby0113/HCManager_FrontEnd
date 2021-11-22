@@ -12,28 +12,8 @@ import Button from '@material-ui/core/Button';
 
 import './GroupDetail.css';
 
-const Overray = styled.div`
-  position: fixed;
-  width: 120vw;
-  height: 120vh;
-  background-color: #00000070;
-  z-index: 5;
-  top: 0;
-  left: 0;
-`;
-
-const ModalWindow = styled.div`
-  position: fixed;
-  min-width: 500px;
-  width: 40%;
-
-  background-color: #fffeee;
-  z-index: 10;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px 50px;
-`;
+import {Overray} from '../Overray';
+import {Modal} from '../Modal';
 
 const InputUnit = styled.div`
   display: grid;
@@ -315,7 +295,7 @@ const GroupDetail = () => {
       {/* Modal*/}
       {isOpenModal ? (
         <div>
-          <ModalWindow>
+          <Modal>
             {Users ? (
               <div>
                 <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
@@ -368,7 +348,7 @@ const GroupDetail = () => {
             ) : (
               ''
             )}
-          </ModalWindow>
+          </Modal>
           <Overray onClick={() => setIsOpenModal(false)}></Overray>
         </div>
       ) : (
