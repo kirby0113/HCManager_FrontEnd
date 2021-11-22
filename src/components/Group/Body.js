@@ -23,13 +23,30 @@ const Body = () => {
     user_id: '',
   });
 
-  useEffect(() => {
+  const getGroups = () => {
     fetch(GroupsAPI) //api
       .then((res) => res.json())
       .then((json) => {
         setGroups(json);
       });
+  };
+
+  useEffect(() => {
+    getGroups();
   }, []);
+
+  const CreateGroupFetch = () => {
+    fetch(GroupsAPI, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: CreateGroupPostData.name,
+        summary: CreateGroupPostData.summary,
+        access_key: CreateGroupPostData.access_key,
+        user_id: CreateGroupPostData.user_id,
+      }),
+    }).then(() => getGroups());
+  };
 
   return (
     <div>
@@ -67,6 +84,7 @@ const Body = () => {
           onClose={() => setModalVisible(false)}
           PostData={CreateGroupPostData}
           setPostData={setCreateGroupPostData}
+          CreateGroupFetch={CreateGroupFetch}
         ></CreateGroupModal>
       ) : (
         ''

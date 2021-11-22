@@ -60,14 +60,12 @@ export const CreateGroupModal = (props) => {
       alert('全ての項目を入力してください。');
       return;
     }
-    if (confirm('編集を保存しますか？')) {
-      CreateGroupFetch();
+    if (confirm('データを作成してよろしいですか？')) {
+      props.CreateGroupFetch();
       props.onClose();
       // console.log(EditGroupPostData);
     }
   };
-
-  const CreateGroupFetch = () => {};
 
   return (
     <div>
