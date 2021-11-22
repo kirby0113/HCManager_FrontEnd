@@ -16,6 +16,12 @@ const Body = () => {
   const [Groups, setGroups] = useState();
   const perPage = 2; // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
+  const [CreateGroupPostData, setCreateGroupPostData] = useState({
+    name: '',
+    summary: '',
+    access_key: '',
+    user_id: '',
+  });
 
   useEffect(() => {
     fetch(GroupsAPI) //api
@@ -56,7 +62,15 @@ const Body = () => {
         )}
         {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
       </div>
-      {modalVisible ? <CreateGroupModal onClose={() => setModalVisible(false)}></CreateGroupModal> : ''}
+      {modalVisible ? (
+        <CreateGroupModal
+          onClose={() => setModalVisible(false)}
+          PostData={CreateGroupPostData}
+          setPostData={setCreateGroupPostData}
+        ></CreateGroupModal>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

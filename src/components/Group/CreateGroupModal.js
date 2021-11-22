@@ -41,12 +41,6 @@ const ModalTitle = styled.div`
 
 export const CreateGroupModal = (props) => {
   const [Users, setUsers] = useState([]);
-  const [CreateGroupPostData, setCreateGroupPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
 
   useEffect(() => {
     fetch(UsersAPI) //api
@@ -57,6 +51,15 @@ export const CreateGroupModal = (props) => {
   }, []);
 
   const CreateGroupCheck = () => {
+    if (
+      props.PostData.name == '' ||
+      props.PostData.summary == '' ||
+      props.PostData.user_id == '' ||
+      props.PostData.access_key == ''
+    ) {
+      alert('全ての項目を入力してください。');
+      return;
+    }
     if (confirm('編集を保存しますか？')) {
       CreateGroupFetch();
       props.onClose();
@@ -69,23 +72,24 @@ export const CreateGroupModal = (props) => {
   return (
     <div>
       <Modal>
-        <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
+        <ModalTitle className='ModalTitle'>グループ作成</ModalTitle>
         <InputUnit>
           <label htmlFor='groupname'>グループ名</label>
           <input
             type='text'
             id='groupname'
-            value={CreateGroupPostData.name}
-            onChange={(e) => setCreateGroupPostData({...CreateGroupPostData, name: e.target.value})}
+            value={props.PostData.name}
+            onChange={(e) => props.setPostData({...props.PostData, name: e.target.value})}
           ></input>
         </InputUnit>
         <InputUnit>
           <label htmlFor='username'>作成者</label>
           <select
             id='username'
-            value={CreateGroupPostData.user_id}
-            onChange={(e) => setCreateGroupPostData({...CreateGroupPostData, user_id: e.target.value})}
+            value={props.PostData.user_id}
+            onChange={(e) => props.setPostData({...props.PostData, user_id: e.target.value})}
           >
+            <option value=''></option>
             {Users.map((data) => (
               <option value={data.user_id} key={data.user_id}>
                 {data.name}
@@ -98,17 +102,17 @@ export const CreateGroupModal = (props) => {
           <input
             type='text'
             id='accesskey'
-            value={CreateGroupPostData.access_key}
-            onChange={(e) => setCreateGroupPostData({...CreateGroupPostData, access_key: e.target.value})}
+            value={props.PostData.access_key}
+            onChange={(e) => props.setPostData({...props.PostData, access_key: e.target.value})}
           ></input>
         </InputUnit>
         <InputUnit>
           <label htmlFor='summary'>グループ概略</label>
           <textarea
             id='summary'
-            value={CreateGroupPostData.summary}
+            value={props.PostData.summary}
             rows='5'
-            onChange={(e) => setCreateGroupPostData({...CreateGroupPostData, summary: e.target.value})}
+            onChange={(e) => props.setPostData({...props.PostData, summary: e.target.value})}
           ></textarea>
         </InputUnit>
         <CreateGroupButton variant='contained' color='primary' onClick={() => CreateGroupCheck()}>
