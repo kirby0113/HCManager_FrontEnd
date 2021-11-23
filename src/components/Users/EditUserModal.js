@@ -37,6 +37,7 @@ const ModalTitle = styled.div`
 `;
 
 export const EditUserModal = (props) => {
+<<<<<<< HEAD
   const EditUserCheck = () => {
     if (
       props.editData.name == '' ||
@@ -44,12 +45,26 @@ export const EditUserModal = (props) => {
       props.editData.role == '' ||
       props.passwordPost == ''
     ) {
+=======
+  //   props.PostData.name == '' ||
+  //   props.PostData.summary == '' ||
+  //   props.PostData.user_id == '' ||
+  //   props.PostData.access_key == ''
+  const EditUserCheck = () => {
+    if (confirm('test')) {
+>>>>>>> feat-user-edit
       alert('全ての項目を入力してください。');
       return;
     }
     if (confirm('データを作成してよろしいですか？')) {
+<<<<<<< HEAD
       console.log(props.editData);
       console.log(props.password);
+=======
+      props.CreateGroupFetch();
+      props.onClose();
+      // console.log(EditGroupPostData);
+>>>>>>> feat-user-edit
     }
   };
 
@@ -94,7 +109,11 @@ export const EditUserModal = (props) => {
           <input
             type='password'
             id='password'
+<<<<<<< HEAD
             value={props.password}
+=======
+            value={props.passwordPost}
+>>>>>>> feat-user-edit
             onChange={(e) => props.setPassword(e.target.value)}
           ></input>
         </InputUnit>
