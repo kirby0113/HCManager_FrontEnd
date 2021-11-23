@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {GetUsers} from '../API/UserAPIs';
+import {GetUsers, EditUser} from '../API/UserAPIs';
 
 import Button from '@material-ui/core/Button';
 
@@ -31,16 +31,19 @@ const Body = () => {
   });
   const [passwordPost, setPasswordPost] = useState('');
 
+  const EditUserFetch = () => {
+    EditUser(editUserPost, passwordPost).then((json) => setUsers(json));
+  };
+
   const OpenEditModal = (editdata) => {
     setEditUserPost(editdata);
     setPasswordPost('');
-    console.log(editdata);
     setIsOpenEditModal(true);
   };
 
   useEffect(() => {
     GetUsers().then((json) => setUsers(json));
-  }, []);
+  }, [EditUser]);
 
   const [offset, setOffset] = useState(0);
   const perPage = 5; // 1ページあたりに表示したいアイテムの数
@@ -94,6 +97,7 @@ const Body = () => {
           setEdit={setEditUserPost}
           setPassword={setPasswordPost}
           password={passwordPost}
+          EditUserFetch={EditUserFetch}
         ></EditUserModal>
       ) : (
         ''

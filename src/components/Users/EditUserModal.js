@@ -38,18 +38,15 @@ const ModalTitle = styled.div`
 
 export const EditUserModal = (props) => {
   const EditUserCheck = () => {
-    if (
-      props.editData.name == '' ||
-      props.editData.mail == '' ||
-      props.editData.role == '' ||
-      props.passwordPost == ''
-    ) {
+    if (props.editData.name == '' || props.editData.mail == '' || props.editData.role == '' || props.password == '') {
       alert('全ての項目を入力してください。');
       return;
     }
     if (confirm('データを作成してよろしいですか？')) {
-      console.log(props.editData);
-      console.log(props.password);
+      //   console.log(props.editData);
+      //   console.log(props.password);
+      props.EditUserFetch();
+      props.onClose();
     }
   };
 
