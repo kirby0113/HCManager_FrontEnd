@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react';
 
-import {UsersAPI} from '../../APILink';
+import {GetUsers, EditUser} from '../API/UserAPIs';
 
 import Button from '@material-ui/core/Button';
+
+import {EditUserModal} from './EditUserModal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,26 +20,33 @@ import UserInfo from './UserInfo';
 import './Body.css';
 
 const Body = () => {
-  // const CreateGroup = (props) => {
-  //     return ReactDOM.createPortal(
-  //         <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
-  //         document.getElementById("modal-creategroup")
-  //     );
-  // }
-  const [Users, setUsers] = useState();
+  const [Users, setUsers] = useState([]);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [editUserPost, setEditUserPost] = useState({
+    user_id: '',
+    name: '',
+    mail: '',
+    password: '',
+    role: '',
+  });
+  const [passwordPost, setPasswordPost] = useState('');
+
+  const EditUserFetch = () => {
+    EditUser(editUserPost, passwordPost).then((json) => setUsers(json));
+  };
+
+  const OpenEditModal = (editdata) => {
+    setEditUserPost(editdata);
+    setPasswordPost('');
+    setIsOpenEditModal(true);
+  };
 
   useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json);
-        console.log(json);
-      });
-  }, []);
+    GetUsers().then((json) => setUsers(json));
+  }, [EditUser]);
 
   const [offset, setOffset] = useState(0);
   const perPage = 5; // 1ページあたりに表示したいアイテムの数
-  // const [modalVisible,setModalVisible] = useState(false);
 
   return (
     <div className='UsersBody'>
@@ -65,19 +74,34 @@ const Body = () => {
               <TableCell>名前</TableCell>
               <TableCell align='center'>メールアドレス</TableCell>
               <TableCell align='center'>権限</TableCell>
-              <TableCell align='center'>変更</TableCell>
+              <TableCell align='center' onClick={() => OpenEditModal()}>
+                変更
+              </TableCell>
               <TableCell align='center'>削除</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Users
               ? Users.slice(offset, offset + perPage).map((data) => (
-                  <UserInfo data={data} key={data.user_id}></UserInfo>
+                  <UserInfo data={data} key={data.user_id} onEdit={(editdata) => OpenEditModal(editdata)}></UserInfo>
                 ))
               : ''}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isOpenEditModal ? (
+        <EditUserModal
+          onClose={() => setIsOpenEditModal(false)}
+          editData={editUserPost}
+          setEdit={setEditUserPost}
+          setPassword={setPasswordPost}
+          password={passwordPost}
+          EditUserFetch={EditUserFetch}
+        ></EditUserModal>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
