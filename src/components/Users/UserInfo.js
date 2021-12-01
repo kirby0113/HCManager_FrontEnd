@@ -26,7 +26,7 @@ const UserInfo = (props) => {
       <TableCell align='center'>{props.data.mail}</TableCell>
       <TableCell align='center'>{props.data.role}</TableCell>
       <TableCell align='center'>
-        <StyledEdit></StyledEdit>
+        <StyledEdit onClick={() => props.onEdit(props.data)}></StyledEdit>
       </TableCell>
       <TableCell align='center'>
         <StyledDelete></StyledDelete>
