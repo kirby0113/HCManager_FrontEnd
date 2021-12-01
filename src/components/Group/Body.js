@@ -49,29 +49,29 @@ const Body = () => {
   };
 
   return (
-    <div>
-      <div className='Body'>
-        <div className='PageTitleFrame'>
-          <span className='PageTitle'>グループ一覧</span>
-        </div>
-        {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
-        <div className='addGroupButtonFrame'>
-          <Button
-            variant='contained'
-            color='primary'
-            className='addGroupButton'
-            onClick={() => {
-              setModalVisible(true);
-            }}
-          >
-            グループ追加
-          </Button>
-        </div>
+    <div className='Body'>
+      <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup>
+      <div className='PageTitleFrame'>
+        <span className='PageTitle'>グループ一覧</span>
+      </div>
+      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+      <div className='addGroupButtonFrame'>
+        <Button
+          variant='contained'
+          color='primary'
+          className='addGroupButton'
+          onClick={() => {
+            setModalVisible(true);
+          }}
+        >
+          グループ追加
+        </Button>
+      </div>
 
-        {Groups ? (
-          <div className='GroupList'>
-            {Groups.slice(offset, offset + perPage).map((data) => (
-              <GroupInfo data={data} key={data.group_id}></GroupInfo>
+      {Groups ? (
+        <div className='GroupList'>
+          {Groups.slice(offset, offset + perPage).map((data) => (
+            <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
             ))}
           </div>
         ) : (
