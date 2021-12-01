@@ -41,8 +41,17 @@ const GroupInfo = (props) => {
       });
   };
 
-  const Delete = (id, name) => {
-    console.log(id);
+  const Delete = async (id, name) => {
+    if (
+      await fetch(GroupsAPI + '/' + id + '/books')
+        .then((res) => res.json())
+        .then((json) => {
+          json.length > 0 ? true : false;
+        })
+    ) {
+      alert('Bookが登録されているため、削除できませんでした。');
+      return;
+    }
     if (confirm('グループ名：' + name + ' 本当に削除しますか？')) {
       DeleteGroup(id);
     }
