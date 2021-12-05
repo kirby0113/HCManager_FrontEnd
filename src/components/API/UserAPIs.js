@@ -18,13 +18,18 @@ export const GetUsers = () => {
     });
 };
 
-export const CreateUser = (jsondata) => {
+export const CreateUser = (jsondata, password) => {
   //ユーザー作成
-  fetch(UsersAPI, {
+  return fetch(UsersAPI, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(jsondata),
-  }).then(() => GetUser());
+    body: JSON.stringify({
+      name: jsondata.name,
+      mail: jsondata.mail,
+      role: jsondata.role,
+      password: password,
+    }),
+  }).then(() => GetUsers());
 };
 
 export const EditUser = async (jsondata, password) => {
