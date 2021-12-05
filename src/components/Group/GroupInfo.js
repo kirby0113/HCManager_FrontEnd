@@ -46,7 +46,7 @@ const GroupInfo = (props) => {
       await fetch(GroupsAPI + '/' + id + '/books')
         .then((res) => res.json())
         .then((json) => {
-          json.length > 0 ? true : false;
+          return json.length > 0 ? true : false;
         })
     ) {
       alert('Bookが登録されているため、削除できませんでした。');
