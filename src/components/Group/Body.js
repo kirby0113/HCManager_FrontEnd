@@ -50,6 +50,7 @@ const Body = () => {
 
   return (
     <div className='Body'>
+      <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup>
       <div className='PageTitleFrame'>
         <span className='PageTitle'>グループ一覧</span>
       </div>
@@ -71,12 +72,13 @@ const Body = () => {
         <div className='GroupList'>
           {Groups.slice(offset, offset + perPage).map((data) => (
             <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
-          ))}
-        </div>
-      ) : (
-        ''
-      )}
-      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
+        {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+      </div>
       {modalVisible ? (
         <CreateGroupModal
           onClose={() => setModalVisible(false)}
