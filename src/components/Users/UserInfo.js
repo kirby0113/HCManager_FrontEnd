@@ -7,9 +7,15 @@ import TableCell from '@material-ui/core/TableCell';
 
 import {Delete, Edit} from '@material-ui/icons';
 
+import {DeleteUser} from '../API/UserAPIs';
+
 const StyledDelete = styled(Delete)`
   color: red;
   cursor: pointer;
+`;
+
+const DisableDelete = styled(Delete)`
+  color: #444;
 `;
 
 const StyledEdit = styled(Edit)`
@@ -18,6 +24,12 @@ const StyledEdit = styled(Edit)`
 `;
 
 const UserInfo = (props) => {
+  const onDelete = async (id) => {
+    if (confirm('対象を学習終了者としてよろしいですか？')) {
+      await DeleteUser(id);
+      props.UpdateUsers();
+    }
+  };
   return (
     <TableRow key={props.data.user_id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
       <TableCell component='th' scope='row'>
@@ -29,7 +41,11 @@ const UserInfo = (props) => {
         <StyledEdit onClick={() => props.onEdit(props.data)}></StyledEdit>
       </TableCell>
       <TableCell align='center'>
-        <StyledDelete></StyledDelete>
+        {props.data.role !== '学習終了者' ? (
+          <StyledDelete onClick={() => onDelete(props.data.user_id)}></StyledDelete>
+        ) : (
+          <DisableDelete></DisableDelete>
+        )}
       </TableCell>
     </TableRow>
   );

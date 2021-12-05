@@ -40,3 +40,13 @@ export const EditUser = async (jsondata, password) => {
     }),
   }).then(() => GetUsers());
 };
+
+export const DeleteUser = (id) => {
+  fetch(UsersAPI + '/' + id, {
+    method: 'DELETE',
+  }) //api
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json);
+    });
+};
