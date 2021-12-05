@@ -41,8 +41,12 @@ const Body = () => {
     setIsOpenEditModal(true);
   };
 
-  useEffect(() => {
+  const UpdateUsers = () => {
     GetUsers().then((json) => setUsers(json));
+  };
+
+  useEffect(() => {
+    UpdateUsers();
   }, [EditUser]);
 
   const [offset, setOffset] = useState(0);
@@ -74,16 +78,19 @@ const Body = () => {
               <TableCell>名前</TableCell>
               <TableCell align='center'>メールアドレス</TableCell>
               <TableCell align='center'>権限</TableCell>
-              <TableCell align='center' onClick={() => OpenEditModal()}>
-                変更
-              </TableCell>
+              <TableCell align='center'>変更</TableCell>
               <TableCell align='center'>削除</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Users
               ? Users.slice(offset, offset + perPage).map((data) => (
-                  <UserInfo data={data} key={data.user_id} onEdit={(editdata) => OpenEditModal(editdata)}></UserInfo>
+                  <UserInfo
+                    data={data}
+                    key={data.user_id}
+                    onEdit={(editdata) => OpenEditModal(editdata)}
+                    UpdateUsers={UpdateUsers}
+                  ></UserInfo>
                 ))
               : ''}
           </TableBody>
