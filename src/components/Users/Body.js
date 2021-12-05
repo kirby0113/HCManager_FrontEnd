@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react';
 
-import {GetUsers, EditUser} from '../API/UserAPIs';
+import {GetUsers, EditUser, CreateUser} from '../API/UserAPIs';
 
 import Button from '@material-ui/core/Button';
 
 import {EditUserModal} from './EditUserModal';
+import {CreateUserModal} from './CreateUserModal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,7 +23,8 @@ import './Body.css';
 const Body = () => {
   const [Users, setUsers] = useState([]);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const [editUserPost, setEditUserPost] = useState({
+  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [UserPost, setUserPost] = useState({
     user_id: '',
     name: '',
     mail: '',
@@ -32,13 +34,28 @@ const Body = () => {
   const [passwordPost, setPasswordPost] = useState('');
 
   const EditUserFetch = () => {
-    EditUser(editUserPost, passwordPost).then((json) => setUsers(json));
+    EditUser(UserPost, passwordPost).then((json) => setUsers(json));
+  };
+
+  const CreateUserFetch = () => {
+    CreateUser(UserPost, passwordPost).then((json) => setUsers(json));
   };
 
   const OpenEditModal = (editdata) => {
-    setEditUserPost(editdata);
+    setUserPost(editdata);
     setPasswordPost('');
     setIsOpenEditModal(true);
+  };
+
+  const OpenCreateModal = () => {
+    setUserPost({
+      name: '',
+      mail: '',
+      password: '',
+      role: '',
+    });
+    setPasswordPost('');
+    setIsOpenCreateModal(true);
   };
 
   const UpdateUsers = () => {
@@ -61,12 +78,12 @@ const Body = () => {
       </div>
 
       <div className='UserCreateButtons'>
-        <Button variant='contained' color='primary' className='CreateUserButton'>
-          新しく
+        <Button variant='contained' color='primary' className='CreateUserButton' onClick={() => OpenCreateModal()}>
+          ユーザ作成
         </Button>
-        <Button variant='contained' color='primary' className='CreateUsersButton'>
+        {/* <Button variant='contained' color='primary' className='CreateUsersButton'>
           複数
-        </Button>
+        </Button> */}
       </div>
 
       <UserPagination setOffset={setOffset} dataleng={Users ? Users.length : 0} perPage={perPage}></UserPagination>
@@ -100,12 +117,25 @@ const Body = () => {
       {isOpenEditModal ? (
         <EditUserModal
           onClose={() => setIsOpenEditModal(false)}
-          editData={editUserPost}
-          setEdit={setEditUserPost}
+          editData={UserPost}
+          setEdit={setUserPost}
           setPassword={setPasswordPost}
           password={passwordPost}
           EditUserFetch={EditUserFetch}
         ></EditUserModal>
+      ) : (
+        ''
+      )}
+
+      {isOpenCreateModal ? (
+        <CreateUserModal
+          onClose={() => setIsOpenCreateModal(false)}
+          createData={UserPost}
+          setPost={setUserPost}
+          setPassword={setPasswordPost}
+          password={passwordPost}
+          CreateUserFetch={CreateUserFetch}
+        ></CreateUserModal>
       ) : (
         ''
       )}
