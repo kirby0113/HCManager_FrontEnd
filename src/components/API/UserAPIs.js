@@ -8,12 +8,12 @@ export const GetUser = (id) => {
       return json;
     });
 };
-export const GetUsers = () => {
+export const GetUsers = async () => {
   //全ユーザー取得
-  return fetch(UsersAPI) //api
+  return await fetch(UsersAPI) //api
     .then((res) => res.json())
     .then((json) => {
-      //   console.log(json);
+      // console.log(json);
       return json;
     });
 };
