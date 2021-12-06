@@ -1,30 +1,28 @@
-import {useState} from 'react';
-import ReactDOM from 'react-dom';
+import {useState, useEffect} from 'react';
 import {BooksAPI} from '../../APILink';
 import Button from '@material-ui/core/Button';
 
 import TeachingMaterialInfo from './TeachingMaterialInfo';
 import Pagination from './Pagination';
-import CreateTeachingMaterialModal from './CreateTeachingMaterialModal';
+import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
+
+import {GetUsers} from '../API/UserAPIs';
 
 import './TeachingMaterials.css';
-import {useEffect} from 'react';
-
-const CreateTeachingMaterial = (props) => {
-  return ReactDOM.createPortal(
-    <CreateTeachingMaterialModal
-      modalVisible={props.modalVisible}
-      setModalVisible={props.setModalVisible}
-    ></CreateTeachingMaterialModal>,
-    document.getElementById('modal-creategroup')
-  );
-};
+import {CreateBook} from '../API/BookAPIs';
 
 const Questions = () => {
   const [offset, setOffset] = useState(0);
   const perPage = 2; // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
-  const [Books, setBooks] = useState();
+  const [Books, setBooks] = useState([]);
+  const [Users, setUsers] = useState([]); //Formで使用
+  const [BookPost, setBookPost] = useState({
+    name: '',
+    summary: '',
+    access_key: '',
+    user_id: '',
+  });
   useEffect(() => {
     fetch(BooksAPI) //api
       .then((res) => res.json())
@@ -34,15 +32,22 @@ const Questions = () => {
       });
   }, []);
 
+  useEffect(async () => {
+    setUsers(await GetUsers());
+  }, []);
+
+  const CreateBookFetch = () => {
+    CreateBook(BookPost).then((json) => setBooks(json));
+  };
+
   return (
     <div className='Body'>
-      <CreateTeachingMaterial modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateTeachingMaterial>
       <div className='TMPageTitleFrame'>
         <span className='TMPageTitle'>教材一覧</span>
       </div>
       <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
       <div className='addTMButtonFrame'>
-        <Button variant='contained' color='primary' className='addTMButton'>
+        <Button variant='contained' color='primary' className='addTMButton' onClick={() => setModalVisible(true)}>
           追加
         </Button>
         <Button variant='contained' color='primary' className='addTMsButton'>
@@ -59,6 +64,17 @@ const Questions = () => {
         ''
       )}
       <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
+      {modalVisible ? (
+        <CreateTeachingMaterialModal
+          BookPost={BookPost}
+          setBookPost={setBookPost}
+          onClose={() => setModalVisible(false)}
+          Users={Users}
+          CreateBookFetch={CreateBookFetch}
+        ></CreateTeachingMaterialModal>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
