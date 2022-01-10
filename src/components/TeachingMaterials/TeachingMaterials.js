@@ -24,13 +24,17 @@ const Questions = () => {
     access_key: '',
     user_id: '',
   });
-  useEffect(() => {
+
+  const getBookFetch = () => {
     fetch(BooksAPI) //api
       .then((res) => res.json())
       .then((json) => {
         setBooks(json);
         console.log(json);
       });
+  };
+  useEffect(() => {
+    getBookFetch();
   }, []);
 
   useEffect(async () => {
@@ -59,7 +63,7 @@ const Questions = () => {
       {Books ? (
         <div className='TMList'>
           {Books.slice(offset, offset + perPage).map((data) => (
-            <TeachingMaterialInfo data={data} key={data.books_id}></TeachingMaterialInfo>
+            <TeachingMaterialInfo data={data} key={data.books_id} getBook={getBookFetch}></TeachingMaterialInfo>
           ))}
         </div>
       ) : (

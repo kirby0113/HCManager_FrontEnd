@@ -76,7 +76,7 @@ const TeachingMaterialDetail = () => {
           if (Array.isArray(json)) {
             setQuestionInBook(json);
           } else {
-            setQuestionInBook([json]);
+            setQuestionInBook([]);
           }
         });
     }
@@ -165,7 +165,7 @@ const TeachingMaterialDetail = () => {
           if (Array.isArray(json)) {
             setQuestions(json);
           } else {
-            setQuestions([json]);
+            setQuestions([]);
           }
         });
     }
@@ -275,6 +275,7 @@ const TeachingMaterialDetail = () => {
       {questionInBook ? (
         <div className='QuestionList'>
           {questionInBook.map((data) => {
+            console.log(data);
             return <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>;
           })}
         </div>
