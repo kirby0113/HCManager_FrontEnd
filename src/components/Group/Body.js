@@ -9,12 +9,14 @@ import {GroupsAPI} from '../../APILink';
 
 import {CreateGroupModal} from './CreateGroupModal';
 
+import {SelectPerPage} from '../SelectPerPage';
+
 import './Body.css';
 
 const Body = () => {
   const [offset, setOffset] = useState(0);
   const [Groups, setGroups] = useState();
-  const perPage = 2; // 1ページあたりに表示したいアイテムの数
+  const [perPage, setPerPage] = useState(5);
   const [modalVisible, setModalVisible] = useState(false);
   const [CreateGroupPostData, setCreateGroupPostData] = useState({
     name: '',
@@ -66,6 +68,7 @@ const Body = () => {
           グループ追加
         </Button>
       </div>
+      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       {Groups ? (
         <div className='GroupList'>
