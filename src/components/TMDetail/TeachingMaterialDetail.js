@@ -19,9 +19,8 @@ const TeachingMaterialDetail = () => {
   const [Questions, setQuestions] = useState(); //全ての問題
 
   const [QuestionPostBody, setQuestionPostBody] = useState({
-    method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({book_id: param['id'], question_id: '1'}),
+    body: JSON.stringify({book_id: param['id'], question_id: 1}),
   });
 
   const getQuestionInBook = () => {
@@ -29,19 +28,17 @@ const TeachingMaterialDetail = () => {
       fetch(BooksAPI + '/' + param['id'] + '/questions') //api
         .then((res) => res.json())
         .then((json) => {
-          console.log(json);
           if (Array.isArray(json)) {
             setQuestionInBook(json);
           } else {
             setQuestionInBook([json]);
           }
-          console.log(questionInBook);
         });
     }
   };
 
   const registerQuestion = () => {
-    fetch(BooksAPI + '/addRecord', QuestionPostBody) //api groups/addBook
+    fetch(BooksAPI + '/addRecord', {...QuestionPostBody, method: 'POST'}) //api groups/addBook
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
@@ -53,7 +50,7 @@ const TeachingMaterialDetail = () => {
   };
 
   const removeQuestion = () => {
-    fetch(BooksAPI + '/removeRecord', QuestionPostBody) //api groups/addBook
+    fetch(BooksAPI + '/removeRecord', {...QuestionPostBody, method: 'DELETE'}) //api groups/addBook
       .then((response) => response)
       .then((data) => {
         console.log('Success:', data);
@@ -185,9 +182,9 @@ const TeachingMaterialDetail = () => {
 
       {questionInBook ? (
         <div className='QuestionList'>
-          {questionInBook.map((data) => (
-            <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>
-          ))}
+          {questionInBook.map((data) => {
+            return <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>;
+          })}
         </div>
       ) : (
         ''

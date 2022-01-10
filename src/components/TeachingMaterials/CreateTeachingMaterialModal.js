@@ -56,7 +56,7 @@ export const CreateTeachingMaterialModal = (props) => {
   return (
     <div>
       <Modal>
-        <ModalTitle className='ModalTitle'>ユーザー作成</ModalTitle>
+        <ModalTitle className='ModalTitle'>教材作成</ModalTitle>
         <InputUnit>
           <label htmlFor='username'>教材名</label>
           <input

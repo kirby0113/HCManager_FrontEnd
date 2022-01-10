@@ -72,7 +72,7 @@ const GroupDetail = () => {
 
   const getBookInGroup = () => {
     if (typeof GroupData !== 'undefined') {
-      fetch(GroupsAPI + '/' + param['id'] + '/Books') //api
+      fetch(GroupsAPI + '/' + param['id'] + '/books') //api
         .then((res) => res.json())
         .then((json) => {
           // console.log(json);
@@ -284,9 +284,10 @@ const GroupDetail = () => {
       </div>
       {BooksInGroup ? (
         <div className='TMList'>
-          {BooksInGroup.map((data) => (
-            <TeachingMaterialInfo data={data.book} key={data.book.book_id}></TeachingMaterialInfo>
-          ))}
+          {BooksInGroup.map((data) => {
+            console.log(data);
+            return <TeachingMaterialInfo data={data.book} key={data.book_id}></TeachingMaterialInfo>;
+          })}
         </div>
       ) : (
         ''
