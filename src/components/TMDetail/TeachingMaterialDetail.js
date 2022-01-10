@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import styled from 'styled-components';
 
 import {useParams} from 'react-router';
 
@@ -6,9 +7,43 @@ import QuestionInfo from '../Questions/QuestionInfo';
 
 import Button from '@material-ui/core/Button';
 
+import {Modal} from '../Modal';
+import {Overray} from '../Overray';
+
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 
 import './TeachingMaterialDetail.css';
+
+const InputUnit = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-column-gap: 30px;
+  padding-bottom: 30px;
+`;
+
+const EditGroupButton = styled(Button)`
+  margin-right: 20px !important;
+  font-size: 18px !important;
+  border: solid 2px #777;
+  background-color: #ddd;
+  padding: 5px 20px !important;
+  box-shadow: 5px 5px 5px #00000040;
+  cursor: pointer;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const ModalTitle = styled.div`
+  text-align: left;
+  font-size: 20px;
+  padding: 7px 20px;
+  padding-left: 15px;
+  margin-bottom: 40px;
+  background: #f4f4f4; /*背景色*/
+  border-left: solid 8px #ff47ac; /*左線*/
+  border-bottom: solid 3px #d7d7d7; /*下線*/
+`;
 
 const TeachingMaterialDetail = () => {
   const param = useParams();
@@ -17,10 +52,20 @@ const TeachingMaterialDetail = () => {
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
   const [Questions, setQuestions] = useState(); //全ての問題
+  const [Users, setUsers] = useState(); //Formで使用
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [QuestionPostBody, setQuestionPostBody] = useState({
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({book_id: param['id'], question_id: 1}),
+  });
+
+  const [EditBookPostData, setEditBookPostData] = useState({
+    name: '',
+    summary: '',
+    access_key: '',
+    user_id: '',
   });
 
   const getQuestionInBook = () => {
@@ -69,13 +114,29 @@ const TeachingMaterialDetail = () => {
     });
   };
 
-  useEffect(() => {
-    //最初にGroupデータを取得
+  const getBookDataFetch = () => {
     fetch(BooksAPI + '/' + param['id']) //api
       .then((res) => res.json())
       .then((json) => {
         setBook(json);
-        console.log(json);
+        setEditBookPostData({
+          name: json.name,
+          summary: json.summary,
+          access_key: json.access_key,
+          user_id: json.user_id,
+        });
+      });
+  };
+
+  useEffect(() => {
+    getBookDataFetch();
+  }, []);
+
+  useEffect(() => {
+    fetch(UsersAPI) //api
+      .then((res) => res.json())
+      .then((json) => {
+        setUsers(json);
       });
   }, []);
 
@@ -110,13 +171,44 @@ const TeachingMaterialDetail = () => {
     }
   }, [Book]);
 
+  const EditBookFetch = () => {
+    //Group編集用Fetch
+    fetch(BooksAPI + '/' + param['id'], {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: EditBookPostData.name,
+        summary: EditBookPostData.summary,
+        access_key: EditBookPostData.access_key,
+        user_id: EditBookPostData.user_id,
+      }),
+    }) //api
+      .then((res) => res)
+      .then(() => {
+        getBookDataFetch();
+      });
+  };
+
+  const EditBookCheck = () => {
+    if (confirm('編集を保存しますか？')) {
+      EditBookFetch();
+      setIsOpenModal(false);
+      // console.log(EditGroupPostData);
+    }
+  };
+
   return (
     <div>
       <div className='TMDetailPageTitleFrame'>
         <span className='TMDetailPageTitle'>教材詳細</span>
       </div>
       <div className='editTMDetailButtonFrame'>
-        <Button variant='contained' color='secondary' className='editTMDetailButton'>
+        <Button
+          variant='contained'
+          color='secondary'
+          className='editTMDetailButton'
+          onClick={() => setIsOpenModal(true)}
+        >
           編集
         </Button>
       </div>
@@ -185,6 +277,75 @@ const TeachingMaterialDetail = () => {
           {questionInBook.map((data) => {
             return <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>;
           })}
+        </div>
+      ) : (
+        ''
+      )}
+
+      {/* Modal*/}
+      {isOpenModal ? (
+        <div>
+          <Modal>
+            {Users ? (
+              <div>
+                <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
+
+                <InputUnit>
+                  <label htmlFor='groupname'>教材名</label>
+                  <input
+                    type='text'
+                    id='groupname'
+                    value={EditBookPostData.name}
+                    onChange={(e) => setEditBookPostData({...EditBookPostData, name: e.target.value})}
+                  ></input>
+                </InputUnit>
+                <InputUnit>
+                  <label htmlFor='username'>作成者</label>
+                  <select
+                    id='username'
+                    value={EditBookPostData.user_id}
+                    onChange={(e) => setEditBookPostData({...EditBookPostData, user_id: e.target.value})}
+                  >
+                    {Users.map((data) => (
+                      <option value={data.user_id} key={data.user_id}>
+                        {data.name}
+                      </option>
+                    ))}
+                  </select>
+                </InputUnit>
+                <InputUnit>
+                  <label htmlFor='accesskey'>アクセスキー</label>
+                  <input
+                    type='text'
+                    id='accesskey'
+                    value={EditBookPostData.access_key}
+                    onChange={(e) => setEditBookPostData({...EditBookPostData, access_key: e.target.value})}
+                  ></input>
+                </InputUnit>
+                <InputUnit>
+                  <label htmlFor='summary'>教材詳細情報</label>
+                  <textarea
+                    id='summary'
+                    value={EditBookPostData.summary}
+                    rows='5'
+                    onChange={(e) => setEditBookPostData({...EditBookPostData, summary: e.target.value})}
+                  ></textarea>
+                </InputUnit>
+                <EditGroupButton
+                  variant='contained'
+                  color='primary'
+                  onClick={() => {
+                    EditBookCheck();
+                  }}
+                >
+                  保存
+                </EditGroupButton>
+              </div>
+            ) : (
+              ''
+            )}
+          </Modal>
+          <Overray onClick={() => setIsOpenModal(false)}></Overray>
         </div>
       ) : (
         ''
