@@ -18,6 +18,8 @@ import Paper from '@material-ui/core/Paper';
 import UserPagination from './Pagination';
 import UserInfo from './UserInfo';
 
+import {SelectPerPage} from '../SelectPerPage';
+
 import './Body.css';
 
 const Body = () => {
@@ -67,7 +69,7 @@ const Body = () => {
   }, [EditUser]);
 
   const [offset, setOffset] = useState(0);
-  const perPage = 5; // 1ページあたりに表示したいアイテムの数
+  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
 
   return (
     <div className='UsersBody'>
@@ -85,6 +87,7 @@ const Body = () => {
           複数
         </Button> */}
       </div>
+      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       <UserPagination setOffset={setOffset} dataleng={Users ? Users.length : 0} perPage={perPage}></UserPagination>
 

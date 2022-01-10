@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import TeachingMaterialInfo from './TeachingMaterialInfo';
 import Pagination from './Pagination';
 import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
+import {SelectPerPage} from '../SelectPerPage';
 
 import {GetUsers} from '../API/UserAPIs';
 
@@ -13,7 +14,7 @@ import {CreateBook} from '../API/BookAPIs';
 
 const Questions = () => {
   const [offset, setOffset] = useState(0);
-  const perPage = 2; // 1ページあたりに表示したいアイテムの数
+  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
   const [Books, setBooks] = useState([]);
   const [Users, setUsers] = useState([]); //Formで使用
@@ -54,6 +55,7 @@ const Questions = () => {
           複数追加
         </Button>
       </div>
+      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Books ? (
         <div className='TMList'>
           {Books.slice(offset, offset + perPage).map((data) => (
