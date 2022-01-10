@@ -10,6 +10,8 @@ import Pagination from './Pagination';
 
 import './Questions.css';
 
+import {SelectPerPage} from '../SelectPerPage';
+
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
 //         <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
@@ -29,7 +31,7 @@ const Questions = () => {
         console.log(json);
       });
   }, []);
-  const perPage = 2; // 1ページあたりに表示したいアイテムの数
+  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   //const [modalVisible,setModalVisible] = useState(false);
 
   return (
@@ -47,6 +49,7 @@ const Questions = () => {
           複数追加
         </Button>
       </div>
+      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Questions ? (
         <div className='QuestionList'>
           {Questions.slice(offset, offset + perPage).map((data) => (
