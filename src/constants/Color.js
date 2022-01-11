@@ -4,4 +4,5 @@ export const Color = {
   beige: '#f7f0e1',
   pink: '#ff47ac',
   red: '#dc1683',
+  blue: '#0659a5',
 };
