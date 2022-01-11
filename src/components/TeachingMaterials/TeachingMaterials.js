@@ -7,6 +7,7 @@ import Pagination from '../Pagination';
 import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
+import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 import {GetUsers} from '../API/UserAPIs';
 
@@ -60,11 +61,11 @@ const Questions = () => {
       </div>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Books ? (
-        <div className='TMList'>
+        <InfoCardList>
           {Books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <TeachingMaterialInfo data={data} key={data.books_id} getBook={getBookFetch}></TeachingMaterialInfo>
           ))}
-        </div>
+        </InfoCardList>
       ) : (
         ''
       )}

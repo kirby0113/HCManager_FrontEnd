@@ -1,12 +1,3 @@
-.TMList {
-  padding: 0 10vw;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: 20px;
-}
-
 .addTMButtonFrame {
   text-align: right;
 }

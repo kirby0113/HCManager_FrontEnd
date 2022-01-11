@@ -12,6 +12,7 @@ import './Questions.css';
 
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
+import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
@@ -50,11 +51,11 @@ const Questions = () => {
       </div>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Questions ? (
-        <div className='QuestionList'>
+        <InfoCardList>
           {Questions.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <QuestionInfo data={data} key={data.question_id}></QuestionInfo>
           ))}
-        </div>
+        </InfoCardList>
       ) : (
         ''
       )}

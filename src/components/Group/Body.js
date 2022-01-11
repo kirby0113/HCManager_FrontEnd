@@ -11,7 +11,7 @@ import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {ButtonList} from '../Buttons/ButtonList';
-import {CardList} from '../Cards/CardList';
+import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 const Body = () => {
   const [offset, setOffset] = useState(0);
@@ -70,11 +70,11 @@ const Body = () => {
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       {Groups ? (
-        <CardList>
+        <InfoCardList>
           {Groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
           ))}
-        </CardList>
+        </InfoCardList>
       ) : (
         ''
       )}
