@@ -10,7 +10,7 @@ import {CreateGroupModal} from './CreateGroupModal';
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {ButtonList} from '../Buttons/ButtonList';
+import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 const Body = () => {
@@ -54,7 +54,7 @@ const Body = () => {
     <div className='Body'>
       <PageTitle color='lightBlue'>グループ一覧</PageTitle>
       {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
-      <ButtonList>
+      <AddButtonList>
         <PrimaryButton
           variant='contained'
           className='addGroupButton'
@@ -66,7 +66,7 @@ const Body = () => {
         >
           グループ追加
         </PrimaryButton>
-      </ButtonList>
+      </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       {Groups ? (

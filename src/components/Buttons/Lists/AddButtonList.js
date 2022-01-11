@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledButtonList = styled.div`
+const StyledAddButtonList = styled.div`
   display: grid;
   margin-bottom: 30px;
   margin-right: 10%;
@@ -9,6 +9,6 @@ const StyledButtonList = styled.div`
   grid-column-gap: 20px;
 `;
 
-export const ButtonList = (props) => {
-  return <StyledButtonList>{props.children}</StyledButtonList>;
+export const AddButtonList = (props) => {
+  return <StyledAddButtonList>{props.children}</StyledAddButtonList>;
 };

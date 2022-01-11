@@ -2,8 +2,6 @@ import {useState, useEffect} from 'react';
 //import ReactDOM from "react-dom";
 import {QuestionsAPI} from '../../APILink';
 
-import Button from '@material-ui/core/Button';
-
 import QuestionInfo from './QuestionInfo';
 import Pagination from '../Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
@@ -13,6 +11,8 @@ import './Questions.css';
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
@@ -41,14 +41,14 @@ const Questions = () => {
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
       <PageTitle color='orange'>問題一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
-      <div className='addQuestionButtonFrame'>
-        <Button color='primary' variant='contained' className='addQuestionButton'>
+      <AddButtonList>
+        <PrimaryButton color='primary' sizeX='large' sizeY='small'>
           追加
-        </Button>
-        <Button color='primary' variant='contained' className='addQuestionsButton'>
+        </PrimaryButton>
+        <PrimaryButton color='primary' sizeX='large' sizeY='small'>
           複数追加
-        </Button>
-      </div>
+        </PrimaryButton>
+      </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Questions ? (
         <InfoCardList>
