@@ -5,7 +5,7 @@ import {QuestionsAPI} from '../../APILink';
 import Button from '@material-ui/core/Button';
 
 import QuestionInfo from './QuestionInfo';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
 import './Questions.css';

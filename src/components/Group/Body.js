@@ -13,8 +13,6 @@ import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {ButtonList} from '../Buttons/ButtonList';
 import {CardList} from '../Cards/CardList';
 
-import './Body.css';
-
 const Body = () => {
   const [offset, setOffset] = useState(0);
   const [Groups, setGroups] = useState();

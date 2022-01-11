@@ -3,7 +3,7 @@ import {BooksAPI} from '../../APILink';
 import Button from '@material-ui/core/Button';
 
 import TeachingMaterialInfo from './TeachingMaterialInfo';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';

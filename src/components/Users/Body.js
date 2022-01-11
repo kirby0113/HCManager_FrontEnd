@@ -15,7 +15,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import UserPagination from './Pagination';
+import UserPagination from '../Pagination';
 import UserInfo from './UserInfo';
 
 import {SelectPerPage} from '../SelectPerPage';
