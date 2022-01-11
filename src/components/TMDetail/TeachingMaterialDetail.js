@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 
 import {Modal} from '../Modal';
 import {Overray} from '../Overray';
+import {PageTitle, PageSubTitle} from '../Title';
 
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 
@@ -199,9 +200,7 @@ const TeachingMaterialDetail = () => {
 
   return (
     <div>
-      <div className='TMDetailPageTitleFrame'>
-        <span className='TMDetailPageTitle'>教材詳細</span>
-      </div>
+      <PageTitle color='red'>教材詳細</PageTitle>
       <div className='editTMDetailButtonFrame'>
         <Button
           variant='contained'
@@ -247,9 +246,7 @@ const TeachingMaterialDetail = () => {
       ) : (
         ''
       )}
-      <div className='TMDetailPageTitleFrame-sub'>
-        <span className='TMDetailPageTitle-sub'>教材内問題一覧</span>
-      </div>
+      <PageSubTitle color='orange'>教材内問題一覧</PageSubTitle>
       <div className='QuestionButtonsFrame'>
         <select
           onChange={(e) => {
