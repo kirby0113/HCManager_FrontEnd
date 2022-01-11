@@ -1,7 +1,5 @@
 import {useState, useEffect} from 'react';
 
-import Button from '@material-ui/core/Button';
-
 import GroupInfo from './GroupInfo';
 import Pagination from './Pagination';
 
@@ -11,6 +9,8 @@ import {CreateGroupModal} from './CreateGroupModal';
 
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {ButtonList} from '../Buttons/ButtonList';
 
 import './Body.css';
 
@@ -55,18 +55,19 @@ const Body = () => {
     <div className='Body'>
       <PageTitle color='lightBlue'>グループ一覧</PageTitle>
       {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
-      <div className='addGroupButtonFrame'>
-        <Button
+      <ButtonList>
+        <PrimaryButton
           variant='contained'
-          color='primary'
           className='addGroupButton'
+          sizeX='large'
+          sizeY='small'
           onClick={() => {
             setModalVisible(true);
           }}
         >
           グループ追加
-        </Button>
-      </div>
+        </PrimaryButton>
+      </ButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       {Groups ? (
