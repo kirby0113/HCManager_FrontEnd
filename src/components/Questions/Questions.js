@@ -6,8 +6,6 @@ import QuestionInfo from './QuestionInfo';
 import Pagination from '../Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
-import './Questions.css';
-
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';

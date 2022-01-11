@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 import {BooksAPI} from '../../APILink';
-import Button from '@material-ui/core/Button';
 
 import TeachingMaterialInfo from './TeachingMaterialInfo';
 import Pagination from '../Pagination';
@@ -8,10 +7,10 @@ import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 
 import {GetUsers} from '../API/UserAPIs';
-
-import './TeachingMaterials.css';
 import {CreateBook} from '../API/BookAPIs';
 
 const Questions = () => {
@@ -51,14 +50,14 @@ const Questions = () => {
     <div className='Body'>
       <PageTitle color='pink'>教材一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
-      <div className='addTMButtonFrame'>
-        <Button variant='contained' color='primary' className='addTMButton' onClick={() => setModalVisible(true)}>
+      <AddButtonList>
+        <PrimaryButton variant='contained' onClick={() => setModalVisible(true)} sizeX='large' sizeY='small'>
           追加
-        </Button>
-        <Button variant='contained' color='primary' className='addTMsButton'>
+        </PrimaryButton>
+        <PrimaryButton variant='contained' sizeX='large' sizeY='small'>
           複数追加
-        </Button>
-      </div>
+        </PrimaryButton>
+      </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Books ? (
         <InfoCardList>
