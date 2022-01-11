@@ -5,4 +5,5 @@ export const Color = {
   pink: '#ff47ac',
   red: '#dc1683',
   blue: '#0659a5',
+  lightGreen: '#66f086',
 };
