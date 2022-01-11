@@ -6,6 +6,7 @@ import TeachingMaterialInfo from './TeachingMaterialInfo';
 import Pagination from './Pagination';
 import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
 import {SelectPerPage} from '../SelectPerPage';
+import {PageTitle} from '../Title';
 
 import {GetUsers} from '../API/UserAPIs';
 
@@ -47,9 +48,7 @@ const Questions = () => {
 
   return (
     <div className='Body'>
-      <div className='TMPageTitleFrame'>
-        <span className='TMPageTitle'>教材一覧</span>
-      </div>
+      <PageTitle color='pink'>教材一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
       <div className='addTMButtonFrame'>
         <Button variant='contained' color='primary' className='addTMButton' onClick={() => setModalVisible(true)}>

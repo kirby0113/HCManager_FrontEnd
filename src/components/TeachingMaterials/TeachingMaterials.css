@@ -1,53 +1,39 @@
-.TMList{
-    padding:0 10vw;
-    margin-top:30px;
-    margin-bottom:30px;
-    display:grid;
-    grid-template-columns:1fr;
-    grid-row-gap:20px;
+.TMList {
+  padding: 0 10vw;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 20px;
 }
 
-.pagination{
-    position:relative;
-    left:50%;
-    transform:translateX(-50%);
-    margin-bottom:50px;
+.pagination {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 50px;
 }
 
-.addTMButtonFrame{
-    text-align:right;
+.addTMButtonFrame {
+  text-align: right;
 }
 
-.addTMButton{
-    margin-right:20px !important;
-    font-size:18px !important;
-    border:solid 2px #777;
-    background-color:#ddd;
-    padding:5px 20px !important;
-    box-shadow: 5px 5px 5px #00000040;
-    cursor:pointer;
+.addTMButton {
+  margin-right: 20px !important;
+  font-size: 18px !important;
+  border: solid 2px #777;
+  background-color: #ddd;
+  padding: 5px 20px !important;
+  box-shadow: 5px 5px 5px #00000040;
+  cursor: pointer;
 }
 
-.addTMsButton{
-    margin-right:10% !important;
-    font-size:18px !important;
-    border:solid 2px #777;
-    background-color:#ddd;
-    padding:5px 20px !important;
-    box-shadow: 5px 5px 5px #00000040;
-    cursor:pointer;
-}
-
-.TMPageTitleFrame{
-    margin-top:20px;
-}
-
-.TMPageTitle{
-    text-align:left;
-    font-size:30px;
-    padding:10px 30px;
-    padding-left:15px;
-      background: #f4f4f4;/*背景色*/
-    border-left: solid 8px #ff47ac;/*左線*/
-    border-bottom: solid 3px #d7d7d7;/*下線*/
+.addTMsButton {
+  margin-right: 10% !important;
+  font-size: 18px !important;
+  border: solid 2px #777;
+  background-color: #ddd;
+  padding: 5px 20px !important;
+  box-shadow: 5px 5px 5px #00000040;
+  cursor: pointer;
 }
