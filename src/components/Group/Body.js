@@ -11,6 +11,7 @@ import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {ButtonList} from '../Buttons/ButtonList';
+import {CardList} from '../Cards/CardList';
 
 import './Body.css';
 
@@ -71,11 +72,11 @@ const Body = () => {
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       {Groups ? (
-        <div className='GroupList'>
+        <CardList>
           {Groups.slice(offset, offset + perPage).map((data) => (
             <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
           ))}
-        </div>
+        </CardList>
       ) : (
         ''
       )}
