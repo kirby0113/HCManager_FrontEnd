@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 import {Color} from '../../constants/Color';
-import {SizeX, SizeY, fontSize} from '../../constants/Button';
+import {SizeX, SizeY, FontSize} from '../../constants/Button';
 
 const StyledButton = styled(Button)`
-  font-size: ${(props) => (props.fontSize ? fontSize[props.fontSize] : fontSize['medium'])} !important;
+  font-size: ${(props) => (props.fontSize ? FontSize[props.fontSize] : FontSize['medium'])} !important;
   padding: ${(props) => (props.sizeY ? SizeY[props.sizeY] : SizeY['medium'])}
     ${(props) => (props.sizeX ? SizeX[props.sizeX] : SizeX['medium'])} !important;
   color: ${(props) => (props.color ? Color[props.color] : Color['white'])} !important;
