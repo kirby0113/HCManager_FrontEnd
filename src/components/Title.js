@@ -6,9 +6,9 @@ const StyledTitle = styled.span`
   font-size: 30px;
   padding: 10px 30px;
   padding-left: 15px;
-  background: #f4f4f4; /*背景色*/
+  background: ${Color['lightGrey']}; /*背景色*/
   border-left: solid 8px ${(props) => Color[props.color]}; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
+  border-bottom: solid 3px ${Color['grey']}; /*下線*/
 `;
 
 const PageTitleWrapper = styled.div`
