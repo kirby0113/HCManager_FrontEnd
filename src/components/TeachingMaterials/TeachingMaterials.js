@@ -61,7 +61,7 @@ const Questions = () => {
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Books ? (
         <div className='TMList'>
-          {Books.slice(offset, offset + perPage).map((data) => (
+          {Books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <TeachingMaterialInfo data={data} key={data.books_id} getBook={getBookFetch}></TeachingMaterialInfo>
           ))}
         </div>

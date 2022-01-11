@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 import GroupInfo from './GroupInfo';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 
 import {GroupsAPI} from '../../APILink';
 
@@ -73,7 +73,7 @@ const Body = () => {
 
       {Groups ? (
         <CardList>
-          {Groups.slice(offset, offset + perPage).map((data) => (
+          {Groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
           ))}
         </CardList>
