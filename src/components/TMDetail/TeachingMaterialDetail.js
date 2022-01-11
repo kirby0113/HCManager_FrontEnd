@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import {Modal} from '../Modal';
 import {Overray} from '../Overray';
 import {PageTitle, PageSubTitle} from '../Title';
+import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 
@@ -270,12 +271,12 @@ const TeachingMaterialDetail = () => {
       </div>
 
       {questionInBook ? (
-        <div className='QuestionList'>
+        <InfoCardList>
           {questionInBook.map((data) => {
             console.log(data);
             return <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>;
           })}
-        </div>
+        </InfoCardList>
       ) : (
         ''
       )}

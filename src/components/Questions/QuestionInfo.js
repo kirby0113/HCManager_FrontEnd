@@ -4,7 +4,8 @@ import './QuestionInfo.css';
 
 import Card from '@material-ui/core/Card';
 
-import Button from '@material-ui/core/Button';
+import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
 
 const QuestionInfo = (props) => {
   const [User, setUser] = useState();
@@ -37,18 +38,10 @@ const QuestionInfo = (props) => {
           {props.data.created_at}
         </div>
       </div>
-      <div className='QuestionInfoLinkGrid'>
-        <div className='QuestionInfoDeleteButtonFrame'>
-          <Button variant='contained' color='secondary' className='QuestionInfoDeleteButton'>
-            削除する
-          </Button>
-        </div>
-        <div className='QuestionInfoDetailButtonFrame'>
-          <Button variant='contained' color='primary' className='QuestionInfoDetailButton'>
-            詳細を見る
-          </Button>
-        </div>
-      </div>
+      <InfoCardButtonList>
+        <PrimaryButton color='secondary'>削除する</PrimaryButton>
+        <PrimaryButton>詳細を見る</PrimaryButton>
+      </InfoCardButtonList>
     </Card>
   );
 };

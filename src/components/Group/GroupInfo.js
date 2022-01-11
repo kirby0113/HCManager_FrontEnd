@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
 import Card from '@material-ui/core/Card';
-
-import Button from '@material-ui/core/Button';
+import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
 
 import {UsersAPI, GroupsAPI} from '../../APILink';
 
+import {PrimaryButton} from '../Buttons/PrimaryButton';
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #000;
@@ -78,25 +78,14 @@ const GroupInfo = (props) => {
         </div>
       </div>
 
-      <div className='GroupInfoLinkGrid'>
-        <div className='GroupInfoDeleteButtonFrame'>
-          <Button
-            variant='contained'
-            color='secondary'
-            className='GroupInfoDeleteButton'
-            onClick={() => Delete(props.data.group_id, props.data.name)}
-          >
-            削除する
-          </Button>
-        </div>
-        <div className='GroupInfoDetailButtonFrame'>
-          <StyledLink to={'/group/detail/'.concat(props.data.group_id)}>
-            <Button variant='contained' color='primary' className='GroupInfoDetailButton'>
-              詳細を見る
-            </Button>
-          </StyledLink>
-        </div>
-      </div>
+      <InfoCardButtonList>
+        <PrimaryButton color='secondary' onClick={() => Delete(props.data.group_id, props.data.name)}>
+          削除する
+        </PrimaryButton>
+        <StyledLink to={'/group/detail/'.concat(props.data.group_id)}>
+          <PrimaryButton>詳細を見る</PrimaryButton>
+        </StyledLink>
+      </InfoCardButtonList>
     </Card>
   );
 };

@@ -9,6 +9,9 @@ import styled from 'styled-components';
 
 import {Link} from 'react-router-dom';
 
+import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #000;
@@ -18,8 +21,6 @@ const StyledLink = styled(Link)`
     text-decoration: none;
   }
 `;
-
-import Button from '@material-ui/core/Button';
 
 /* TM = TeachingMaterial */
 
@@ -77,25 +78,14 @@ const TeachingMaterialInfo = (props) => {
           {props.data.created_at}
         </div>
       </div>
-      <div className='TMInfoLinkGrid'>
-        <div className='TMInfoDeleteButtonFrame'>
-          <Button
-            variant='contained'
-            color='secondary'
-            className='TMInfoDeleteButton'
-            onClick={() => Delete(props.data.book_id, props.data.name)}
-          >
-            削除する
-          </Button>
-        </div>
-        <div className='TMInfoDetailButtonFrame'>
-          <StyledLink to={'/TeachingMaterial/detail/'.concat(props.data.book_id)}>
-            <Button variant='contained' color='primary' className='TMInfoDetailButton'>
-              詳細を見る
-            </Button>
-          </StyledLink>
-        </div>
-      </div>
+      <InfoCardButtonList>
+        <PrimaryButton color='secondary' onClick={() => Delete(props.data.book_id, props.data.name)}>
+          削除する
+        </PrimaryButton>
+        <StyledLink to={'/TeachingMaterial/detail/'.concat(props.data.book_id)}>
+          <PrimaryButton>詳細を見る</PrimaryButton>
+        </StyledLink>
+      </InfoCardButtonList>
     </Card>
   );
 };
