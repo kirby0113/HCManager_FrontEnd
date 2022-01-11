@@ -1,10 +1,14 @@
-import React from "react";
+import styled from 'styled-components';
 
-import "./Home.css";
+const StyledHome = styled.div`
+  font-size: 25px;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-top: 20vh;
+`;
 
-const Home  = () => {
-
-    return <div className="topHeading">HelloCManager制作中です</div>
-}
+const Home = () => {
+  return <StyledHome>HelloCManager制作中です</StyledHome>;
+};
 
 export default Home;
