@@ -1,36 +1,3 @@
-.GroupDetailPageTitleFrame {
-  margin-top: 20px;
-}
-
-.GroupDetailPageTitle {
-  text-align: left;
-  font-size: 30px;
-  padding: 10px 30px;
-  padding-left: 15px;
-  background: #f4f4f4; /*背景色*/
-  border-left: solid 8px #0659a5; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
-}
-
-.GroupDetailPageTitleFrame-sub {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 80%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.GroupDetailPageTitle-sub {
-  text-align: left;
-  font-size: 20px;
-  padding: 7px 20px;
-  padding-left: 15px;
-  background: #f4f4f4; /*背景色*/
-  border-left: solid 8px #ff47ac; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
-}
-
 .GroupDetailFrame {
   position: relative;
   left: 50%;

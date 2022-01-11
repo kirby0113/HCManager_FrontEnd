@@ -14,6 +14,7 @@ import './GroupDetail.css';
 
 import {Overray} from '../Overray';
 import {Modal} from '../Modal';
+import {PageTitle, PageSubTitle} from '../Title';
 
 const InputUnit = styled.div`
   display: grid;
@@ -206,9 +207,7 @@ const GroupDetail = () => {
 
   return (
     <div>
-      <div className='GroupDetailPageTitleFrame'>
-        <span className='GroupDetailPageTitle'>グループ詳細</span>
-      </div>
+      <PageTitle color='blue'>グループ詳細</PageTitle>
 
       <div className='editGroupDetailButtonFrame'>
         <Button
@@ -259,9 +258,7 @@ const GroupDetail = () => {
         </div>
       </div>
 
-      <div className='GroupDetailPageTitleFrame-sub'>
-        <span className='GroupDetailPageTitle-sub'>グループ内教材一覧</span>
-      </div>
+      <PageSubTitle>グループ内教材一覧</PageSubTitle>
 
       <div className='TMEditButtonFrameInGroup'>
         <select
