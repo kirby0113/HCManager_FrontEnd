@@ -15,6 +15,25 @@ const PageTitleWrapper = styled.div`
   margin-top: 20px;
 `;
 
+const PageSubTitleWrapper = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const StyledSubTitle = styled.span`
+  text-align: left;
+  font-size: 20px;
+  padding: 7px 20px;
+  padding-left: 15px;
+  background: #f4f4f4; /*背景色*/
+  border-left: solid 8px ${(props) => Color[props.color]}; /*左線*/
+  border-bottom: solid 3px #d7d7d7; /*下線*/
+`;
+
 export const Title = (props) => {
   return <StyledTitle color={props.color}>{props.children}</StyledTitle>;
 };
@@ -24,5 +43,13 @@ export const PageTitle = (props) => {
     <PageTitleWrapper>
       <StyledTitle color={props.color}>{props.children}</StyledTitle>
     </PageTitleWrapper>
+  );
+};
+
+export const PageSubTitle = (props) => {
+  return (
+    <PageSubTitleWrapper>
+      <StyledSubTitle color={props.color}>{props.children}</StyledSubTitle>
+    </PageSubTitleWrapper>
   );
 };
