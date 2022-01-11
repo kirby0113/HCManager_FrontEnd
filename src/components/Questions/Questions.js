@@ -11,6 +11,7 @@ import Pagination from './Pagination';
 import './Questions.css';
 
 import {SelectPerPage} from '../SelectPerPage';
+import {PageTitle} from '../Title';
 
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
@@ -37,9 +38,7 @@ const Questions = () => {
   return (
     <div className='Body'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
-      <div className='QuestionPageTitleFrame'>
-        <span className='QuestionPageTitle'>問題一覧</span>
-      </div>
+      <PageTitle color='orange'>問題一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
       <div className='addQuestionButtonFrame'>
         <Button color='primary' variant='contained' className='addQuestionButton'>

@@ -29,17 +29,3 @@
     background-color:#ddd;
     cursor:pointer; */
 }
-
-.PageTitleFrame {
-  margin-top: 20px;
-}
-
-.PageTitle {
-  text-align: left;
-  font-size: 30px;
-  padding: 10px 30px;
-  padding-left: 15px;
-  background: #f4f4f4; /*背景色*/
-  border-left: solid 8px #7db4e6; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
-}

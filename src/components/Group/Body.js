@@ -10,6 +10,7 @@ import {GroupsAPI} from '../../APILink';
 import {CreateGroupModal} from './CreateGroupModal';
 
 import {SelectPerPage} from '../SelectPerPage';
+import {PageTitle} from '../Title';
 
 import './Body.css';
 
@@ -52,9 +53,7 @@ const Body = () => {
 
   return (
     <div className='Body'>
-      <div className='PageTitleFrame'>
-        <span className='PageTitle'>グループ一覧</span>
-      </div>
+      <PageTitle color='lightBlue'>グループ一覧</PageTitle>
       {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
       <div className='addGroupButtonFrame'>
         <Button
