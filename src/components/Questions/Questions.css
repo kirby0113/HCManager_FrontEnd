@@ -7,13 +7,6 @@
   grid-row-gap: 20px;
 }
 
-.pagination {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 50px;
-}
-
 .addQuestionButtonFrame {
   text-align: right;
   margin-bottom: 30px;
