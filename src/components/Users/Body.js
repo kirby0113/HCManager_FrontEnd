@@ -19,6 +19,7 @@ import UserPagination from './Pagination';
 import UserInfo from './UserInfo';
 
 import {SelectPerPage} from '../SelectPerPage';
+import {PageTitle} from '../Title';
 
 import './Body.css';
 
@@ -75,9 +76,7 @@ const Body = () => {
     <div className='UsersBody'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
 
-      <div className='UsersPageTitleFrame'>
-        <span className='UsersPageTitle'>ユーザー一覧</span>
-      </div>
+      <PageTitle color='lightGreen'>ユーザ一覧</PageTitle>
 
       <div className='UserCreateButtons'>
         <Button variant='contained' color='primary' className='CreateUserButton' onClick={() => OpenCreateModal()}>
