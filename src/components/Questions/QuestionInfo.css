@@ -14,9 +14,3 @@
   grid-template-columns: repeat(2, 1fr);
   grid-row-gap: 10px;
 }
-
-.elementName {
-  border: solid 2px #777;
-  padding: 2px 10px;
-  margin-right: 20px;
-}

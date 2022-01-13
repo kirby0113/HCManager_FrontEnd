@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 
 import Card from '@material-ui/core/Card';
 import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
+import {Label} from '../Utilities/Card/Label';
 
 import {UsersAPI, GroupsAPI} from '../../APILink';
 
@@ -61,19 +62,19 @@ const GroupInfo = (props) => {
     <Card className='GroupInfoFrame'>
       <div className='GroupInfoGrid'>
         <div>
-          <span className='elementName'>グループ名</span>
+          <Label>グループ名</Label>
           {props.data.name}
         </div>
         <div>
-          <span className='elementName'>作成者</span>
+          <Label>作成者</Label>
           {User ? User.name : ''}
         </div>
         <div>
-          <span className='elementName'>アクセスキー</span>
+          <Label>アクセスキー</Label>
           {props.data.access_key}
         </div>
         <div>
-          <span className='elementName'>作成日</span>
+          <Label>作成日</Label>
           {props.data.created_at}
         </div>
       </div>

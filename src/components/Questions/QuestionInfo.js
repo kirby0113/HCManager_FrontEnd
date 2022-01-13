@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 
 import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {Label} from '../Utilities/Card/Label';
 
 const QuestionInfo = (props) => {
   const [User, setUser] = useState();
@@ -22,19 +23,19 @@ const QuestionInfo = (props) => {
     <Card className='QuestionInfoFrame'>
       <div className='QuestionInfoGrid'>
         <div>
-          <span className='elementName'>問題名</span>
+          <Label>問題名</Label>
           {props.data.name}
         </div>
         <div>
-          <span className='elementName'>作成者</span>
+          <Label>作成者</Label>
           {User ? User.name : ''}
         </div>
         <div>
-          <span className='elementName'>問題形式</span>
+          <Label>問題形式</Label>
           {props.data.mode}
         </div>
         <div>
-          <span className='elementName'>作成日</span>
+          <Label>作成日</Label>
           {props.data.created_at}
         </div>
       </div>

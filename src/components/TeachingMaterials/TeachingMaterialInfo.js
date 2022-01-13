@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom';
 
 import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {Label} from '../Utilities/Card/Label';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -62,19 +63,19 @@ const TeachingMaterialInfo = (props) => {
     <Card className='TMInfoFrame'>
       <div className='TMInfoGrid'>
         <div>
-          <span className='elementName'>教材名</span>
+          <Label>教材名</Label>
           {props.data.name}
         </div>
         <div>
-          <span className='elementName'>作成者</span>
+          <Label>作成者</Label>
           {user ? user.name : ''}
         </div>
         <div>
-          <span className='elementName'>アクセスキー</span>
+          <Label>アクセスキー</Label>
           {props.data.access_key}
         </div>
         <div>
-          <span className='elementName'>作成日</span>
+          <Label>作成日</Label>
           {props.data.created_at}
         </div>
       </div>
