@@ -9,7 +9,7 @@ import Home from './components/Home/Home';
 import Header from './components/Header';
 import GroupList from './pages/Group/GroupList';
 import UsersBody from './components/Users/Body';
-import QuestionsBody from './components/Questions/Questions';
+import QuestionList from './pages/Question/QuestionList';
 import BookList from './pages/Book/BookList';
 
 //詳細ページ
@@ -33,7 +33,7 @@ const App = () => {
               <Users />
             </Route>
             <Route exact path='/questions'>
-              <Questions />
+              <QuestionList />
             </Route>
             <Route exact path='/teachingMaterials'>
               <BookList />
@@ -56,10 +56,6 @@ const App = () => {
 
 function Users() {
   return <UsersBody></UsersBody>;
-}
-
-function Questions() {
-  return <QuestionsBody></QuestionsBody>;
 }
 
 export default App;

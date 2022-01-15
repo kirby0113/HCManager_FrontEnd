@@ -2,15 +2,15 @@ import {useState, useEffect} from 'react';
 //import ReactDOM from "react-dom";
 import {QuestionsAPI} from '../../APILink';
 
-import QuestionInfo from './QuestionInfo';
-import Pagination from '../Pagination';
+import QuestionInfo from '../../components/Questions/QuestionInfo';
+import Pagination from '../../components/Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
-import {SelectPerPage} from '../SelectPerPage';
-import {PageTitle} from '../Utilities/Title';
-import {InfoCardList} from '../Cards/Lists/InfoCardList';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {AddButtonList} from '../Buttons/Lists/AddButtonList';
+import {SelectPerPage} from '../../components/SelectPerPage';
+import {PageTitle} from '../../components/Utilities/Title';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
+import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
+import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
@@ -19,7 +19,7 @@ import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 //     );
 // }
 
-const Questions = () => {
+const QuestionList = () => {
   const [offset, setOffset] = useState(0);
   const [Questions, setQuestions] = useState();
 
@@ -62,4 +62,4 @@ const Questions = () => {
   );
 };
 
-export default Questions;
+export default QuestionList;
