@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 //一覧ページ等
-import Home from './components/Home/Home';
+import Home from './pages/Home/Home';
 import Header from './components/Header';
 import GroupList from './pages/Group/GroupList';
 import UserList from './pages/User/UserList';
