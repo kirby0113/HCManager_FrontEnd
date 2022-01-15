@@ -1,17 +1,13 @@
-import './TeachingMaterialInfo.css';
-
 import {useEffect, useState} from 'react';
 import {UsersAPI, BooksAPI} from '../../APILink';
-
-import Card from '@material-ui/core/Card';
 
 import styled from 'styled-components';
 
 import {Link} from 'react-router-dom';
 
-import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {Label} from '../Utilities/Card/Label';
+import {InfoCard, InfoCardDetail, InfoCardButtons} from '../Cards/InfoCard';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -60,8 +56,8 @@ const TeachingMaterialInfo = (props) => {
   };
 
   return (
-    <Card className='TMInfoFrame'>
-      <div className='TMInfoGrid'>
+    <InfoCard>
+      <InfoCardDetail>
         <div>
           <Label>教材名</Label>
           {props.data.name}
@@ -78,16 +74,16 @@ const TeachingMaterialInfo = (props) => {
           <Label>作成日</Label>
           {props.data.created_at}
         </div>
-      </div>
-      <InfoCardButtonList>
+      </InfoCardDetail>
+      <InfoCardButtons>
         <PrimaryButton color='secondary' onClick={() => Delete(props.data.book_id, props.data.name)}>
           削除する
         </PrimaryButton>
         <StyledLink to={'/TeachingMaterial/detail/'.concat(props.data.book_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </StyledLink>
-      </InfoCardButtonList>
-    </Card>
+      </InfoCardButtons>
+    </InfoCard>
   );
 };
 

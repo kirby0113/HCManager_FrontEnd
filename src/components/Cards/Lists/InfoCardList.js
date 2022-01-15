@@ -7,6 +7,7 @@ const StyledInfoCardList = styled.div`
   grid-row-gap: 20px;
   margin: 30px 0;
 `;
+
 export const InfoCardList = (props) => {
   return <StyledInfoCardList>{props.children}</StyledInfoCardList>;
 };

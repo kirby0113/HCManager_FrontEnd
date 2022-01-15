@@ -1,12 +1,9 @@
 import {useEffect, useState} from 'react';
 import {UsersAPI} from '../../APILink';
-import './QuestionInfo.css';
 
-import Card from '@material-ui/core/Card';
-
-import {InfoCardButtonList} from '../Buttons/Lists/InfoCardButtonList';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {Label} from '../Utilities/Card/Label';
+import {InfoCard, InfoCardDetail, InfoCardButtons} from '../Cards/InfoCard';
 
 const QuestionInfo = (props) => {
   const [User, setUser] = useState();
@@ -20,8 +17,8 @@ const QuestionInfo = (props) => {
   }, []);
 
   return (
-    <Card className='QuestionInfoFrame'>
-      <div className='QuestionInfoGrid'>
+    <InfoCard>
+      <InfoCardDetail>
         <div>
           <Label>問題名</Label>
           {props.data.name}
@@ -38,12 +35,12 @@ const QuestionInfo = (props) => {
           <Label>作成日</Label>
           {props.data.created_at}
         </div>
-      </div>
-      <InfoCardButtonList>
+      </InfoCardDetail>
+      <InfoCardButtons>
         <PrimaryButton color='secondary'>削除する</PrimaryButton>
         <PrimaryButton>詳細を見る</PrimaryButton>
-      </InfoCardButtonList>
-    </Card>
+      </InfoCardButtons>
+    </InfoCard>
   );
 };
 
