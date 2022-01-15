@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import styled from 'styled-components';
 
 import {GetUsers, EditUser, CreateUser} from '../API/UserAPIs';
 
@@ -20,8 +21,6 @@ import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Utilities/Title';
-
-import './Body.css';
 
 const Body = () => {
   const [Users, setUsers] = useState([]);
@@ -72,6 +71,13 @@ const Body = () => {
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
 
+  const UserTable = styled(TableContainer)`
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80% !important;
+  `;
+
   return (
     <div className='UsersBody'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
@@ -91,7 +97,7 @@ const Body = () => {
 
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
-      <TableContainer className='UserTable' component={Paper}>
+      <UserTable component={Paper}>
         <Table aria-label='simple table'>
           <TableHead>
             <TableRow>
@@ -115,7 +121,7 @@ const Body = () => {
               : ''}
           </TableBody>
         </Table>
-      </TableContainer>
+      </UserTable>
 
       {isOpenEditModal ? (
         <EditUserModal
