@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import {useParams} from 'react-router';
 
-import QuestionInfo from '../Questions/QuestionInfo';
+import QuestionInfo from '../pages/Questions/QuestionInfo';
 
 import Button from '@material-ui/core/Button';
 

@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 //import ReactDOM from "react-dom";
 import {QuestionsAPI} from '../../APILink';
 
-import QuestionInfo from '../../components/Questions/QuestionInfo';
+import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
 import Pagination from '../../components/Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 

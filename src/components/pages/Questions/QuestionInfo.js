@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import {UsersAPI} from '../../APILink';
+import {UsersAPI} from '../../../APILink';
 
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {Label} from '../Utilities/Card/Label';
-import {InfoCard, InfoCardDetail, InfoCardButtons} from '../Cards/InfoCard';
+import {PrimaryButton} from '../../Buttons/PrimaryButton';
+import {Label} from '../../Utilities/Card/Label';
+import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
 
 const QuestionInfo = (props) => {
   const [User, setUser] = useState();
