@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Color} from '../constants/Color';
+import {Color} from '../../constants/Color';
 
 const StyledTitle = styled.span`
   text-align: left;

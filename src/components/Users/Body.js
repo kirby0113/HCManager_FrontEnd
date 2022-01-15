@@ -19,7 +19,7 @@ import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 
 import {SelectPerPage} from '../SelectPerPage';
-import {PageTitle} from '../Title';
+import {PageTitle} from '../Utilities/Title';
 
 import './Body.css';
 

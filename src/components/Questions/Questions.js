@@ -7,7 +7,7 @@ import Pagination from '../Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
 import {SelectPerPage} from '../SelectPerPage';
-import {PageTitle} from '../Title';
+import {PageTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {AddButtonList} from '../Buttons/Lists/AddButtonList';

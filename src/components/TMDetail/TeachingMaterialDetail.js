@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 import {Modal} from '../Modal';
 import {Overray} from '../Overray';
-import {PageTitle, PageSubTitle} from '../Title';
+import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
 
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';

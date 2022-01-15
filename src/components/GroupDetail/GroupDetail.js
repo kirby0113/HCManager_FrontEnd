@@ -14,7 +14,7 @@ import './GroupDetail.css';
 
 import {Overray} from '../Overray';
 import {Modal} from '../Modal';
-import {PageTitle, PageSubTitle} from '../Title';
+import {PageTitle, PageSubTitle} from '../Utilities/Title';
 
 const InputUnit = styled.div`
   display: grid;
