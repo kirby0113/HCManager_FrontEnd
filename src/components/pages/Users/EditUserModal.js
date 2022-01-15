@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
-import {Modal} from '../Modal';
-import {Overray} from '../Overray';
+import {Modal} from '../../Modal';
+import {Overray} from '../../Overray';
 
 const InputUnit = styled.div`
   display: grid;
@@ -36,19 +36,16 @@ const ModalTitle = styled.div`
   border-bottom: solid 3px #d7d7d7; /*下線*/
 `;
 
-export const CreateUserModal = (props) => {
+export const EditUserModal = (props) => {
   const EditUserCheck = () => {
-    if (
-      props.createData.name == '' ||
-      props.createData.mail == '' ||
-      props.createData.role == '' ||
-      props.password == ''
-    ) {
+    if (props.editData.name == '' || props.editData.mail == '' || props.editData.role == '' || props.password == '') {
       alert('全ての項目を入力してください。');
       return;
     }
     if (confirm('データを作成してよろしいですか？')) {
-      props.CreateUserFetch();
+      //   console.log(props.editData);
+      //   console.log(props.password);
+      props.EditUserFetch();
       props.onClose();
     }
   };
@@ -56,22 +53,22 @@ export const CreateUserModal = (props) => {
   return (
     <div>
       <Modal>
-        <ModalTitle className='ModalTitle'>ユーザー作成</ModalTitle>
+        <ModalTitle className='ModalTitle'>ユーザー編集</ModalTitle>
         <InputUnit>
           <label htmlFor='username'>ユーザー名</label>
           <input
             type='text'
             id='username'
-            value={props.createData.name}
-            onChange={(e) => props.setPost({...props.createData, name: e.target.value})}
+            value={props.editData.name}
+            onChange={(e) => props.setEdit({...props.editData, name: e.target.value})}
           ></input>
         </InputUnit>
         <InputUnit>
           <label htmlFor='username'>権限</label>
           <select
             id='username'
-            value={props.createData.role}
-            onChange={(e) => props.setPost({...props.createData, role: e.target.value})}
+            value={props.editData.role}
+            onChange={(e) => props.setEdit({...props.editData, role: e.target.value})}
           >
             <option value=''></option>
             <option value='教授者'>教授者</option>
@@ -85,8 +82,8 @@ export const CreateUserModal = (props) => {
           <input
             type='text'
             id='mailaddress'
-            value={props.createData.mail}
-            onChange={(e) => props.setPost({...props.createData, mail: e.target.value})}
+            value={props.editData.mail}
+            onChange={(e) => props.setEdit({...props.editData, mail: e.target.value})}
           ></input>
         </InputUnit>
         <InputUnit>

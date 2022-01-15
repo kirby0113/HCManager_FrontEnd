@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import {GetUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
 
-import {EditUserModal} from '../../components/Users/EditUserModal';
-import {CreateUserModal} from '../../components/Users/CreateUserModal';
+import {EditUserModal} from '../../components/pages/Users/EditUserModal';
+import {CreateUserModal} from '../../components/pages/Users/CreateUserModal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import UserPagination from '../../components/Pagination';
-import UserInfo from '../../components/Users/UserInfo';
+import UserInfo from '../../components/pages/Users/UserInfo';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 

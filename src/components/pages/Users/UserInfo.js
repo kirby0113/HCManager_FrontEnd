@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 import {Delete, Edit} from '@material-ui/icons';
 
-import {DeleteUser} from '../API/UserAPIs';
+import {DeleteUser} from '../../API/UserAPIs';
 
 const StyledDelete = styled(Delete)`
   color: red;
