@@ -1,19 +1,19 @@
 import {useState, useEffect} from 'react';
 
-import GroupInfo from './GroupInfo';
-import Pagination from '../Pagination';
+import GroupInfo from '../../components/Group/GroupInfo';
+import Pagination from '../../components/Pagination';
 
 import {GroupsAPI} from '../../APILink';
 
-import {CreateGroupModal} from './CreateGroupModal';
+import {CreateGroupModal} from '../../components/Group/CreateGroupModal';
 
-import {SelectPerPage} from '../SelectPerPage';
-import {PageTitle} from '../Utilities/Title';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {AddButtonList} from '../Buttons/Lists/AddButtonList';
-import {InfoCardList} from '../Cards/Lists/InfoCardList';
+import {SelectPerPage} from '../../components/SelectPerPage';
+import {PageTitle} from '../../components/Utilities/Title';
+import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
+import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
-const Body = () => {
+const GroupList = () => {
   const [offset, setOffset] = useState(0);
   const [Groups, setGroups] = useState();
   const [perPage, setPerPage] = useState(5);
@@ -91,4 +91,4 @@ const Body = () => {
   );
 };
 
-export default Body;
+export default GroupList;

@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //一覧ページ等
 import Home from './components/Home/Home';
 import Header from './components/Header';
-import GroupBody from './components/Group/Body';
+import GroupList from './pages/Group/GroupList';
 import UsersBody from './components/Users/Body';
 import QuestionsBody from './components/Questions/Questions';
 import TeachingMaterialsBody from './components/TeachingMaterials/TeachingMaterials';
@@ -27,7 +27,7 @@ const App = () => {
           <Switch>
             {/* 一覧ページのルーティング */}
             <Route exact path='/group'>
-              <Group></Group>
+              <GroupList></GroupList>
             </Route>
             <Route exact path='/users'>
               <Users />
@@ -53,14 +53,6 @@ const App = () => {
     </Router>
   );
 };
-
-function Group() {
-  return (
-    <div>
-      <GroupBody></GroupBody>
-    </div>
-  );
-}
 
 function Users() {
   return <UsersBody></UsersBody>;
