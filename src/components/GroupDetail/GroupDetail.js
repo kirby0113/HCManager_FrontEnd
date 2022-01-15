@@ -15,13 +15,9 @@ import './GroupDetail.css';
 import {Overray} from '../Overray';
 import {Modal} from '../Modal';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
-
-const InputUnit = styled.div`
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  grid-column-gap: 30px;
-  padding-bottom: 30px;
-`;
+import {InputBox} from '../Forms/InputBox';
+import {SelectBox} from '../Forms/SelectBox';
+import {TextArea} from '../Forms/TextArea';
 
 const EditGroupButton = styled(Button)`
   margin-right: 20px !important;
@@ -298,47 +294,38 @@ const GroupDetail = () => {
               <div>
                 <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
 
-                <InputUnit>
-                  <label htmlFor='groupname'>グループ名</label>
-                  <input
-                    type='text'
-                    id='groupname'
-                    value={EditGroupPostData.name}
-                    onChange={(e) => setEditGroupPostData({...EditGroupPostData, name: e.target.value})}
-                  ></input>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='username'>作成者</label>
-                  <select
-                    id='username'
-                    value={EditGroupPostData.user_id}
-                    onChange={(e) => setEditGroupPostData({...EditGroupPostData, user_id: e.target.value})}
-                  >
-                    {Users.map((data) => (
-                      <option value={data.user_id} key={data.user_id}>
-                        {data.name}
-                      </option>
-                    ))}
-                  </select>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='accesskey'>アクセスキー</label>
-                  <input
-                    type='text'
-                    id='accesskey'
-                    value={EditGroupPostData.access_key}
-                    onChange={(e) => setEditGroupPostData({...EditGroupPostData, access_key: e.target.value})}
-                  ></input>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='summary'>グループ概略</label>
-                  <textarea
-                    id='summary'
-                    value={EditGroupPostData.summary}
-                    rows='5'
-                    onChange={(e) => setEditGroupPostData({...EditGroupPostData, summary: e.target.value})}
-                  ></textarea>
-                </InputUnit>
+                <InputBox
+                  type='text'
+                  label='グループ名'
+                  id='groupname'
+                  value={EditGroupPostData.name}
+                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, name: e.target.value})}
+                />
+
+                <SelectBox
+                  id='username'
+                  value={EditGroupPostData.user_id}
+                  label='作成者'
+                  options={Users}
+                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, user_id: e.target.value})}
+                />
+
+                <InputBox
+                  type='text'
+                  label='アクセスキー'
+                  id='accesskey'
+                  value={EditGroupPostData.access_key}
+                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, access_key: e.target.value})}
+                />
+
+                <TextArea
+                  id='summary'
+                  value={EditGroupPostData.summary}
+                  label='グループ概略'
+                  rows='5'
+                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, summary: e.target.value})}
+                />
+
                 <EditGroupButton variant='contained' color='primary' onClick={() => EditGroupCheck()}>
                   保存
                 </EditGroupButton>
