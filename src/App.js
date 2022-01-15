@@ -10,7 +10,7 @@ import Header from './components/Header';
 import GroupList from './pages/Group/GroupList';
 import UsersBody from './components/Users/Body';
 import QuestionsBody from './components/Questions/Questions';
-import TeachingMaterialsBody from './components/TeachingMaterials/TeachingMaterials';
+import BookList from './pages/Book/BookList';
 
 //詳細ページ
 import GroupDetail from './components/GroupDetail/GroupDetail';
@@ -27,7 +27,7 @@ const App = () => {
           <Switch>
             {/* 一覧ページのルーティング */}
             <Route exact path='/group'>
-              <GroupList></GroupList>
+              <GroupList />
             </Route>
             <Route exact path='/users'>
               <Users />
@@ -36,7 +36,7 @@ const App = () => {
               <Questions />
             </Route>
             <Route exact path='/teachingMaterials'>
-              <TeachingMaterials />
+              <BookList />
             </Route>
             <Route exact path='/'>
               <Home />
@@ -60,9 +60,6 @@ function Users() {
 
 function Questions() {
   return <QuestionsBody></QuestionsBody>;
-}
-function TeachingMaterials() {
-  return <TeachingMaterialsBody></TeachingMaterialsBody>;
 }
 
 export default App;

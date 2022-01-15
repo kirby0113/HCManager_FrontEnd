@@ -1,19 +1,19 @@
 import {useState, useEffect} from 'react';
 import {BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from './TeachingMaterialInfo';
-import Pagination from '../Pagination';
-import {CreateTeachingMaterialModal} from './CreateTeachingMaterialModal';
-import {SelectPerPage} from '../SelectPerPage';
-import {PageTitle} from '../Utilities/Title';
-import {InfoCardList} from '../Cards/Lists/InfoCardList';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {AddButtonList} from '../Buttons/Lists/AddButtonList';
+import TeachingMaterialInfo from '../../components/TeachingMaterials/TeachingMaterialInfo';
+import Pagination from '../../components/Pagination';
+import {CreateTeachingMaterialModal} from '../../components/TeachingMaterials/CreateTeachingMaterialModal';
+import {SelectPerPage} from '../../components/SelectPerPage';
+import {PageTitle} from '../../components/Utilities/Title';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
+import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
+import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
-import {GetUsers} from '../API/UserAPIs';
-import {CreateBook} from '../API/BookAPIs';
+import {GetUsers} from '../../components/API/UserAPIs';
+import {CreateBook} from '../../components/API/BookAPIs';
 
-const Questions = () => {
+const BookList = () => {
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
@@ -84,4 +84,4 @@ const Questions = () => {
   );
 };
 
-export default Questions;
+export default BookList;
