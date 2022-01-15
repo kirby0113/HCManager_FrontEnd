@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Home from './components/Home/Home';
 import Header from './components/Header';
 import GroupList from './pages/Group/GroupList';
-import UsersBody from './components/Users/Body';
+import UserList from './pages/User/UserList';
 import QuestionList from './pages/Question/QuestionList';
 import BookList from './pages/Book/BookList';
 
@@ -30,7 +30,7 @@ const App = () => {
               <GroupList />
             </Route>
             <Route exact path='/users'>
-              <Users />
+              <UserList />
             </Route>
             <Route exact path='/questions'>
               <QuestionList />
@@ -53,9 +53,5 @@ const App = () => {
     </Router>
   );
 };
-
-function Users() {
-  return <UsersBody></UsersBody>;
-}
 
 export default App;
