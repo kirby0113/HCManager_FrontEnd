@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react';
-import {UsersAPI, BooksAPI} from '../../APILink';
+import {UsersAPI, BooksAPI} from '../../../APILink';
 
 import styled from 'styled-components';
 
 import {Link} from 'react-router-dom';
 
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {Label} from '../Utilities/Card/Label';
-import {InfoCard, InfoCardDetail, InfoCardButtons} from '../Cards/InfoCard';
+import {PrimaryButton} from '../../Buttons/PrimaryButton';
+import {Label} from '../../Utilities/Card/Label';
+import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
 
 const StyledLink = styled(Link)`
   text-decoration: none;

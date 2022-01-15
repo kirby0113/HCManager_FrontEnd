@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
 import {BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from '../../components/TeachingMaterials/TeachingMaterialInfo';
+import TeachingMaterialInfo from '../../components/pages/Book/BookInfo';
 import Pagination from '../../components/Pagination';
-import {CreateTeachingMaterialModal} from '../../components/TeachingMaterials/CreateTeachingMaterialModal';
+import {CreateTeachingMaterialModal} from '../../components/pages/Book/CreateBookModal';
 import {SelectPerPage} from '../../components/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';

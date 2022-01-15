@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from '../TeachingMaterials/TeachingMaterialInfo';
+import TeachingMaterialInfo from '../pages/Book/BookInfo';
 
 import Button from '@material-ui/core/Button';
 
