@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react';
 
-import GroupInfo from '../../components/Group/GroupInfo';
+import GroupInfo from '../../components/pages/Group/GroupInfo';
 import Pagination from '../../components/Pagination';
 
 import {GroupsAPI} from '../../APILink';
 
-import {CreateGroupModal} from '../../components/Group/CreateGroupModal';
+import {CreateGroupModal} from '../../components/pages/Group/CreateGroupModal';
 
 import {SelectPerPage} from '../../components/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';

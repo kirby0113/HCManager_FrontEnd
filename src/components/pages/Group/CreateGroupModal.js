@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
-import {UsersAPI} from '../../APILink';
+import {UsersAPI} from '../../../APILink';
 
-import {Modal} from '../Modal';
-import {Overray} from '../Overray';
+import {Modal} from '../../Modal';
+import {Overray} from '../../Overray';
 
 const InputUnit = styled.div`
   display: grid;

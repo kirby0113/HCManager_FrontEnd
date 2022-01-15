@@ -2,10 +2,10 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import {Link} from 'react-router-dom';
-import {InfoCard, InfoCardDetail, InfoCardButtons} from '../Cards/InfoCard';
-import {Label} from '../Utilities/Card/Label';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {UsersAPI, GroupsAPI} from '../../APILink';
+import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
+import {Label} from '../../Utilities/Card/Label';
+import {PrimaryButton} from '../../Buttons/PrimaryButton';
+import {UsersAPI, GroupsAPI} from '../../../APILink';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
