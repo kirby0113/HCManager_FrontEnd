@@ -56,8 +56,6 @@ const Body = () => {
       {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
       <AddButtonList>
         <PrimaryButton
-          variant='contained'
-          className='addGroupButton'
           sizeX='large'
           sizeY='small'
           onClick={() => {

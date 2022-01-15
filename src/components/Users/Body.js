@@ -2,8 +2,6 @@ import {useState, useEffect} from 'react';
 
 import {GetUsers, EditUser, CreateUser} from '../API/UserAPIs';
 
-import Button from '@material-ui/core/Button';
-
 import {EditUserModal} from './EditUserModal';
 import {CreateUserModal} from './CreateUserModal';
 
@@ -17,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 
 import UserPagination from '../Pagination';
 import UserInfo from './UserInfo';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {AddButtonList} from '../Buttons/Lists/AddButtonList';
 
 import {SelectPerPage} from '../SelectPerPage';
 import {PageTitle} from '../Title';
@@ -78,17 +78,18 @@ const Body = () => {
 
       <PageTitle color='lightGreen'>ユーザ一覧</PageTitle>
 
-      <div className='UserCreateButtons'>
-        <Button variant='contained' color='primary' className='CreateUserButton' onClick={() => OpenCreateModal()}>
-          ユーザ作成
-        </Button>
-        {/* <Button variant='contained' color='primary' className='CreateUsersButton'>
-          複数
-        </Button> */}
-      </div>
-      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
-
       <UserPagination setOffset={setOffset} dataleng={Users ? Users.length : 0} perPage={perPage}></UserPagination>
+
+      <AddButtonList>
+        <PrimaryButton onClick={() => OpenCreateModal()} sizeX='large' sizeY='small'>
+          ユーザ作成
+        </PrimaryButton>
+        <PrimaryButton sizeX='large' sizeY='small'>
+          複数
+        </PrimaryButton>
+      </AddButtonList>
+
+      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
       <TableContainer className='UserTable' component={Paper}>
         <Table aria-label='simple table'>
