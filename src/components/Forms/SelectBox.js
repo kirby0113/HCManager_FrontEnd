@@ -11,7 +11,7 @@ const Label = styled.label``;
 
 const Select = styled.select``;
 
-export const SelectBox = (props) => {
+export const UserSelectBox = (props) => {
   return (
     <StyledSelectBox>
       <Label htmlFor={props.id}>{props.label}</Label>
