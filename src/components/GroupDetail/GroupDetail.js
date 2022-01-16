@@ -18,6 +18,8 @@ import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InputBox} from '../Forms/InputBox';
 import {SelectBox} from '../Forms/SelectBox';
 import {TextArea} from '../Forms/TextArea';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../Cards/DetailCard';
 
 const EditGroupButton = styled(Button)`
   margin-right: 20px !important;
@@ -41,6 +43,10 @@ const ModalTitle = styled.div`
   background: #f4f4f4; /*背景色*/
   border-left: solid 8px #ff47ac; /*左線*/
   border-bottom: solid 3px #d7d7d7; /*下線*/
+`;
+
+const GroupDetailCard = styled(DetailCard)`
+  padding-top: 30px;
 `;
 
 const GroupDetail = () => {
@@ -204,20 +210,9 @@ const GroupDetail = () => {
   return (
     <div>
       <PageTitle color='blue'>グループ詳細</PageTitle>
-
-      <div className='editGroupDetailButtonFrame'>
-        <Button
-          variant='contained'
-          color='secondary'
-          className='editGroupDetailButton'
-          onClick={() => setIsOpenModal(true)}
-        >
-          編集
-        </Button>
-      </div>
-      <div class='GroupDetailFrame'>
+      <GroupDetailCard>
         {GroupData ? (
-          <div className='GroupDetailTopGrid'>
+          <DetailCardContent>
             <div>
               <span className='elementName'>グループ名</span>
               {GroupData.name}
@@ -234,25 +229,17 @@ const GroupDetail = () => {
               <span className='elementName'>作成日</span>
               {GroupData.created_at}
             </div>
-          </div>
+          </DetailCardContent>
         ) : (
           ''
         )}
-        <div className='GroupDetailBottom'>
-          <div>
-            <span className='elementName'>グループ概略</span>
-          </div>
-          {GroupData ? (
-            <div class='GroupDetailTextRange'>
-              {GroupData.summary.split(/(\n)/).map((item) => {
-                return item.match(/\n/) ? <br /> : item;
-              })}
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
+        <DetailCardSummary title='グループ概略' text={GroupData ? GroupData.summary : ''} />
+        <DetailCardButtons>
+          <PrimaryButton color='secondary' sizeX='large' sizeY='small' onClick={() => setIsOpenModal(true)}>
+            編集
+          </PrimaryButton>
+        </DetailCardButtons>
+      </GroupDetailCard>
 
       <PageSubTitle>グループ内教材一覧</PageSubTitle>
 
