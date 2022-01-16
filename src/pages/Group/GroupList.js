@@ -5,7 +5,7 @@ import Pagination from '../../components/Pagination';
 
 import {GroupsAPI} from '../../APILink';
 
-import {CreateGroupModal} from '../../components/pages/Group/CreateGroupModal';
+import {CreateGroupModal} from '../../components/Modals/Create/CreateGroupModal';
 
 import {SelectPerPage} from '../../components/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';

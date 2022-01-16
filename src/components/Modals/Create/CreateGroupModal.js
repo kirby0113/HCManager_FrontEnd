@@ -5,8 +5,8 @@ import Button from '@material-ui/core/Button';
 
 import {UsersAPI} from '../../../APILink';
 
-import {Modal} from '../../Modals/Modal';
-import {Overray} from '../../Modals/Overray';
+import {Modal} from '../Modal';
+import {Overray} from '../Overray';
 
 const InputUnit = styled.div`
   display: grid;
