@@ -1,13 +1,13 @@
 import {useState, useEffect} from 'react';
 
 import GroupInfo from '../../components/pages/Group/GroupInfo';
-import Pagination from '../../components/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 
 import {GroupsAPI} from '../../APILink';
 
 import {CreateGroupModal} from '../../components/Modals/Create/CreateGroupModal';
 
-import {SelectPerPage} from '../../components/SelectPerPage';
+import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';

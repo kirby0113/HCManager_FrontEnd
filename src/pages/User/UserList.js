@@ -14,12 +14,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import UserPagination from '../../components/Pagination';
+import UserPagination from '../../components/Pagination/Pagination';
 import UserInfo from '../../components/pages/Users/UserInfo';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
-import {SelectPerPage} from '../../components/SelectPerPage';
+import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 
 const UserList = () => {

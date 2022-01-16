@@ -3,10 +3,10 @@ import {useState, useEffect} from 'react';
 import {QuestionsAPI} from '../../APILink';
 
 import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
-import Pagination from '../../components/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 //import CreateGroupModal from "./CreateGroupModal";
 
-import {SelectPerPage} from '../../components/SelectPerPage';
+import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
