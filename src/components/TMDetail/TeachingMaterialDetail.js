@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 import {Modal} from '../Modal';
 import {Overray} from '../Overray';
-import {PageTitle, PageSubTitle} from '../Utilities/Title';
+import {PageTitle, PageSubTitle, ModalTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
 import {Label} from '../Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../Cards/DetailCard';
@@ -18,6 +18,7 @@ import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 import {InputBox} from '../Forms/InputBox';
 import {UserSelectBox} from '../Forms/SelectBox';
 import {TextArea} from '../Forms/TextArea';
+import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
 
 import './TeachingMaterialDetail.css';
 
@@ -32,17 +33,6 @@ const EditGroupButton = styled(Button)`
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-`;
-
-const ModalTitle = styled.div`
-  text-align: left;
-  font-size: 20px;
-  padding: 7px 20px;
-  padding-left: 15px;
-  margin-bottom: 40px;
-  background: #f4f4f4; /*背景色*/
-  border-left: solid 8px #ff47ac; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
 `;
 
 const TeachingMaterialDetail = () => {
@@ -232,27 +222,22 @@ const TeachingMaterialDetail = () => {
         ''
       )}
       <PageSubTitle color='orange'>教材内問題一覧</PageSubTitle>
-      <div className='QuestionButtonsFrame'>
-        <select
-          onChange={(e) => {
-            QuestionPostChange(e.target.value);
-          }}
-        >
-          {Questions
-            ? Questions.map((data) => (
-                <option value={data.question_id} key={data.question_id}>
-                  {data.name}
-                </option>
-              ))
-            : ''}
-        </select>
-        <Button variant='contained' color='primary' className='addTMButton' onClick={() => registerQuestion()}>
-          追加
-        </Button>
-        <Button variant='contained' color='secondary' className='addTMsButton' onClick={() => removeQuestion()}>
-          削除
-        </Button>
-      </div>
+      <EditRelationButtonList
+        onAdd={() => registerQuestion()}
+        onDelete={() => removeQuestion()}
+        onChange={(e) => {
+          QuestionPostChange(e.target.value);
+        }}
+        label='教材名'
+      >
+        {Questions
+          ? Questions.map((data) => (
+              <option value={data.question_id} key={data.question_id}>
+                {data.name}
+              </option>
+            ))
+          : ''}
+      </EditRelationButtonList>
 
       {questionInBook ? (
         <InfoCardList>
@@ -271,7 +256,7 @@ const TeachingMaterialDetail = () => {
           <Modal>
             {Users ? (
               <div>
-                <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
+                <ModalTitle color='red'>編集画面</ModalTitle>
 
                 <InputBox
                   type='text'
