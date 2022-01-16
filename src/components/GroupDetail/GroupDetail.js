@@ -16,10 +16,11 @@ import {Overray} from '../Overray';
 import {Modal} from '../Modal';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InputBox} from '../Forms/InputBox';
-import {SelectBox} from '../Forms/SelectBox';
+import {UserSelectBox} from '../Forms/SelectBox';
 import {TextArea} from '../Forms/TextArea';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../Cards/DetailCard';
+import {Label} from '../Utilities/Card/Label';
 
 const EditGroupButton = styled(Button)`
   margin-right: 20px !important;
@@ -214,19 +215,19 @@ const GroupDetail = () => {
         {GroupData ? (
           <DetailCardContent>
             <div>
-              <span className='elementName'>グループ名</span>
+              <Label>グループ名</Label>
               {GroupData.name}
             </div>
             <div>
-              <span className='elementName'>作成者</span>
+              <Label>作成者</Label>
               {CreatedBy ? CreatedBy : ''}
             </div>
             <div>
-              <span className='elementName'>アクセスキー</span>
+              <Label>アクセスキー</Label>
               {GroupData.access_key}
             </div>
             <div>
-              <span className='elementName'>作成日</span>
+              <Label>作成日</Label>
               {GroupData.created_at}
             </div>
           </DetailCardContent>
@@ -289,7 +290,7 @@ const GroupDetail = () => {
                   onChange={(e) => setEditGroupPostData({...EditGroupPostData, name: e.target.value})}
                 />
 
-                <SelectBox
+                <UserSelectBox
                   id='username'
                   value={EditGroupPostData.user_id}
                   label='作成者'

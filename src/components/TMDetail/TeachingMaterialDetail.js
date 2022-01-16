@@ -11,17 +11,15 @@ import {Modal} from '../Modal';
 import {Overray} from '../Overray';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
-
+import {Label} from '../Utilities/Card/Label';
+import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../Cards/DetailCard';
+import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
+import {InputBox} from '../Forms/InputBox';
+import {UserSelectBox} from '../Forms/SelectBox';
+import {TextArea} from '../Forms/TextArea';
 
 import './TeachingMaterialDetail.css';
-
-const InputUnit = styled.div`
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  grid-column-gap: 30px;
-  padding-bottom: 30px;
-`;
 
 const EditGroupButton = styled(Button)`
   margin-right: 20px !important;
@@ -202,48 +200,34 @@ const TeachingMaterialDetail = () => {
   return (
     <div>
       <PageTitle color='red'>教材詳細</PageTitle>
-      <div className='editTMDetailButtonFrame'>
-        <Button
-          variant='contained'
-          color='secondary'
-          className='editTMDetailButton'
-          onClick={() => setIsOpenModal(true)}
-        >
-          編集
-        </Button>
-      </div>
 
       {Book ? (
-        <div class='TMDetailFrame'>
-          <div className='TMDetailTopGrid'>
+        <DetailCard>
+          <DetailCardContent>
             <div>
-              <span className='elementName'>教材名</span>
+              <Label>教材名</Label>
               {Book.name}
             </div>
             <div>
-              <span className='elementName'>作成者</span>
+              <Label>作成者</Label>
               {createdBy}
             </div>
             <div>
-              <span className='elementName'>アクセスキー</span>
+              <Label>アクセスキー</Label>
               {Book.access_key}
             </div>
             <div>
-              <span className='elementName'>作成日</span>
+              <Label>作成日</Label>
               {Book.created_at}
             </div>
-          </div>
-          <div className='TMDetailBottom'>
-            <div>
-              <span className='elementName'>教材詳細情報</span>
-            </div>
-            <div class='TMDetailTextRange'>
-              {Book.summary.split(/(\n)/).map((item) => {
-                return item.match(/\n/) ? <br /> : item;
-              })}
-            </div>
-          </div>
-        </div>
+          </DetailCardContent>
+          <DetailCardSummary title='教材詳細情報' text={Book ? Book.summary : ''} />
+          <DetailCardButtons>
+            <PrimaryButton color='secondary' sizeX='large' sizeY='small' onClick={() => setIsOpenModal(true)}>
+              編集
+            </PrimaryButton>
+          </DetailCardButtons>
+        </DetailCard>
       ) : (
         ''
       )}
@@ -289,47 +273,37 @@ const TeachingMaterialDetail = () => {
               <div>
                 <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
 
-                <InputUnit>
-                  <label htmlFor='groupname'>教材名</label>
-                  <input
-                    type='text'
-                    id='groupname'
-                    value={EditBookPostData.name}
-                    onChange={(e) => setEditBookPostData({...EditBookPostData, name: e.target.value})}
-                  ></input>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='username'>作成者</label>
-                  <select
-                    id='username'
-                    value={EditBookPostData.user_id}
-                    onChange={(e) => setEditBookPostData({...EditBookPostData, user_id: e.target.value})}
-                  >
-                    {Users.map((data) => (
-                      <option value={data.user_id} key={data.user_id}>
-                        {data.name}
-                      </option>
-                    ))}
-                  </select>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='accesskey'>アクセスキー</label>
-                  <input
-                    type='text'
-                    id='accesskey'
-                    value={EditBookPostData.access_key}
-                    onChange={(e) => setEditBookPostData({...EditBookPostData, access_key: e.target.value})}
-                  ></input>
-                </InputUnit>
-                <InputUnit>
-                  <label htmlFor='summary'>教材詳細情報</label>
-                  <textarea
-                    id='summary'
-                    value={EditBookPostData.summary}
-                    rows='5'
-                    onChange={(e) => setEditBookPostData({...EditBookPostData, summary: e.target.value})}
-                  ></textarea>
-                </InputUnit>
+                <InputBox
+                  type='text'
+                  label='教材名'
+                  id='groupname'
+                  value={EditBookPostData.name}
+                  onChange={(e) => setEditBookPostData({...EditBookPostData, name: e.target.value})}
+                />
+
+                <UserSelectBox
+                  id='username'
+                  label='作成者'
+                  value={EditBookPostData.user_id}
+                  onChange={(e) => setEditBookPostData({...EditBookPostData, user_id: e.target.value})}
+                  options={Users}
+                />
+
+                <InputBox
+                  type='text'
+                  label='アクセスキー'
+                  id='accesskey'
+                  value={EditBookPostData.access_key}
+                  onChange={(e) => setEditBookPostData({...EditBookPostData, access_key: e.target.value})}
+                />
+
+                <TextArea
+                  id='summary'
+                  value={EditBookPostData.summary}
+                  rows='5'
+                  label='教材詳細情報'
+                  onChange={(e) => setEditBookPostData({...EditBookPostData, summary: e.target.value})}
+                />
                 <EditGroupButton
                   variant='contained'
                   color='primary'
