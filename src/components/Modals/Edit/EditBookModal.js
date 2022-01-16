@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import {Modal} from './Modal';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {InputBox} from '../Forms/InputBox';
-import {UserSelectBox} from '../Forms/SelectBox';
-import {TextArea} from '../Forms/TextArea';
-import {ModalTitle} from '../Utilities/Title';
-import {Overray} from '../Overray';
+import {Modal} from '../Modal';
+import {PrimaryButton} from '../../Buttons/PrimaryButton';
+import {InputBox} from '../../Forms/InputBox';
+import {UserSelectBox} from '../../Forms/SelectBox';
+import {TextArea} from '../../Forms/TextArea';
+import {ModalTitle} from '../../Utilities/Title';
+import {Overray} from '../../Overray';
 
 const EditButton = styled(PrimaryButton)`
   margin-right: 20px !important;

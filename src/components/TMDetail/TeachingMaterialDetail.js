@@ -11,7 +11,7 @@ import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} fro
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
-import {EditBookModal} from '../Modals/EditModal';
+import {EditBookModal} from '../Modals/Edit/EditBookModal';
 
 import './TeachingMaterialDetail.css';
 

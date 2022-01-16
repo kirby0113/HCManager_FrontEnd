@@ -3,7 +3,7 @@ import {BooksAPI} from '../../APILink';
 
 import TeachingMaterialInfo from '../../components/pages/Book/BookInfo';
 import Pagination from '../../components/Pagination';
-import {CreateTeachingMaterialModal} from '../../components/pages/Book/CreateBookModal';
+import {CreateTeachingMaterialModal} from '../../components/Modals/Create/CreateBookModal';
 import {SelectPerPage} from '../../components/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
