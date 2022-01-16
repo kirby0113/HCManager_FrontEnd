@@ -30,9 +30,20 @@ const StyledSubTitle = styled.span`
   font-size: 20px;
   padding: 7px 20px;
   padding-left: 15px;
-  background: #f4f4f4; /*背景色*/
+  background: ${Color['lightGrey']}; /*背景色*/
   border-left: solid 8px ${(props) => Color[props.color]}; /*左線*/
   border-bottom: solid 3px #d7d7d7; /*下線*/
+`;
+
+const StyledModalTitle = styled.div`
+  text-align: left;
+  font-size: 20px;
+  padding: 7px 20px;
+  padding-left: 15px;
+  margin-bottom: 40px;
+  background: ${Color['lightGrey']}; /*背景色*/
+  border-left: solid 8px ${(props) => Color[props.color]}; /*左線*/
+  border-bottom: solid 3px ${Color['grey']}; /*下線*/
 `;
 
 export const Title = (props) => {
@@ -53,4 +64,8 @@ export const PageSubTitle = (props) => {
       <StyledSubTitle color={props.color}>{props.children}</StyledSubTitle>
     </PageSubTitleWrapper>
   );
+};
+
+export const ModalTitle = (props) => {
+  return <StyledModalTitle color={props.color}>{props.children}</StyledModalTitle>;
 };
