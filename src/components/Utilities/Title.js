@@ -13,6 +13,7 @@ const StyledTitle = styled.span`
 
 const PageTitleWrapper = styled.div`
   margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const PageSubTitleWrapper = styled.div`
