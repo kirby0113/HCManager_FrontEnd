@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import './GroupDetail.css';
 
 import {Overray} from '../Overray';
-import {Modal} from '../Modal';
+import {Modal} from '../Modals/Modal';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InputBox} from '../Forms/InputBox';
 import {UserSelectBox} from '../Forms/SelectBox';

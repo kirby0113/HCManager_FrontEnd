@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
-import {Modal} from '../../Modal';
+import {Modal} from '../../Modals/Modal';
 import {Overray} from '../../Overray';
 
 const InputUnit = styled.div`

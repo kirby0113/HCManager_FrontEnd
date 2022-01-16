@@ -7,7 +7,7 @@ import QuestionInfo from '../pages/Questions/QuestionInfo';
 
 import Button from '@material-ui/core/Button';
 
-import {Modal} from '../Modal';
+import {Modal} from '../Modals/Modal';
 import {Overray} from '../Overray';
 import {PageTitle, PageSubTitle, ModalTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
@@ -222,6 +222,7 @@ const TeachingMaterialDetail = () => {
         ''
       )}
       <PageSubTitle color='orange'>教材内問題一覧</PageSubTitle>
+
       <EditRelationButtonList
         onAdd={() => registerQuestion()}
         onDelete={() => removeQuestion()}
@@ -242,7 +243,6 @@ const TeachingMaterialDetail = () => {
       {questionInBook ? (
         <InfoCardList>
           {questionInBook.map((data) => {
-            console.log(data);
             return <QuestionInfo data={data.question} key={data.question_id}></QuestionInfo>;
           })}
         </InfoCardList>
