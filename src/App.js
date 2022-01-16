@@ -5,16 +5,16 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 //一覧ページ等
-import Home from './components/Home/Home';
+import Home from './pages/Home/Home';
 import Header from './components/Header';
-import GroupBody from './components/Group/Body';
-import UsersBody from './components/Users/Body';
-import QuestionsBody from './components/Questions/Questions';
-import TeachingMaterialsBody from './components/TeachingMaterials/TeachingMaterials';
+import GroupList from './pages/Group/GroupList';
+import UserList from './pages/User/UserList';
+import QuestionList from './pages/Question/QuestionList';
+import BookList from './pages/Book/BookList';
 
 //詳細ページ
-import GroupDetail from './components/GroupDetail/GroupDetail';
-import TeachingMaterialDetail from './components/TMDetail/TeachingMaterialDetail';
+import GroupDetail from './pages/Group/GroupDetail';
+import BookDetail from './pages/Book/BookDetail';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,16 +27,16 @@ const App = () => {
           <Switch>
             {/* 一覧ページのルーティング */}
             <Route exact path='/group'>
-              <Group></Group>
+              <GroupList />
             </Route>
             <Route exact path='/users'>
-              <Users />
+              <UserList />
             </Route>
             <Route exact path='/questions'>
-              <Questions />
+              <QuestionList />
             </Route>
             <Route exact path='/teachingMaterials'>
-              <TeachingMaterials />
+              <BookList />
             </Route>
             <Route exact path='/'>
               <Home />
@@ -46,31 +46,12 @@ const App = () => {
 
             <Route render={() => <GroupDetail />} path='/group/detail/:id(\d+)' />
 
-            <Route render={() => <TeachingMaterialDetail />} path='/TeachingMaterial/detail/:id(\d+)' />
+            <Route render={() => <BookDetail />} path='/book/detail/:id(\d+)' />
           </Switch>
         </div>
       </MuiThemeProvider>
     </Router>
   );
 };
-
-function Group() {
-  return (
-    <div>
-      <GroupBody></GroupBody>
-    </div>
-  );
-}
-
-function Users() {
-  return <UsersBody></UsersBody>;
-}
-
-function Questions() {
-  return <QuestionsBody></QuestionsBody>;
-}
-function TeachingMaterials() {
-  return <TeachingMaterialsBody></TeachingMaterialsBody>;
-}
 
 export default App;

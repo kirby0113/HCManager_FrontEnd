@@ -9,15 +9,15 @@ export const GetBooks = async () => {
     });
 };
 
-export const CreateBook = (jsondata) => {
+export const CreateBook = (jsonData) => {
   return fetch(BooksAPI, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      name: jsondata.name,
-      summary: jsondata.summary,
-      access_key: jsondata.access_key,
-      user_id: jsondata.user_id,
+      name: jsonData.name,
+      summary: jsonData.summary,
+      access_key: jsonData.access_key,
+      user_id: jsonData.user_id,
     }),
   }).then(() => GetBooks());
 };
