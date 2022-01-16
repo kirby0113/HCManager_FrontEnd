@@ -8,15 +8,12 @@ import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
 
 import TeachingMaterialInfo from '../pages/Book/BookInfo';
 
-import Button from '@material-ui/core/Button';
-
-import './GroupDetail.css';
-
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../Cards/DetailCard';
 import {Label} from '../Utilities/Card/Label';
 import {EditGroupModal} from '../Modals/Edit/EditGroupModal';
+import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -216,25 +213,21 @@ const GroupDetail = () => {
 
       <PageSubTitle>グループ内教材一覧</PageSubTitle>
 
-      <div className='TMEditButtonFrameInGroup'>
-        <select
-          onChange={(e) => {
-            BookPostChange(e.target.value);
-          }}
-        >
-          {Books.map((data) => (
-            <option value={data.book_id} key={data.book_id}>
-              {data.name}
-            </option>
-          ))}
-        </select>
-        <Button variant='contained' color='primary' className='addTMButton' onClick={registerBook}>
-          追加
-        </Button>
-        <Button variant='contained' color='secondary' className='addTMsButton' onClick={removeBook}>
-          削除
-        </Button>
-      </div>
+      <EditRelationButtonList
+        onAdd={() => registerBook()}
+        onDelete={() => removeBook()}
+        onChange={(e) => {
+          BookPostChange(e.target.value);
+        }}
+        label='教材名'
+      >
+        {Books.map((data) => (
+          <option value={data.book_id} key={data.book_id}>
+            {data.name}
+          </option>
+        ))}
+      </EditRelationButtonList>
+
       {BooksInGroup ? (
         <div className='TMList'>
           {BooksInGroup.map((data) => {
