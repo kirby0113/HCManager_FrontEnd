@@ -1,39 +1,19 @@
 import {useEffect, useState} from 'react';
-import styled from 'styled-components';
 
 import {useParams} from 'react-router';
 
 import QuestionInfo from '../pages/Questions/QuestionInfo';
 
-import Button from '@material-ui/core/Button';
-
-import {Modal} from '../Modals/Modal';
-import {Overray} from '../Overray';
-import {PageTitle, PageSubTitle, ModalTitle} from '../Utilities/Title';
+import {PageTitle, PageSubTitle} from '../Utilities/Title';
 import {InfoCardList} from '../Cards/Lists/InfoCardList';
 import {Label} from '../Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../Cards/DetailCard';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
-import {InputBox} from '../Forms/InputBox';
-import {UserSelectBox} from '../Forms/SelectBox';
-import {TextArea} from '../Forms/TextArea';
 import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
+import {EditBookModal} from '../Modals/EditModal';
 
 import './TeachingMaterialDetail.css';
-
-const EditGroupButton = styled(Button)`
-  margin-right: 20px !important;
-  font-size: 18px !important;
-  border: solid 2px #777;
-  background-color: #ddd;
-  padding: 5px 20px !important;
-  box-shadow: 5px 5px 5px #00000040;
-  cursor: pointer;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-`;
 
 const TeachingMaterialDetail = () => {
   const param = useParams();
@@ -51,7 +31,7 @@ const TeachingMaterialDetail = () => {
     body: JSON.stringify({book_id: param['id'], question_id: 1}),
   });
 
-  const [EditBookPostData, setEditBookPostData] = useState({
+  const [editBookPostData, setEditBookPostData] = useState({
     name: '',
     summary: '',
     access_key: '',
@@ -167,10 +147,10 @@ const TeachingMaterialDetail = () => {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        name: EditBookPostData.name,
-        summary: EditBookPostData.summary,
-        access_key: EditBookPostData.access_key,
-        user_id: EditBookPostData.user_id,
+        name: editBookPostData.name,
+        summary: editBookPostData.summary,
+        access_key: editBookPostData.access_key,
+        user_id: editBookPostData.user_id,
       }),
     }) //api
       .then((res) => res)
@@ -252,59 +232,12 @@ const TeachingMaterialDetail = () => {
 
       {/* Modal*/}
       {isOpenModal ? (
-        <div>
-          <Modal>
-            {Users ? (
-              <div>
-                <ModalTitle color='red'>編集画面</ModalTitle>
-
-                <InputBox
-                  type='text'
-                  label='教材名'
-                  id='groupname'
-                  value={EditBookPostData.name}
-                  onChange={(e) => setEditBookPostData({...EditBookPostData, name: e.target.value})}
-                />
-
-                <UserSelectBox
-                  id='username'
-                  label='作成者'
-                  value={EditBookPostData.user_id}
-                  onChange={(e) => setEditBookPostData({...EditBookPostData, user_id: e.target.value})}
-                  options={Users}
-                />
-
-                <InputBox
-                  type='text'
-                  label='アクセスキー'
-                  id='accesskey'
-                  value={EditBookPostData.access_key}
-                  onChange={(e) => setEditBookPostData({...EditBookPostData, access_key: e.target.value})}
-                />
-
-                <TextArea
-                  id='summary'
-                  value={EditBookPostData.summary}
-                  rows='5'
-                  label='教材詳細情報'
-                  onChange={(e) => setEditBookPostData({...EditBookPostData, summary: e.target.value})}
-                />
-                <EditGroupButton
-                  variant='contained'
-                  color='primary'
-                  onClick={() => {
-                    EditBookCheck();
-                  }}
-                >
-                  保存
-                </EditGroupButton>
-              </div>
-            ) : (
-              ''
-            )}
-          </Modal>
-          <Overray onClick={() => setIsOpenModal(false)}></Overray>
-        </div>
+        <EditBookModal
+          onChange={setEditBookPostData}
+          onSave={EditBookCheck}
+          users={Users}
+          postData={editBookPostData}
+        />
       ) : (
         ''
       )}
