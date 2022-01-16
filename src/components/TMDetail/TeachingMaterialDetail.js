@@ -13,8 +13,6 @@ import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../Modals/Edit/EditBookModal';
 
-import './TeachingMaterialDetail.css';
-
 const TeachingMaterialDetail = () => {
   const param = useParams();
 
@@ -237,6 +235,7 @@ const TeachingMaterialDetail = () => {
           onSave={EditBookCheck}
           users={Users}
           postData={editBookPostData}
+          onClose={() => setIsOpenModal(false)}
         />
       ) : (
         ''
