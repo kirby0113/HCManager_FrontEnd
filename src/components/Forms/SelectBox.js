@@ -3,18 +3,20 @@ import styled from 'styled-components';
 const StyledSelectBox = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-column-gap: 30px;
+  grid-column-gap: 10px;
   padding-bottom: 30px;
 `;
 
-const Label = styled.label``;
+const SelectLabel = styled.label`
+  font-size: 20px;
+`;
 
 const Select = styled.select``;
 
 export const UserSelectBox = (props) => {
   return (
     <StyledSelectBox>
-      <Label htmlFor={props.id}>{props.label}</Label>
+      <SelectLabel htmlFor={props.id}>{props.label}</SelectLabel>
       <Select id={props.id} onChange={props.onChange}>
         <option value='' key=''>
           -
@@ -25,6 +27,15 @@ export const UserSelectBox = (props) => {
           </option>
         ))}
       </Select>
+    </StyledSelectBox>
+  );
+};
+
+export const RelationSelectBox = (props) => {
+  return (
+    <StyledSelectBox>
+      <SelectLabel htmlFor={props.id}>{props.label}:</SelectLabel>
+      <Select onChange={props.onChange}>{props.children}</Select>
     </StyledSelectBox>
   );
 };
