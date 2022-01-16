@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import {GetUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
 
-import {EditUserModal} from '../../components/pages/Users/EditUserModal';
-import {CreateUserModal} from '../../components/pages/Users/CreateUserModal';
+import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
+import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
