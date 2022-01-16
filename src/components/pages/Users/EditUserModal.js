@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 import {Modal} from '../../Modals/Modal';
-import {Overray} from '../../Overray';
+import {Overray} from '../../Modals/Overray';
 
 const InputUnit = styled.div`
   display: grid;
