@@ -12,39 +12,11 @@ import Button from '@material-ui/core/Button';
 
 import './GroupDetail.css';
 
-import {Overray} from '../Modals/Overray';
-import {Modal} from '../Modals/Modal';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
-import {InputBox} from '../Forms/InputBox';
-import {UserSelectBox} from '../Forms/SelectBox';
-import {TextArea} from '../Forms/TextArea';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../Cards/DetailCard';
 import {Label} from '../Utilities/Card/Label';
-
-const EditGroupButton = styled(Button)`
-  margin-right: 20px !important;
-  font-size: 18px !important;
-  border: solid 2px #777;
-  background-color: #ddd;
-  padding: 5px 20px !important;
-  box-shadow: 5px 5px 5px #00000040;
-  cursor: pointer;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const ModalTitle = styled.div`
-  text-align: left;
-  font-size: 20px;
-  padding: 7px 20px;
-  padding-left: 15px;
-  margin-bottom: 40px;
-  background: #f4f4f4; /*背景色*/
-  border-left: solid 8px #ff47ac; /*左線*/
-  border-bottom: solid 3px #d7d7d7; /*下線*/
-`;
+import {EditGroupModal} from '../Modals/Edit/EditGroupModal';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -67,7 +39,7 @@ const GroupDetail = () => {
     body: JSON.stringify({group_id: param['id'], book_id: '1'}),
   });
 
-  const [EditGroupPostData, setEditGroupPostData] = useState({
+  const [editGroupPostData, setEditGroupPostData] = useState({
     name: '',
     summary: '',
     access_key: '',
@@ -136,10 +108,10 @@ const GroupDetail = () => {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        name: EditGroupPostData.name,
-        summary: EditGroupPostData.summary,
-        access_key: EditGroupPostData.access_key,
-        user_id: EditGroupPostData.user_id,
+        name: editGroupPostData.name,
+        summary: editGroupPostData.summary,
+        access_key: editGroupPostData.access_key,
+        user_id: editGroupPostData.user_id,
       }),
     }) //api
       .then((res) => res.json())
@@ -276,54 +248,13 @@ const GroupDetail = () => {
 
       {/* Modal*/}
       {isOpenModal ? (
-        <div>
-          <Modal>
-            {Users ? (
-              <div>
-                <ModalTitle className='ModalTitle'>編集画面</ModalTitle>
-
-                <InputBox
-                  type='text'
-                  label='グループ名'
-                  id='groupname'
-                  value={EditGroupPostData.name}
-                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, name: e.target.value})}
-                />
-
-                <UserSelectBox
-                  id='username'
-                  value={EditGroupPostData.user_id}
-                  label='作成者'
-                  options={Users}
-                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, user_id: e.target.value})}
-                />
-
-                <InputBox
-                  type='text'
-                  label='アクセスキー'
-                  id='accesskey'
-                  value={EditGroupPostData.access_key}
-                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, access_key: e.target.value})}
-                />
-
-                <TextArea
-                  id='summary'
-                  value={EditGroupPostData.summary}
-                  label='グループ概略'
-                  rows='5'
-                  onChange={(e) => setEditGroupPostData({...EditGroupPostData, summary: e.target.value})}
-                />
-
-                <EditGroupButton variant='contained' color='primary' onClick={() => EditGroupCheck()}>
-                  保存
-                </EditGroupButton>
-              </div>
-            ) : (
-              ''
-            )}
-          </Modal>
-          <Overray onClick={() => setIsOpenModal(false)}></Overray>
-        </div>
+        <EditGroupModal
+          onChange={setEditGroupPostData}
+          onSave={() => EditGroupCheck()}
+          postData={editGroupPostData}
+          users={Users}
+          onClose={() => setIsOpenModal(false)}
+        />
       ) : (
         ''
       )}
