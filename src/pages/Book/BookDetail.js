@@ -2,18 +2,18 @@ import {useEffect, useState} from 'react';
 
 import {useParams} from 'react-router';
 
-import QuestionInfo from '../pages/Questions/QuestionInfo';
+import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
 
-import {PageTitle, PageSubTitle} from '../Utilities/Title';
-import {InfoCardList} from '../Cards/Lists/InfoCardList';
-import {Label} from '../Utilities/Card/Label';
-import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../Cards/DetailCard';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
+import {Label} from '../../components/Utilities/Card/Label';
+import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../../components/Cards/DetailCard';
+import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
-import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
-import {EditBookModal} from '../Modals/Edit/EditBookModal';
+import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
+import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
 
-const TeachingMaterialDetail = () => {
+const BookDetail = () => {
   const param = useParams();
 
   const [Book, setBook] = useState();
@@ -244,4 +244,4 @@ const TeachingMaterialDetail = () => {
   );
 };
 
-export default TeachingMaterialDetail;
+export default BookDetail;

@@ -25,7 +25,7 @@ const TeachingMaterialInfo = (props) => {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    fetch(UsersAPI + '/' + props.data.user_id) //api
+    fetch(UsersAPI + '/' + props.user_id) //api
       .then((res) => res.json())
       .then((json) => {
         setUser(json);
@@ -60,7 +60,7 @@ const TeachingMaterialInfo = (props) => {
       <InfoCardDetail>
         <div>
           <Label>教材名</Label>
-          {props.data.name}
+          {props.name}
         </div>
         <div>
           <Label>作成者</Label>
@@ -68,18 +68,18 @@ const TeachingMaterialInfo = (props) => {
         </div>
         <div>
           <Label>アクセスキー</Label>
-          {props.data.access_key}
+          {props.access_key}
         </div>
         <div>
           <Label>作成日</Label>
-          {props.data.created_at}
+          {props.created_at}
         </div>
       </InfoCardDetail>
       <InfoCardButtons>
-        <PrimaryButton color='secondary' onClick={() => Delete(props.data.book_id, props.data.name)}>
+        <PrimaryButton color='secondary' onClick={() => Delete(props.book_id, props.name)}>
           削除する
         </PrimaryButton>
-        <StyledLink to={'/TeachingMaterial/detail/'.concat(props.data.book_id)}>
+        <StyledLink to={'/TeachingMaterial/detail/'.concat(props.book_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </StyledLink>
       </InfoCardButtons>

@@ -6,14 +6,14 @@ import styled from 'styled-components';
 
 import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from '../pages/Book/BookInfo';
+import TeachingMaterialInfo from '../../components/pages/Book/BookInfo';
 
-import {PageTitle, PageSubTitle} from '../Utilities/Title';
-import {PrimaryButton} from '../Buttons/PrimaryButton';
-import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../Cards/DetailCard';
-import {Label} from '../Utilities/Card/Label';
-import {EditGroupModal} from '../Modals/Edit/EditGroupModal';
-import {EditRelationButtonList} from '../Buttons/Lists/EditRelationButtonList';
+import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
+import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
+import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} from '../../components/Cards/DetailCard';
+import {Label} from '../../components/Utilities/Card/Label';
+import {EditGroupModal} from '../../components/Modals/Edit/EditGroupModal';
+import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
