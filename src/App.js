@@ -15,6 +15,7 @@ import BookList from './pages/Book/BookList';
 //詳細ページ
 import GroupDetail from './pages/Group/GroupDetail';
 import BookDetail from './pages/Book/BookDetail';
+import QuestionDetail from './pages/Question/QuestionDetail';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -47,6 +48,8 @@ const App = () => {
             <Route render={() => <GroupDetail />} path='/group/detail/:id(\d+)' />
 
             <Route render={() => <BookDetail />} path='/book/detail/:id(\d+)' />
+
+            <Route render={() => <QuestionDetail />} path='/question/detail/:id(\d+)' />
           </Switch>
         </div>
       </MuiThemeProvider>
