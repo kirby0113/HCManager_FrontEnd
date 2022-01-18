@@ -9,6 +9,15 @@ export const GetBooks = async () => {
     });
 };
 
+export const getBook = async (id) => {
+  //id指定で1データ取る
+  return await fetch(BooksAPI + '/' + id) //api
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    });
+};
+
 export const CreateBook = (jsonData) => {
   return fetch(BooksAPI, {
     method: 'POST',
