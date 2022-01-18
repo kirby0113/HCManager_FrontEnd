@@ -7,11 +7,15 @@ const StyledLink = styled(Link)`
   color: #000;
   font-size: 16px;
   letter-spacing: 1.4px;
-  '&:hover': {
+  &:hover: {
     text-decoration: none;
   }
 `;
 
 export const Anchor = (props) => {
-  return <StyledLink to={props.to}>{props.children}</StyledLink>;
+  return (
+    <StyledLink style={{textDecoration: 'none'}} to={props.to} onClick={props.onClick}>
+      {props.children}
+    </StyledLink>
+  );
 };
