@@ -6,6 +6,7 @@ import {useParams} from 'react-router';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
 import {Label} from '../../components/Utilities/Card/Label';
+import {CodeBoard} from '../../components/Utilities/Card/CodeBoard';
 import {DetailCard, DetailCardContent, DetailCardQuestionView} from '../../components/Cards/DetailCard';
 
 const replace = (node) => {
@@ -39,26 +40,6 @@ const QuestionImage = styled.img`
   @media screen and (min-width: 1500px) {
     width: 70%;
   }
-`;
-
-const QuestionCodeBoard = styled.div`
-  padding: 15px;
-  color: white;
-  background-color: black;
-  border: 2px solid 
-  border-radius: 20px;
-  width: 80%;
-  height:300px;
-  overflow-y:scroll;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 20px 0;
-  letter-spacing: 1px;
-`;
-
-const QuestionCodeBlank = styled.span`
-  padding: 0 3px;
 `;
 
 const QuestionDetail = () => {
@@ -98,18 +79,7 @@ const QuestionDetail = () => {
               </div>
             </DetailCardContent>
             <PageSubTitle>問題内容</PageSubTitle>
-            <QuestionCodeBoard>
-              {questionData.card_question.base_code.split('\n').map((code) => (
-                <div>
-                  {code.split(' ').map((char) => (
-                    <span>
-                      {char}
-                      <QuestionCodeBlank></QuestionCodeBlank>{' '}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </QuestionCodeBoard>
+            <CodeBoard code={questionData.card_question.base_code} />
             <DetailCardQuestionView>{parse(questionData.card_question.explain, {replace})}</DetailCardQuestionView>
           </div>
         ) : (
