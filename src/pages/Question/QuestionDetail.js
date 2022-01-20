@@ -15,12 +15,14 @@ const replace = (node) => {
     if (node.name === 'p') {
       return domToReact(child);
     } else if (node.type === 'text') {
-      return domToReact(node.children);
+      return domToReact(<QuestionText>{}</QuestionText>);
     }
+  }
+  if (node.type === 'text') {
+    return <QuestionText>{node.data}</QuestionText>;
   }
 
   if (node.name === 'img') {
-    console.log(node);
     return <QuestionImage src={node.attribs.src} />;
   }
   return domToReact(node);
@@ -32,7 +34,7 @@ const QuestionImage = styled.img`
   transform: translateX(-50%);
   width: 85%;
   height: auto;
-
+  margin: 20px 0;
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -40,6 +42,11 @@ const QuestionImage = styled.img`
   @media screen and (min-width: 1500px) {
     width: 70%;
   }
+`;
+
+const QuestionText = styled.div`
+  font-size: 1.7rem;
+  line-height: 2;
 `;
 
 const QuestionDetail = () => {
@@ -58,7 +65,7 @@ const QuestionDetail = () => {
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>
       <DetailCard>
-        {questionData ? (
+        {questionData && (
           <div>
             <DetailCardContent>
               <div>
@@ -82,8 +89,6 @@ const QuestionDetail = () => {
             <CodeBoard code={questionData.card_question.base_code} />
             <DetailCardQuestionView>{parse(questionData.card_question.explain, {replace})}</DetailCardQuestionView>
           </div>
-        ) : (
-          ''
         )}
       </DetailCard>
     </div>

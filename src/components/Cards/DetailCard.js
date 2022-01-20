@@ -50,7 +50,7 @@ const StyledDetailCardButtons = styled.div`
 `;
 
 const StyledDetailCardQuestionView = styled.div`
-  padding: 0 10px;
+  padding: 0 30px;
 `;
 
 export const DetailCard = (props) => {
