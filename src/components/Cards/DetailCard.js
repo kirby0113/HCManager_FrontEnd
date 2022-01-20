@@ -49,12 +49,20 @@ const StyledDetailCardButtons = styled.div`
   }
 `;
 
+const StyledDetailCardQuestionView = styled.div`
+  padding: 0 10px;
+`;
+
 export const DetailCard = (props) => {
   return <StyledDetailCard>{props.children}</StyledDetailCard>;
 };
 
 export const DetailCardContent = (props) => {
   return <StyledDetailCardContent>{props.children}</StyledDetailCardContent>;
+};
+
+export const DetailCardQuestionView = (props) => {
+  return <StyledDetailCardQuestionView>{props.children}</StyledDetailCardQuestionView>;
 };
 
 export const DetailCardSummary = (props) => {
