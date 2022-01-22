@@ -8,7 +8,8 @@ import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
 import {Label} from '../../components/Utilities/Card/Label';
 import {CodeBoard} from '../../components/Utilities/Card/CodeBoard';
 import {QuestionBoard} from '../../components/Utilities/Card/QuestionBoard';
-import {DetailCard, DetailCardContent, DetailCardQuestionView} from '../../components/Cards/DetailCard';
+import {DetailCard, DetailCardContent} from '../../components/Cards/DetailCard';
+import {AnswerCard} from '../../components/Cards/AnswerCard';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -51,6 +52,25 @@ const QuestionText = styled.div`
   line-height: 2;
 `;
 
+const QuestionCardView = styled.div`
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  @media screen and (max-width: 800px) {
+    width: 95%;
+  }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+
+  @media screen and (min-width: 900px) {
+    grid-template-columns: repeat(2, max-content);
+    justify-content: space-evenly;
+  }
+`;
+
 const QuestionDetail = () => {
   const param = useParams();
   const [questionData, setQuestionData] = useState();
@@ -86,9 +106,18 @@ const QuestionDetail = () => {
                 {questionData.created_at}
               </div>
             </DetailCardContent>
-            <PageSubTitle>問題内容</PageSubTitle>
+
+            <PageSubTitle color='blue'>問題内容</PageSubTitle>
             <CodeBoard code={questionData.card_question.base_code} />
             <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
+
+            <PageSubTitle>選択肢</PageSubTitle>
+            <QuestionCardView>
+              {questionData &&
+                questionData.card_question.card.map((card) => {
+                  return <AnswerCard line={card.loc.line} options={card.option} />;
+                })}
+            </QuestionCardView>
           </div>
         )}
       </DetailCard>

@@ -16,7 +16,7 @@ const StyledAnswerCard = styled.div`
 `;
 
 const AnswerCardTop = styled.div`
-  padding: 5px;
+  padding: 10px 2.5%;
   position: relative;
   font-size: 20px;
   letter-spacing: 1.4px;
