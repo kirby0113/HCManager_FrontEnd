@@ -20,9 +20,6 @@ const PageSubTitleWrapper = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   width: 80%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 `;
 
 const StyledSubTitle = styled.span`
