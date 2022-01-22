@@ -14,7 +14,10 @@ const StyledCodeBoard = styled.div`
   transform: translateX(-50%);
   margin: 20px 0;
   letter-spacing: 1px;
-  font-size:18px;
+  font-size:16px;
+  @media screen and (max-width:800px){
+    width:95%;
+  }
 `;
 
 const CodeBlank = styled.span`

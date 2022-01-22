@@ -6,6 +6,7 @@ const StyledDetailCard = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
+  max-width: 1800px;
   margin-bottom: 50px;
   background-color: antiquewhite;
   border: solid 1px rgb(170, 169, 169);

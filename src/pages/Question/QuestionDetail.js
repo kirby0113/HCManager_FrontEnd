@@ -7,6 +7,7 @@ import {useParams} from 'react-router';
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
 import {Label} from '../../components/Utilities/Card/Label';
 import {CodeBoard} from '../../components/Utilities/Card/CodeBoard';
+import {QuestionBoard} from '../../components/Utilities/Card/QuestionBoard';
 import {DetailCard, DetailCardContent, DetailCardQuestionView} from '../../components/Cards/DetailCard';
 
 const replace = (node) => {
@@ -32,9 +33,10 @@ const QuestionImage = styled.img`
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  width: 85%;
+  width: 90%;
   height: auto;
   margin: 20px 0;
+  border: 1px solid #111111;
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -45,7 +47,7 @@ const QuestionImage = styled.img`
 `;
 
 const QuestionText = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   line-height: 2;
 `;
 
@@ -56,10 +58,9 @@ const QuestionDetail = () => {
     getQuestion(param['id'])
       .then((json) => {
         setQuestionData(json);
+        console.log(json);
       })
-      .then(() => {
-        console.log(questionData);
-      });
+      .then(() => {});
   }, []);
   return (
     <div>
@@ -87,7 +88,7 @@ const QuestionDetail = () => {
             </DetailCardContent>
             <PageSubTitle>問題内容</PageSubTitle>
             <CodeBoard code={questionData.card_question.base_code} />
-            <DetailCardQuestionView>{parse(questionData.card_question.explain, {replace})}</DetailCardQuestionView>
+            <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
           </div>
         )}
       </DetailCard>
