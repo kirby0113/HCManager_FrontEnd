@@ -1,27 +1,15 @@
 import {useEffect, useState} from 'react';
 import {UsersAPI, BooksAPI} from '../../../APILink';
 
-import styled from 'styled-components';
-
-import {Link} from 'react-router-dom';
+import {Anchor} from '../../Utilities/Anchor';
 
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {Label} from '../../Utilities/Card/Label';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #000;
-  font-size: 16px;
-  letter-spacing: 1.4px;
-  '&:hover': {
-    text-decoration: none;
-  }
-`;
-
 /* TM = TeachingMaterial */
 
-const TeachingMaterialInfo = (props) => {
+const BookInfo = (props) => {
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -79,12 +67,12 @@ const TeachingMaterialInfo = (props) => {
         <PrimaryButton color='secondary' onClick={() => Delete(props.book_id, props.name)}>
           削除する
         </PrimaryButton>
-        <StyledLink to={'/TeachingMaterial/detail/'.concat(props.book_id)}>
+        <Anchor to={'/TeachingMaterial/detail/'.concat(props.book_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
-        </StyledLink>
+        </Anchor>
       </InfoCardButtons>
     </InfoCard>
   );
 };
 
-export default TeachingMaterialInfo;
+export default BookInfo;

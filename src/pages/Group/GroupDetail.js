@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from '../../components/pages/Book/BookInfo';
+import BookInfo from '../../components/pages/Book/BookInfo';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
@@ -232,7 +232,7 @@ const GroupDetail = () => {
         <div className='TMList'>
           {BooksInGroup.map((data) => {
             console.log(data);
-            return <TeachingMaterialInfo data={data.book} key={data.book_id}></TeachingMaterialInfo>;
+            return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
           })}
         </div>
       ) : (

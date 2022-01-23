@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {BooksAPI} from '../../APILink';
 
-import TeachingMaterialInfo from '../../components/pages/Book/BookInfo';
+import BookInfo from '../../components/pages/Book/BookInfo';
 import Pagination from '../../components/Pagination/Pagination';
 import {CreateTeachingMaterialModal} from '../../components/Modals/Create/CreateBookModal';
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
@@ -62,7 +62,7 @@ const BookList = () => {
       {Books ? (
         <InfoCardList>
           {Books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-            <TeachingMaterialInfo data={data} key={data.books_id} getBook={getBookFetch}></TeachingMaterialInfo>
+            <BookInfo data={data} key={data.books_id} getBook={getBookFetch}></BookInfo>
           ))}
         </InfoCardList>
       ) : (

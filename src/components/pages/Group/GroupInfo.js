@@ -1,21 +1,10 @@
 import {useEffect, useState} from 'react';
-import styled from 'styled-components';
 
-import {Link} from 'react-router-dom';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
 import {Label} from '../../Utilities/Card/Label';
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {UsersAPI, GroupsAPI} from '../../../APILink';
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #000;
-  font-size: 16px;
-  letter-spacing: 1.4px;
-  '&:hover': {
-    text-decoration: none;
-  }
-`;
+import {Anchor} from '../../Utilities/Anchor';
 
 const GroupInfo = (props) => {
   const [User, setUser] = useState();
@@ -79,9 +68,9 @@ const GroupInfo = (props) => {
         <PrimaryButton color='secondary' onClick={() => Delete(props.data.group_id, props.data.name)}>
           削除する
         </PrimaryButton>
-        <StyledLink to={'/group/detail/'.concat(props.data.group_id)}>
+        <Anchor to={'/group/detail/'.concat(props.data.group_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
-        </StyledLink>
+        </Anchor>
       </InfoCardButtons>
     </InfoCard>
   );

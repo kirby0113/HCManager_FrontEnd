@@ -1,8 +1,8 @@
 import {GroupsAPI, UsersAPI} from '../../APILink';
 
-export const GetUser = (id) => {
+export const getUser = async (id) => {
   //id指定で1データ取る
-  fetch(GroupsAPI + '/' + id) //api
+  return await fetch(UsersAPI + '/' + id) //api
     .then((res) => res.json())
     .then((json) => {
       return json;

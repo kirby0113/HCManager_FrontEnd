@@ -4,6 +4,7 @@ import {UsersAPI} from '../../../APILink';
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {Label} from '../../Utilities/Card/Label';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
+import {Anchor} from '../../Utilities/Anchor';
 
 const QuestionInfo = (props) => {
   const [User, setUser] = useState();
@@ -38,7 +39,9 @@ const QuestionInfo = (props) => {
       </InfoCardDetail>
       <InfoCardButtons>
         <PrimaryButton color='secondary'>削除する</PrimaryButton>
-        <PrimaryButton>詳細を見る</PrimaryButton>
+        <Anchor to={'/question/detail/'.concat(props.data.question_id)}>
+          <PrimaryButton>詳細を見る</PrimaryButton>
+        </Anchor>
       </InfoCardButtons>
     </InfoCard>
   );
