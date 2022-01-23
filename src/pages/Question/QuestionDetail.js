@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import parse, {domToReact} from 'html-react-parser';
 import {getQuestion} from '../../components/API/QuestionAPIs';
+import {getUser} from '../../components/API/UserAPIs';
 import {useParams} from 'react-router';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
@@ -74,11 +75,15 @@ const QuestionCardView = styled.div`
 const QuestionDetail = () => {
   const param = useParams();
   const [questionData, setQuestionData] = useState();
+  const [createdBy, setCreatedBy] = useState();
   useEffect(() => {
     getQuestion(param['id'])
       .then((json) => {
         setQuestionData(json);
-        console.log(json);
+        return json;
+      })
+      .then((json) => {
+        getUser(json.user_id).then((json) => setCreatedBy(json.name));
       })
       .then(() => {});
   }, []);
@@ -95,7 +100,7 @@ const QuestionDetail = () => {
               </div>
               <div>
                 <Label>作成者</Label>
-                {/* {CreatedBy ? CreatedBy : ''} */}
+                {createdBy ? createdBy : ''}
               </div>
               <div>
                 <Label>問題形式</Label>
