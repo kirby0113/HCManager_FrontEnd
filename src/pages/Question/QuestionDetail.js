@@ -63,7 +63,7 @@ const QuestionCardView = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  grid-row-gap: 30px;
 
   @media screen and (min-width: 900px) {
     grid-template-columns: repeat(2, max-content);
@@ -105,18 +105,58 @@ const QuestionDetail = () => {
                 <Label>作成日</Label>
                 {questionData.created_at}
               </div>
+              <div>
+                <Label>学習言語</Label>
+                {questionData.card_question.language}
+              </div>
+              <div>
+                <Label>解答時間</Label>
+                <span>
+                  {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
+                </span>
+              </div>
+              <div>
+                <Label>実行時間制限</Label>
+                {questionData.card_question.max_exec_time} sec
+              </div>
+              <div>
+                <Label>行数制限</Label>
+                {questionData.number_limit}行
+              </div>
+              <div>
+                <Label>ヒント</Label>
+                {questionData.card_question.hint_type}
+              </div>
             </DetailCardContent>
 
             <PageSubTitle color='blue'>問題内容</PageSubTitle>
             <CodeBoard code={questionData.card_question.base_code} />
             <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
 
-            <PageSubTitle>選択肢</PageSubTitle>
+            <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
             <QuestionCardView>
               {questionData &&
-                questionData.card_question.card.map((card) => {
-                  return <AnswerCard line={card.loc.line} options={card.option} />;
-                })}
+                questionData.card_question.card
+                  .sort((a, b) => {
+                    if (a.loc.line >= b.loc.line) {
+                      return 1;
+                    } else {
+                      return -1;
+                    }
+                  })
+                  .map((card, index) => {
+                    return (
+                      <AnswerCard
+                        line={card.loc.line}
+                        options={card.option}
+                        answer={
+                          questionData.card_question.correct_blank[index]
+                            ? questionData.card_question.correct_blank[index]
+                            : -1
+                        }
+                      />
+                    );
+                  })}
             </QuestionCardView>
           </div>
         )}

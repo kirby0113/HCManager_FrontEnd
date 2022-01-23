@@ -16,7 +16,7 @@ const StyledAnswerCard = styled.div`
 `;
 
 const AnswerCardTop = styled.div`
-  padding: 10px 2.5%;
+  padding: 5px 2.5%;
   position: relative;
   font-size: 20px;
   letter-spacing: 1.4px;
@@ -24,7 +24,7 @@ const AnswerCardTop = styled.div`
     content: '';
     width: 95%;
     height: 3px;
-    background-color: ${Color['lightBlue']};
+    background-color: ${({color}) => (color ? Color[color] : Color['lightBlue'])};
     position: absolute;
     top: 100%;
     left: 50%;
@@ -42,10 +42,24 @@ const AnswerCardBottom = styled.div`
 const AnswerCardOption = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-column-gap: 5px;
+  grid-column-gap: 10px;
 `;
 
-const AnswerCardOptionIndex = styled.span``;
+const AnswerCardOptionIndex = styled.span`
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 40.1%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240%;
+    height: 100%;
+    border: 2px solid red;
+    border-radius: 50%;
+    opacity: ${({correct}) => (correct ? 1 : 0)};
+  }
+`;
 
 const AnswerCardOptionContent = styled.span``;
 
@@ -57,7 +71,9 @@ export const AnswerCard = (props) => {
         {props.options.map((option, index) => {
           return (
             <AnswerCardOption>
-              <AnswerCardOptionIndex>{index + 1}.</AnswerCardOptionIndex>
+              <AnswerCardOptionIndex color={props.color} correct={props.answer === option}>
+                {index + 1}
+              </AnswerCardOptionIndex>
               <AnswerCardOptionContent>{option}</AnswerCardOptionContent>
             </AnswerCardOption>
           );
