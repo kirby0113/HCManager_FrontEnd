@@ -43,11 +43,11 @@ const QuestionList = () => {
         <PrimaryButton color='primary' sizeX='large' sizeY='small'>
           記述問題作成
         </PrimaryButton>
-        <PrimaryButton color='primary' sizeX='large' sizeY='small'>
-          <Anchor to='/question/create/blank' color='white'>
+        <Anchor to='/question/create/blank' color='white'>
+          <PrimaryButton color='primary' sizeX='large' sizeY='small'>
             空欄問題作成
-          </Anchor>
-        </PrimaryButton>
+          </PrimaryButton>
+        </Anchor>
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
       {Questions ? (
