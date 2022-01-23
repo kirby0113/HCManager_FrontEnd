@@ -11,7 +11,7 @@ import {PageTitle} from '../../components/Utilities/Title';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
-
+import {Anchor} from '../../components/Utilities/Anchor';
 // const CreateGroup = (props) => {
 //     return ReactDOM.createPortal(
 //         <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
@@ -41,10 +41,12 @@ const QuestionList = () => {
       <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>
         <PrimaryButton color='primary' sizeX='large' sizeY='small'>
-          追加
+          記述問題作成
         </PrimaryButton>
         <PrimaryButton color='primary' sizeX='large' sizeY='small'>
-          複数追加
+          <Anchor to='/question/create/blank' color='white'>
+            空欄問題作成
+          </Anchor>
         </PrimaryButton>
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />

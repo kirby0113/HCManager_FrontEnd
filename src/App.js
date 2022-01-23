@@ -17,6 +17,9 @@ import GroupDetail from './pages/Group/GroupDetail';
 import BookDetail from './pages/Book/BookDetail';
 import QuestionDetail from './pages/Question/QuestionDetail';
 
+//問題作成・編集ページ
+import CreateBlankQuestion from './pages/Question/create/CreateBlankQuestion';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
@@ -50,6 +53,9 @@ const App = () => {
             <Route render={() => <BookDetail />} path='/book/detail/:id(\d+)' />
 
             <Route render={() => <QuestionDetail />} path='/question/detail/:id(\d+)' />
+
+            {/*  問題作成・編集ページのルーティング */}
+            <Route render={() => <CreateBlankQuestion />} path='/question/create/blank' />
           </Switch>
         </div>
       </MuiThemeProvider>
