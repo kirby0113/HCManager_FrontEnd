@@ -1,7 +1,10 @@
+import {useState} from 'react';
+
 import styled, {css} from 'styled-components';
 
 import {Form, Field} from 'react-final-form';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
+import {PageTitle, PageSubTitle} from '../Utilities/Title';
 
 const StyledForm = styled.form`
   width: 80%;
@@ -25,6 +28,13 @@ const StyledField = styled(Field)`
     css`
       height: 40px;
     `}
+
+  ${({component}) =>
+    component === 'textarea' &&
+    css`
+      font-size: 16px;
+      line-height: 1.5;
+    `}
 `;
 
 const InputLabel = styled.label`
@@ -33,7 +43,33 @@ const InputLabel = styled.label`
   margin: 0;
 `;
 
+const TimeLimitBox = styled.div`
+  display: grid;
+  grid-row-gap: 15px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+`;
+
+const TimeLimitBoxUnit = styled.div`
+  display: grid;
+  grid-column-gap: 10px;
+  grid-template-columns: 1fr max-content;
+`;
+
 const Option = styled.option`
+  font-size: 20px;
+`;
+
+const ChoiceInputUnit = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
+const ChoiceInputBox = styled.div`
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  grid-column-gap: 30px;
+  padding-bottom: 30px;
   font-size: 20px;
 `;
 
@@ -43,6 +79,9 @@ const onSubmit = (data) => {
 
 /* 空欄補充形式の問題作成フォーム */
 export const CreateBlankSelectQuestionForm = (props) => {
+  const [blankNum, setBlankNum] = useState(1);
+  const [choiceNum, setChoiceNum] = useState(2);
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -51,10 +90,11 @@ export const CreateBlankSelectQuestionForm = (props) => {
         format: 'blank_select',
         user_id: '',
         mode: '',
-        time_limit: '',
-        number_limit: '',
+        time_limit_minute: 0,
+        time_limit_second: 0,
+        number_limit: 0,
         explain: '',
-        language: '',
+        language: 'C',
         base_code: '',
         select_blank: '',
         correct_blank: '',
@@ -110,6 +150,123 @@ export const CreateBlankSelectQuestionForm = (props) => {
             </StyledField>
           </InputBox>
 
+          <InputBox>
+            <InputLabel label='number_limit'>行数制限：</InputLabel>
+            <StyledField name='number_limit' type='number' component='input' label='number_limit' />
+          </InputBox>
+
+          <InputBox>
+            <InputLabel label='time_limit'>時間制限：</InputLabel>
+            <TimeLimitBox>
+              <TimeLimitBoxUnit>
+                <StyledField
+                  name='time_limit_minute'
+                  type='number'
+                  component='input'
+                  label='time_limit_minute'
+                  min='0'
+                />
+                <InputLabel label='time_limit_minute'>分</InputLabel>
+              </TimeLimitBoxUnit>
+              <TimeLimitBoxUnit>
+                <StyledField
+                  name='time_limit_second'
+                  type='number'
+                  component='input'
+                  label='time_limit_second'
+                  min='0'
+                  max='60'
+                />
+                <InputLabel label='time_limit_second'>秒</InputLabel>
+              </TimeLimitBoxUnit>
+            </TimeLimitBox>
+          </InputBox>
+
+          <InputBox hidden={true}>
+            <InputLabel label='language'>言語：</InputLabel>
+            <StyledField name='language' type='text' component='input' label='language' />
+          </InputBox>
+
+          <InputBox>
+            <InputLabel label='explain'>問題文：</InputLabel>
+            <StyledField name='explain' component='textarea' label='explain' rows={10} />
+          </InputBox>
+
+          <InputBox>
+            <InputLabel label='base_code'>問題コード：</InputLabel>
+            <StyledField name='base_code' component='textarea' label='base_code' rows={10} />
+          </InputBox>
+
+          <InputBox>
+            <InputLabel label='max_exec_time'>許容実行時間(秒)：</InputLabel>
+            <StyledField name='max_exec_time' type='number' component='input' label='max_exec_time' min='0' />
+          </InputBox>
+
+          <InputBox>
+            <InputLabel label='mode'>ヒントタイプ：</InputLabel>
+            <StyledField name='mode' component='select' label='mode'>
+              <Option value='' key=''>
+                タイプを選択してください
+              </Option>
+
+              <Option value='なし' key='なし'>
+                なし
+              </Option>
+
+              <Option value='数（不正解）' key='数（不正解）'>
+                数（不正解）
+              </Option>
+
+              <Option value='場所（不正解）' key='場所（不正解）'>
+                場所（不正解）
+              </Option>
+            </StyledField>
+          </InputBox>
+
+          <PageTitle>選択肢・解答</PageTitle>
+
+          <ChoiceInputUnit>
+            <ChoiceInputBox>
+              <InputLabel>選択肢数：</InputLabel>
+              <input type='number' onChange={(e) => setChoiceNum(e.target.value)} value={choiceNum} min={2} max={10} />
+            </ChoiceInputBox>
+            <ChoiceInputBox>
+              <InputLabel>空白数：</InputLabel>
+              <input type='number' onChange={(e) => setBlankNum(e.target.value)} value={blankNum} min={1} max={10} />
+            </ChoiceInputBox>
+          </ChoiceInputUnit>
+
+          {[...new Array(Number(blankNum))].map((_, i) => {
+            return (
+              <div>
+                <PageSubTitle>空白{i + 1}</PageSubTitle>
+                {[...new Array(Number(choiceNum))].map((_, j) => {
+                  return (
+                    <InputBox>
+                      <InputLabel label={`select_blank.blank${String(i + 1)}.option.option${String(j + 1)}`}>
+                        解答{j + 1}：
+                      </InputLabel>
+                      <StyledField
+                        name={`select_blank.blank${String(i + 1)}.option.option${String(j + 1)}`}
+                        type='text'
+                        component='input'
+                        label={`select_blank.blank${String(i + 1)}.option.option${String(j + 1)}`}
+                      ></StyledField>
+                    </InputBox>
+                  );
+                })}
+                <InputBox>
+                  <InputLabel label={`correct_blank.blank${String(i + 1)}`}>正答：</InputLabel>
+                  <StyledField
+                    name={`correct_blank.blank${String(i + 1)}`}
+                    type='text'
+                    component='input'
+                    label={`correct_blank.blank${String(i + 1)}`}
+                  ></StyledField>
+                </InputBox>
+              </div>
+            );
+          })}
           <div>
             <PrimaryButton sizeX='large' sizeY='small' onClick={handleSubmit}>
               作成
