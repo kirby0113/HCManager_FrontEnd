@@ -5,6 +5,7 @@ import styled, {css} from 'styled-components';
 import {Form, Field} from 'react-final-form';
 import {PrimaryButton} from '../Buttons/PrimaryButton';
 import {PageTitle, PageSubTitle} from '../Utilities/Title';
+import {createBlankQuestion as createFetch} from '../API/QuestionAPIs';
 
 const StyledForm = styled.form`
   width: 80%;
@@ -74,13 +75,26 @@ const ChoiceInputBox = styled.div`
 `;
 
 const onSubmit = (data) => {
-  console.log('result:', data);
+  let sec = Number(data.time_limit_minute) * 60 + Number(data.time_limit_second);
+  delete data.time_limit_minute;
+  delete data.time_limit_second;
+  console.log(sec);
+  console.log('result:', {...data, time_limit: sec});
+  createFetch({...data, time_limit: sec})
+    .then(() => {
+      alert('問題作成に成功しました！');
+    })
+    .catch((error) => {
+      alert('問題作成に失敗しました。');
+      console.error(error);
+    });
 };
 
 /* 空欄補充形式の問題作成フォーム */
 export const CreateBlankSelectQuestionForm = (props) => {
   const [blankNum, setBlankNum] = useState(1);
   const [choiceNum, setChoiceNum] = useState(2);
+  const [exampleNum, setExampleNum] = useState(1);
 
   return (
     <Form
@@ -203,8 +217,8 @@ export const CreateBlankSelectQuestionForm = (props) => {
           </InputBox>
 
           <InputBox>
-            <InputLabel label='mode'>ヒントタイプ：</InputLabel>
-            <StyledField name='mode' component='select' label='mode'>
+            <InputLabel label='hint_type'>ヒントタイプ：</InputLabel>
+            <StyledField name='hint_type' component='select' label='hint_type'>
               <Option value='' key=''>
                 タイプを選択してください
               </Option>
@@ -222,6 +236,49 @@ export const CreateBlankSelectQuestionForm = (props) => {
               </Option>
             </StyledField>
           </InputBox>
+
+          <PageTitle>入出力例</PageTitle>
+
+          <ChoiceInputUnit>
+            <ChoiceInputBox>
+              <InputLabel>例数：</InputLabel>
+              <input
+                type='number'
+                onChange={(e) => setExampleNum(e.target.value)}
+                value={exampleNum}
+                min={1}
+                max={10}
+              />
+            </ChoiceInputBox>
+          </ChoiceInputUnit>
+
+          {[...new Array(Number(exampleNum))].map((_, i) => {
+            return (
+              <div>
+                <PageSubTitle>例{i + 1}</PageSubTitle>
+                <div>
+                  <InputBox>
+                    <InputLabel label={`stdinout.example${String(i + 1)}.in`}>入力：</InputLabel>
+                    <StyledField
+                      name={`stdinout.example${String(i + 1)}.in`}
+                      type='text'
+                      component='input'
+                      label={`stdinout.example${String(i + 1)}.in`}
+                    ></StyledField>
+                  </InputBox>
+                  <InputBox>
+                    <InputLabel label={`stdinout.example${String(i + 1)}.out`}>出力：</InputLabel>
+                    <StyledField
+                      name={`stdinout.example${String(i + 1)}.out`}
+                      type='text'
+                      component='input'
+                      label={`stdinout.example${String(i + 1)}.out`}
+                    ></StyledField>
+                  </InputBox>
+                </div>
+              </div>
+            );
+          })}
 
           <PageTitle>選択肢・解答</PageTitle>
 
