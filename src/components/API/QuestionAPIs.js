@@ -10,6 +10,16 @@ export const getQuestion = async (id) => {
     });
 };
 
+export const getQuestions = async () => {
+  return await fetch(QuestionsAPI) //api
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    });
+};
+
+/* Create */
+
 export const createQuestion = async (body) => {
   return await fetch(QuestionsAPI + '/', {
     method: 'POST',
@@ -54,4 +64,35 @@ export const createBlankQuestion = async (body) => {
       return;
     });
   });
+};
+
+/* Delete */
+
+export const deleteQuestion = async (id) => {
+  return await fetch(QuestionsAPI + '/' + id, {
+    method: 'DELETE',
+  })
+    .then((res) => {
+      if (res.errors || res.error) {
+        throw new Error('DeleteQuestionError');
+      }
+      return;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+export const deleteBlankQuestion = async (id) => {
+  return await fetch(QuestionsAPI + '/' + id + '/blankselect', {
+    method: 'DELETE',
+  })
+    .then((res) => {
+      if (res.errors || res.error) {
+        throw new Error('DeleteQuestionError');
+      }
+    })
+    .then(() => {
+      return deleteQuestion(id);
+    });
 };
