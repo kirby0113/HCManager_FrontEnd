@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
 import {UsersAPI} from '../../../APILink';
 
+import {deleteBlankQuestion, getQuestions} from '../../../components/API/QuestionAPIs';
+
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {Label} from '../../Utilities/Card/Label';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
@@ -16,6 +18,17 @@ const QuestionInfo = (props) => {
         setUser(json);
       });
   }, []);
+
+  const deleteQuestion = () => {
+    if (!confirm(`問題名：${props.data.name}のデータを削除してもよろしいですか？`)) {
+      return;
+    }
+    if (props.data.format === 'blank_select') {
+      deleteBlankQuestion(props.data.question_id).then(() => {
+        getQuestions().then((json) => props.setQuestions(json));
+      });
+    }
+  };
 
   return (
     <InfoCard>
@@ -38,7 +51,14 @@ const QuestionInfo = (props) => {
         </div>
       </InfoCardDetail>
       <InfoCardButtons>
-        <PrimaryButton color='secondary'>削除する</PrimaryButton>
+        <PrimaryButton
+          color='secondary'
+          onClick={() => {
+            deleteQuestion();
+          }}
+        >
+          削除する
+        </PrimaryButton>
         <Anchor to={'/question/detail/'.concat(props.data.question_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </Anchor>

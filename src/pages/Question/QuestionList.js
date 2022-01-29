@@ -53,7 +53,7 @@ const QuestionList = () => {
       {Questions ? (
         <InfoCardList>
           {Questions.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-            <QuestionInfo data={data} key={data.question_id}></QuestionInfo>
+            <QuestionInfo data={data} key={data.question_id} setQuestions={setQuestions}></QuestionInfo>
           ))}
         </InfoCardList>
       ) : (
