@@ -80,6 +80,7 @@ const QuestionDetail = () => {
     getQuestion(param['id'])
       .then((json) => {
         setQuestionData(json);
+        console.log(json);
         return json;
       })
       .then((json) => {
@@ -91,81 +92,159 @@ const QuestionDetail = () => {
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>
       <DetailCard>
-        {questionData && (
-          <div>
-            <DetailCardContent>
-              <div>
-                <Label>問題名</Label>
-                {questionData.name}
-              </div>
-              <div>
-                <Label>作成者</Label>
-                {createdBy ? createdBy : ''}
-              </div>
-              <div>
-                <Label>問題形式</Label>
-                {questionData.mode}
-              </div>
-              <div>
-                <Label>作成日</Label>
-                {questionData.created_at}
-              </div>
-              <div>
-                <Label>学習言語</Label>
-                {questionData.card_question.language}
-              </div>
-              <div>
-                <Label>解答時間</Label>
-                <span>
-                  {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
-                </span>
-              </div>
-              <div>
-                <Label>実行時間制限</Label>
-                {questionData.card_question.max_exec_time} sec
-              </div>
-              <div>
-                <Label>行数制限</Label>
-                {questionData.number_limit}行
-              </div>
-              <div>
-                <Label>ヒント</Label>
-                {questionData.card_question.hint_type}
-              </div>
-            </DetailCardContent>
+        {questionData && questionData.card_question && (
+          <CardQuestionDetail questionData={questionData} createdBy={createdBy}></CardQuestionDetail>
+        )}
 
-            <PageSubTitle color='blue'>問題内容</PageSubTitle>
-            <CodeBoard code={questionData.card_question.base_code} />
-            <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
-
-            <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
-            <QuestionCardView>
-              {questionData &&
-                questionData.card_question.card
-                  .sort((a, b) => {
-                    if (a.loc.line >= b.loc.line) {
-                      return 1;
-                    } else {
-                      return -1;
-                    }
-                  })
-                  .map((card, index) => {
-                    return (
-                      <AnswerCard
-                        line={card.loc.line}
-                        options={card.option}
-                        answer={
-                          questionData.card_question.correct_blank[index]
-                            ? questionData.card_question.correct_blank[index]
-                            : -1
-                        }
-                      />
-                    );
-                  })}
-            </QuestionCardView>
-          </div>
+        {questionData && questionData.blank_select_question && (
+          <BlankQuestionDetail questionData={questionData} createdBy={createdBy}></BlankQuestionDetail>
         )}
       </DetailCard>
+    </div>
+  );
+};
+
+const CardQuestionDetail = ({questionData, createdBy}) => {
+  return (
+    <div>
+      <DetailCardContent>
+        <div>
+          <Label>問題名</Label>
+          {questionData.name}
+        </div>
+        <div>
+          <Label>作成者</Label>
+          {createdBy ? createdBy : ''}
+        </div>
+        <div>
+          <Label>問題形式</Label>
+          {questionData.mode}
+        </div>
+        <div>
+          <Label>作成日</Label>
+          {questionData.created_at}
+        </div>
+        <div>
+          <Label>学習言語</Label>
+          {questionData.card_question.language}
+        </div>
+        <div>
+          <Label>解答時間</Label>
+          <span>
+            {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
+          </span>
+        </div>
+        <div>
+          <Label>実行時間制限</Label>
+          {questionData.card_question.max_exec_time} sec
+        </div>
+        <div>
+          <Label>行数制限</Label>
+          {questionData.number_limit}行
+        </div>
+        <div>
+          <Label>ヒント</Label>
+          {questionData.card_question.hint_type}
+        </div>
+      </DetailCardContent>
+
+      <PageSubTitle color='blue'>問題内容</PageSubTitle>
+      <CodeBoard code={questionData.card_question.base_code} />
+      <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
+
+      <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
+      <QuestionCardView>
+        {questionData &&
+          questionData.card_question.card
+            .sort((a, b) => {
+              if (a.loc.line >= b.loc.line) {
+                return 1;
+              } else {
+                return -1;
+              }
+            })
+            .map((card, index) => {
+              return (
+                <AnswerCard
+                  line={card.loc.line}
+                  options={card.option}
+                  answer={
+                    questionData.card_question.correct_blank[index]
+                      ? questionData.card_question.correct_blank[index]
+                      : -1
+                  }
+                />
+              );
+            })}
+      </QuestionCardView>
+    </div>
+  );
+};
+
+const BlankQuestionDetail = ({questionData, createdBy}) => {
+  return (
+    <div>
+      <DetailCardContent>
+        <div>
+          <Label>問題名</Label>
+          {questionData.name}
+        </div>
+        <div>
+          <Label>作成者</Label>
+          {createdBy ? createdBy : ''}
+        </div>
+        <div>
+          <Label>問題形式</Label>
+          {questionData.mode}
+        </div>
+        <div>
+          <Label>作成日</Label>
+          {questionData.created_at}
+        </div>
+        <div>
+          <Label>学習言語</Label>
+          {questionData.blank_select_question.language}
+        </div>
+        <div>
+          <Label>解答時間</Label>
+          <span>
+            {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
+          </span>
+        </div>
+        <div>
+          <Label>実行時間制限</Label>
+          {questionData.blank_select_question.max_exec_time} sec
+        </div>
+        <div>
+          <Label>行数制限</Label>
+          {questionData.number_limit}行
+        </div>
+        <div>
+          <Label>ヒント</Label>
+          {questionData.blank_select_question.hint_type}
+        </div>
+      </DetailCardContent>
+
+      <PageSubTitle color='blue'>問題内容</PageSubTitle>
+      <CodeBoard code={questionData.blank_select_question.base_code} />
+      <QuestionBoard>{parse(questionData.blank_select_question.explain, {replace})}</QuestionBoard>
+
+      <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
+      <QuestionCardView>
+        {questionData &&
+          Object.entries(questionData.blank_select_question.select_blank).map((card, index) => {
+            return (
+              <AnswerCard
+                options={Object.entries(card[1].option).map((elem, i) => elem[1])}
+                answer={
+                  questionData.blank_select_question.correct_blank[index]
+                    ? questionData.blank_select_question.correct_blank[index]
+                    : -1
+                }
+              />
+            );
+          })}
+      </QuestionCardView>
     </div>
   );
 };
