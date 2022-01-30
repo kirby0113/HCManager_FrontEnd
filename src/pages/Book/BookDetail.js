@@ -9,12 +9,13 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {Label} from '../../components/Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../../components/Cards/DetailCard';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
-import {BooksAPI, QuestionsAPI} from '../../APILink';
+import {QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
 
 import {useUser} from '../../hooks/useUser';
 import {useBookPost, useBook, useBookRecodePost} from '../../hooks/useBook';
+import {useQuestion} from '../../hooks/useQuestion';
 
 import {getBook} from '../../components/API/BookAPIs';
 
@@ -29,7 +30,7 @@ const BookDetail = () => {
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
-  const [Questions, setQuestions] = useState(); //全ての問題
+  const {questions, setQuestions} = useQuestion();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -57,21 +58,6 @@ const BookDetail = () => {
   useEffect(() => {
     //Groupデータ更新時に紐づけされてる問題を取得
     getQuestionInBook();
-  }, [Book]);
-
-  useEffect(() => {
-    //Groupデータ更新時に紐づけされてる問題を取得
-    if (typeof Book !== 'undefined') {
-      fetch(QuestionsAPI) //api
-        .then((res) => res.json())
-        .then((json) => {
-          if (Array.isArray(json)) {
-            setQuestions(json);
-          } else {
-            setQuestions([]);
-          }
-        });
-    }
   }, [Book]);
 
   const EditBookCheck = () => {
@@ -131,8 +117,8 @@ const BookDetail = () => {
         }}
         label='教材名'
       >
-        {Questions
-          ? Questions.map((data) => (
+        {questions
+          ? questions.map((data) => (
               <option value={data.question_id} key={data.question_id}>
                 {data.name}
               </option>
