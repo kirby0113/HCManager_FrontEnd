@@ -14,13 +14,16 @@ import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelatio
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
 
 import {useUser} from '../../hooks/useUser';
+import {useBookPost, useBook} from '../../hooks/useBook';
 
 import {getBook} from '../../components/API/BookAPIs';
 
 const BookDetail = () => {
   const param = useParams();
 
-  const {users, setUsers, getUser} = useUser();
+  const {users, getUser} = useUser();
+  const {updateBook} = useBook();
+  const {bookPost, setBookPost} = useBookPost();
 
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
@@ -32,13 +35,6 @@ const BookDetail = () => {
   const [QuestionPostBody, setQuestionPostBody] = useState({
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({book_id: param['id'], question_id: 1}),
-  });
-
-  const [editBookPostData, setEditBookPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
   });
 
   const getQuestionInBook = () => {
@@ -90,7 +86,7 @@ const BookDetail = () => {
   const getBookDataFetch = () => {
     getBook(param.id).then((json) => {
       setBook(json);
-      setEditBookPostData({
+      setBookPost({
         name: json.name,
         summary: json.summary,
         access_key: json.access_key,
@@ -124,29 +120,13 @@ const BookDetail = () => {
     }
   }, [Book]);
 
-  const EditBookFetch = () => {
-    //Group編集用Fetch
-    fetch(BooksAPI + '/' + param['id'], {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: editBookPostData.name,
-        summary: editBookPostData.summary,
-        access_key: editBookPostData.access_key,
-        user_id: editBookPostData.user_id,
-      }),
-    }) //api
-      .then((res) => res)
-      .then(() => {
-        getBookDataFetch();
-      });
-  };
-
   const EditBookCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      EditBookFetch();
+      updateBook(param.id, bookPost).then((json) => {
+        setBook(json);
+        getUser(json.user_id).then((json) => setCreatedBy(json.name));
+      });
       setIsOpenModal(false);
-      // console.log(EditGroupPostData);
     }
   };
 
@@ -216,10 +196,10 @@ const BookDetail = () => {
       {/* Modal*/}
       {isOpenModal ? (
         <EditBookModal
-          onChange={setEditBookPostData}
+          onChange={setBookPost}
           onSave={EditBookCheck}
           users={users}
-          postData={editBookPostData}
+          postData={bookPost}
           onClose={() => setIsOpenModal(false)}
         />
       ) : (

@@ -54,3 +54,18 @@ export const deleteBook = async (id) => {
     method: 'DELETE',
   }).then(() => getBooks());
 };
+
+export const updateBook = async (id, jsonData) => {
+  return await fetch(BooksAPI + '/' + id, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: jsonData.name,
+      summary: jsonData.summary,
+      access_key: jsonData.access_key,
+      user_id: jsonData.user_id,
+    }),
+  })
+    .then((res) => res)
+    .then(() => getBook(id));
+};

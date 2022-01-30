@@ -4,6 +4,7 @@ import {
   getBooks as getBooksAPI,
   getBook as getBookAPI,
   createBook as createBookAPI,
+  updateBook as updateBookAPI,
   deleteBook as deleteBookAPI,
   checkBookInQuestions,
 } from '../components/API/BookAPIs';
@@ -35,7 +36,9 @@ export const useBook = () => {
     });
   };
 
-  const updateBook = () => {};
+  const updateBook = async (id, postData) => {
+    return await updateBookAPI(id, postData);
+  };
 
   const getBook = async (id) => {
     return await getBookAPI(id);
