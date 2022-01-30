@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {useBook} from '../../hooks/useBook';
+import {useBook, useBookPost} from '../../hooks/useBook';
 import {useUser} from '../../hooks/useUser';
 
 import BookInfo from '../../components/pages/Book/BookInfo';
@@ -13,17 +13,12 @@ import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
 const BookList = () => {
-  const {books, setBooks, createBook} = useBook();
-  const {users, setUsers} = useUser();
+  const {books, createBook} = useBook();
+  const {users} = useUser();
+  const {bookPost, setBookPost} = useBookPost();
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
-  const [BookPost, setBookPost] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
 
   return (
     <div className='Body'>
@@ -50,11 +45,11 @@ const BookList = () => {
       <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>
       {modalVisible ? (
         <CreateTeachingMaterialModal
-          BookPost={BookPost}
+          BookPost={bookPost}
           setBookPost={setBookPost}
           onClose={() => setModalVisible(false)}
           Users={users}
-          createBookFetch={() => createBook(BookPost)}
+          createBookFetch={() => createBook(bookPost)}
         ></CreateTeachingMaterialModal>
       ) : (
         ''
