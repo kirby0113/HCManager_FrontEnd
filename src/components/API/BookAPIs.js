@@ -1,6 +1,6 @@
 import {BooksAPI} from '../../APILink';
 
-export const GetBooks = async () => {
+export const getBooks = async () => {
   return await fetch(BooksAPI) //api
     .then((res) => res.json())
     .then((json) => {
@@ -28,5 +28,5 @@ export const CreateBook = (jsonData) => {
       access_key: jsonData.access_key,
       user_id: jsonData.user_id,
     }),
-  }).then(() => GetBooks());
+  }).then(() => getBooks());
 };
