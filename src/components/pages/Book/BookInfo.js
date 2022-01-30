@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {UsersAPI, BooksAPI} from '../../../APILink';
-
+import {useUser} from '../../../hooks/useUser';
 import {Anchor} from '../../Utilities/Anchor';
 
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
@@ -11,13 +11,10 @@ import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
 
 const BookInfo = (props) => {
   const [user, setUser] = useState();
+  const {getUser} = useUser();
 
   useEffect(() => {
-    fetch(UsersAPI + '/' + props.data.user_id) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUser(json);
-      });
+    getUser(props.data.user_id).then((json) => setUser(json));
   }, []);
 
   const DeleteBook = (id) => {

@@ -17,7 +17,6 @@ export const useUser = () => {
   useEffect(() => {
     GetUsers().then((json) => {
       setUsers(json);
-      console.log(json);
     });
   }, []);
 

@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
-import {BooksAPI} from '../../APILink';
+
+import {useBook} from '../../hooks/useBook';
+import {useUser} from '../../hooks/useUser';
 
 import BookInfo from '../../components/pages/Book/BookInfo';
 import Pagination from '../../components/Pagination/Pagination';
@@ -10,15 +12,12 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
-import {GetUsers} from '../../components/API/UserAPIs';
-import {CreateBook} from '../../components/API/BookAPIs';
-
 const BookList = () => {
+  const {books, setBooks, createBook} = useBook();
+  const {users, setUsers} = useUser();
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
-  const [Books, setBooks] = useState([]);
-  const [Users, setUsers] = useState([]); //Formで使用
   const [BookPost, setBookPost] = useState({
     name: '',
     summary: '',
@@ -26,30 +25,14 @@ const BookList = () => {
     user_id: '',
   });
 
-  const getBookFetch = () => {
-    fetch(BooksAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setBooks(json);
-        console.log(json);
-      });
-  };
-  useEffect(() => {
-    getBookFetch();
-  }, []);
-
-  useEffect(async () => {
-    setUsers(await GetUsers());
-  }, []);
-
-  const CreateBookFetch = () => {
-    CreateBook(BookPost).then((json) => setBooks(json));
+  const createBookFetch = () => {
+    createBook(BookPost);
   };
 
   return (
     <div className='Body'>
       <PageTitle color='pink'>教材一覧</PageTitle>
-      <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
+      <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>
         <PrimaryButton variant='contained' onClick={() => setModalVisible(true)} sizeX='large' sizeY='small'>
           追加
@@ -59,23 +42,23 @@ const BookList = () => {
         </PrimaryButton>
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
-      {Books ? (
+      {books ? (
         <InfoCardList>
-          {Books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-            <BookInfo data={data} key={data.books_id} getBook={getBookFetch}></BookInfo>
+          {books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
+            <BookInfo data={data} key={data.books_id}></BookInfo>
           ))}
         </InfoCardList>
       ) : (
         ''
       )}
-      <Pagination setOffset={setOffset} dataleng={Books ? Books.length : 0} perPage={perPage}></Pagination>
+      <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>
       {modalVisible ? (
         <CreateTeachingMaterialModal
           BookPost={BookPost}
           setBookPost={setBookPost}
           onClose={() => setModalVisible(false)}
-          Users={Users}
-          CreateBookFetch={CreateBookFetch}
+          Users={users}
+          createBookFetch={createBookFetch}
         ></CreateTeachingMaterialModal>
       ) : (
         ''
