@@ -13,14 +13,17 @@ import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
 
+import {useUser} from '../../hooks/useUser';
+
 const BookDetail = () => {
   const param = useParams();
+
+  const {users, setUsers} = useUser();
 
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
   const [Questions, setQuestions] = useState(); //全ての問題
-  const [Users, setUsers] = useState(); //Formで使用
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -98,14 +101,6 @@ const BookDetail = () => {
 
   useEffect(() => {
     getBookDataFetch();
-  }, []);
-
-  useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json);
-      });
   }, []);
 
   useEffect(() => {
@@ -233,7 +228,7 @@ const BookDetail = () => {
         <EditBookModal
           onChange={setEditBookPostData}
           onSave={EditBookCheck}
-          users={Users}
+          users={users}
           postData={editBookPostData}
           onClose={() => setIsOpenModal(false)}
         />
