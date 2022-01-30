@@ -18,8 +18,8 @@ export const getBook = async (id) => {
     });
 };
 
-export const CreateBook = (jsonData) => {
-  return fetch(BooksAPI, {
+export const createBook = async (jsonData) => {
+  return await fetch(BooksAPI, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -29,4 +29,11 @@ export const CreateBook = (jsonData) => {
       user_id: jsonData.user_id,
     }),
   }).then(() => getBooks());
+};
+
+export const deleteBook = async (id) => {
+  fetch(BooksAPI + '/' + id, {
+    method: 'DELETE',
+  }) //api
+    .then(() => getBooks());
 };
