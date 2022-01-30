@@ -41,7 +41,7 @@ const BookList = () => {
       {books ? (
         <InfoCardList>
           {books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-            <BookInfo data={data} key={data.books_id}></BookInfo>
+            <BookInfo data={data} key={data.book_id}></BookInfo>
           ))}
         </InfoCardList>
       ) : (

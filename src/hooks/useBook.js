@@ -31,7 +31,7 @@ export const useBook = () => {
       return;
     }
     deleteBookAPI(id).then(() => {
-      window.location.reload();
+      window.location.reload(); //404がどうしても返されるので強制的にリロードしてます
     });
   };
 
