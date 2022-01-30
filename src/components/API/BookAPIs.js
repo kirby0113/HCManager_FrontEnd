@@ -69,3 +69,38 @@ export const updateBook = async (id, jsonData) => {
     .then((res) => res)
     .then(() => getBook(id));
 };
+
+export const getRecodes = async (id) => {
+  return await fetch(BooksAPI + '/' + id + '/questions').then((res) => {
+    if (res.status === 404) {
+      return [];
+    } else {
+      return res.json();
+    }
+  });
+};
+
+export const addRecode = async (jsonData) => {
+  return await fetch(BooksAPI + '/addRecord', {
+    body: JSON.stringify({book_id: jsonData.book_id, question_id: jsonData.question_id}),
+    headers: {'Content-Type': 'application/json'},
+    method: 'POST',
+  }) //api groups/addBook
+    .then(() => getRecodes(jsonData.book_id))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
+
+export const removeRecode = async (jsonData) => {
+  console.log(jsonData);
+  return await fetch(BooksAPI + '/removeRecord', {
+    body: JSON.stringify({book_id: jsonData.book_id, question_id: jsonData.question_id}),
+    headers: {'Content-Type': 'application/json'},
+    method: 'DELETE',
+  }) //api groups/addBook
+    .then(() => getRecodes(jsonData.book_id))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
