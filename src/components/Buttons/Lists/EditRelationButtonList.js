@@ -16,7 +16,7 @@ const StyledEditRelationButtonList = styled.div`
 export const EditRelationButtonList = (props) => {
   return (
     <StyledEditRelationButtonList>
-      <RelationSelectBox id='EditRelation' label='教材名'>
+      <RelationSelectBox id='EditRelation' label='教材名' onChange={props.onChange}>
         {props.children}
       </RelationSelectBox>
       <PrimaryButton onClick={props.onAdd} sizeY='small'>
