@@ -8,7 +8,9 @@ import {
   deleteBook as deleteBookAPI,
   addRecode as addRecodeAPI,
   removeRecode as removeRecodeAPI,
+  getRecodes as getRecodesAPI,
   checkBookInQuestions,
+  getRecodes,
 } from '../components/API/BookAPIs';
 
 export const useBook = () => {
@@ -56,11 +58,15 @@ export const useBook = () => {
     return await removeRecodeAPI(postData);
   };
 
+  const getRecode = async (id) => {
+    return await getRecodes(id);
+  };
+
   useEffect(() => {
     getBooks();
   }, []);
 
-  return {books, setBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode};
+  return {books, setBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecode};
 };
 
 /* Bookの編集・作成用のFormフック */

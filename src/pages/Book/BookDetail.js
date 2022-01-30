@@ -22,7 +22,7 @@ const BookDetail = () => {
   const param = useParams();
 
   const {users, getUser} = useUser();
-  const {updateBook, addRecode, removeRecode} = useBook();
+  const {updateBook, addRecode, removeRecode, getRecode} = useBook();
   const {bookPost, setBookPost} = useBookPost();
   const {bookRecodePost, setBookRecodePost} = useBookRecodePost(param['id']);
 
@@ -34,17 +34,7 @@ const BookDetail = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const getQuestionInBook = () => {
-    if (typeof Book !== 'undefined') {
-      fetch(BooksAPI + '/' + param['id'] + '/questions') //api
-        .then((res) => res.json())
-        .then((json) => {
-          if (Array.isArray(json)) {
-            setQuestionInBook(json);
-          } else {
-            setQuestionInBook([]);
-          }
-        });
-    }
+    getRecode(param['id']).then((json) => setQuestionInBook(json));
   };
 
   const getBookDataFetch = () => {
