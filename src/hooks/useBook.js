@@ -50,4 +50,6 @@ export const useBook = () => {
 
 export const useBookPost = () => {
   const [bookPost, setBookPost] = useState({name: '', summary: '', access_key: '', user_id: ''});
+
+  return {bookPost, setBookPost};
 };
