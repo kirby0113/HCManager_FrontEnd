@@ -1,20 +1,40 @@
 import {useState, useEffect} from 'react';
 
-import {getBooks, getBook as getBookAPI} from '../components/API/BookAPIs';
+import {
+  getBooks as getBooksAPI,
+  getBook as getBookAPI,
+  createBook as createBookAPI,
+  deleteBook as deleteBookAPI,
+} from '../components/API/BookAPIs';
 
 export const useBook = () => {
   const [books, setBooks] = useState();
 
-  useEffect(() => {
-    getBooks().then((json) => setBooks(json));
-  }, []);
+  const getBooks = () => {
+    getBooksAPI().then((json) => setBooks(json));
+  };
 
-  const createBook = () => {};
-  const deleteBook = () => {};
+  const createBook = (postData) => {
+    createBookAPI(postData).then((json) => {
+      setBooks(json);
+    });
+  };
+
+  const deleteBook = (id) => {
+    deleteBookAPI(id).then((json) => {
+      setBooks(json);
+    });
+  };
+
   const updateBook = () => {};
+
   const getBook = async (id) => {
     return await getBookAPI(id);
   };
+
+  useEffect(() => {
+    getBooks();
+  }, []);
 
   return {books, setBooks, createBook, deleteBook, updateBook, getBook};
 };
