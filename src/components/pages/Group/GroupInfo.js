@@ -21,10 +21,7 @@ const GroupInfo = (props) => {
     fetch(GroupsAPI + '/' + id, {
       method: 'DELETE',
     }) //api
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-      });
+      .then((res) => res);
   };
 
   const Delete = async (id, name) => {

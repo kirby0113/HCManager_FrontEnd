@@ -5,6 +5,7 @@ import {
   getBook as getBookAPI,
   createBook as createBookAPI,
   deleteBook as deleteBookAPI,
+  checkBookInQuestions,
 } from '../components/API/BookAPIs';
 
 export const useBook = () => {
@@ -16,13 +17,21 @@ export const useBook = () => {
 
   const createBook = (postData) => {
     createBookAPI(postData).then((json) => {
+      console.log(json);
       setBooks(json);
     });
   };
 
-  const deleteBook = (id) => {
-    deleteBookAPI(id).then((json) => {
-      setBooks(json);
+  const deleteBook = async (id, name) => {
+    if (await checkBookInQuestions(id)) {
+      alert('問題が登録されているため、削除できません。');
+      return;
+    }
+    if (!confirm('教材名：' + name + ' 本当に削除しますか？')) {
+      return;
+    }
+    deleteBookAPI(id).then(() => {
+      window.location.reload();
     });
   };
 

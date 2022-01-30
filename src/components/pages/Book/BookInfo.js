@@ -1,44 +1,24 @@
 import {useEffect, useState} from 'react';
-import {UsersAPI, BooksAPI} from '../../../APILink';
+import {BooksAPI} from '../../../APILink';
 import {useUser} from '../../../hooks/useUser';
 import {Anchor} from '../../Utilities/Anchor';
+import {useBook} from '../../../hooks/useBook';
 
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {Label} from '../../Utilities/Card/Label';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
+import {getBooks} from '../../API/BookAPIs';
 
 /* TM = TeachingMaterial */
 
 const BookInfo = (props) => {
+  const {deleteBook} = useBook();
   const [user, setUser] = useState();
   const {getUser} = useUser();
 
   useEffect(() => {
     getUser(props.data.user_id).then((json) => setUser(json));
   }, []);
-
-  const DeleteBook = (id) => {
-    fetch(BooksAPI + '/' + id, {
-      method: 'DELETE',
-    }) //api
-      .then(() => props.getBook());
-  };
-
-  const Delete = async (id, name) => {
-    if (
-      await fetch(BooksAPI + '/' + id + '/questions')
-        .then((res) => res.json())
-        .then((json) => {
-          return json.length > 0 ? true : false;
-        })
-    ) {
-      alert('問題が登録されているため、削除できませんでした。');
-      return;
-    }
-    if (confirm('教材名：' + name + ' 本当に削除しますか？')) {
-      DeleteBook(id);
-    }
-  };
 
   return (
     <InfoCard>
@@ -61,7 +41,7 @@ const BookInfo = (props) => {
         </div>
       </InfoCardDetail>
       <InfoCardButtons>
-        <PrimaryButton color='secondary' onClick={() => Delete(props.data.book_id, props.data.name)}>
+        <PrimaryButton color='secondary' onClick={() => deleteBook(props.data.book_id, props.data.name)}>
           削除する
         </PrimaryButton>
         <Anchor to={'/book/detail/'.concat(props.data.book_id)}>

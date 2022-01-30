@@ -25,10 +25,6 @@ const BookList = () => {
     user_id: '',
   });
 
-  const createBookFetch = () => {
-    createBook(BookPost);
-  };
-
   return (
     <div className='Body'>
       <PageTitle color='pink'>教材一覧</PageTitle>
@@ -58,7 +54,7 @@ const BookList = () => {
           setBookPost={setBookPost}
           onClose={() => setModalVisible(false)}
           Users={users}
-          createBookFetch={createBookFetch}
+          createBookFetch={() => createBook(BookPost)}
         ></CreateTeachingMaterialModal>
       ) : (
         ''
