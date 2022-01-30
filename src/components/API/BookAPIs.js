@@ -18,6 +18,16 @@ export const getBook = async (id) => {
     });
 };
 
+export const checkBookInQuestions = async (id) => {
+  return await fetch(BooksAPI + '/' + id + '/questions').then((res) => {
+    if (res.status === 404) {
+      return false;
+    } else {
+      return true;
+    }
+  });
+};
+
 export const createBook = async (jsonData) => {
   return await fetch(BooksAPI, {
     method: 'POST',
@@ -28,12 +38,19 @@ export const createBook = async (jsonData) => {
       access_key: jsonData.access_key,
       user_id: jsonData.user_id,
     }),
-  }).then(() => getBooks());
+  })
+    .then((res) => {
+      if (res.status === 400) {
+        throw new Error('BookCreateError');
+      }
+      return getBooks();
+    })
+    .catch((error) => alert('作成に失敗しました。', error))
+    .finally(() => getBooks());
 };
 
 export const deleteBook = async (id) => {
-  fetch(BooksAPI + '/' + id, {
+  return await fetch(BooksAPI + '/' + id, {
     method: 'DELETE',
-  }) //api
-    .then(() => getBooks());
+  }).then(() => getBooks());
 };
