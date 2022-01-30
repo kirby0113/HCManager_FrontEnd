@@ -21,11 +21,21 @@ export const UserSelectBox = (props) => {
         <option value='' key=''>
           -
         </option>
-        {props.options.map((data) => (
-          <option value={data.user_id} key={data.user_id}>
-            {data.name}
-          </option>
-        ))}
+        {props.options.map((data) => {
+          if (data.user_id === props.value) {
+            return (
+              <option value={data.user_id} key={data.user_id} selected>
+                {data.name}
+              </option>
+            );
+          } else {
+            return (
+              <option value={data.user_id} key={data.user_id}>
+                {data.name}
+              </option>
+            );
+          }
+        })}
       </Select>
     </StyledSelectBox>
   );
