@@ -9,16 +9,18 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {Label} from '../../components/Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../../components/Cards/DetailCard';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
-import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
+import {BooksAPI, QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
 
 import {useUser} from '../../hooks/useUser';
 
+import {getBook} from '../../components/API/BookAPIs';
+
 const BookDetail = () => {
   const param = useParams();
 
-  const {users, setUsers} = useUser();
+  const {users, setUsers, getUser} = useUser();
 
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
@@ -86,33 +88,21 @@ const BookDetail = () => {
   };
 
   const getBookDataFetch = () => {
-    fetch(BooksAPI + '/' + param['id']) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setBook(json);
-        setEditBookPostData({
-          name: json.name,
-          summary: json.summary,
-          access_key: json.access_key,
-          user_id: json.user_id,
-        });
+    getBook(param.id).then((json) => {
+      setBook(json);
+      setEditBookPostData({
+        name: json.name,
+        summary: json.summary,
+        access_key: json.access_key,
+        user_id: json.user_id,
       });
+      getUser(json.user_id).then((json) => setCreatedBy(json.name));
+    });
   };
 
   useEffect(() => {
     getBookDataFetch();
   }, []);
-
-  useEffect(() => {
-    //Groupデータ更新時に作成者名を取得
-    if (typeof Book !== 'undefined') {
-      fetch(UsersAPI + '/' + Book.user_id) //api
-        .then((res) => res.json())
-        .then((json) => {
-          setCreatedBy(json.name);
-        });
-    }
-  }, [Book]);
 
   useEffect(() => {
     //Groupデータ更新時に紐づけされてる問題を取得
