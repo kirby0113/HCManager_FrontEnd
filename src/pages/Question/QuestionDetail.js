@@ -11,6 +11,7 @@ import {CodeBoard} from '../../components/Utilities/Card/CodeBoard';
 import {QuestionBoard} from '../../components/Utilities/Card/QuestionBoard';
 import {DetailCard, DetailCardContent} from '../../components/Cards/DetailCard';
 import {AnswerCard} from '../../components/Cards/AnswerCard';
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useQuestion} from '../../hooks/useQuestion';
 import {useUser} from '../../hooks/useUser';
@@ -78,14 +79,23 @@ const QuestionCardView = styled.div`
 const QuestionDetail = () => {
   const param = useParams();
   const {selectQuestion, getQuestion} = useQuestion();
+  const [loading, setLoading] = useState(true);
   const {getUser} = useUser();
   const [createdBy, setCreatedBy] = useState();
 
   useEffect(() => {
-    getQuestion(param['id']).then((json) => getUser(json.user_id).then((json) => setCreatedBy(json.name)));
+    getQuestion(param['id']).then((json) =>
+      getUser(json.user_id)
+        .then((json) => {
+          return setCreatedBy(json.name);
+        })
+        .then(() => setLoading(false))
+    );
   }, []);
 
-  return (
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>
       <DetailCard>
