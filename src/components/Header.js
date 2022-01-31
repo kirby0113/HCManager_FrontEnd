@@ -15,6 +15,7 @@ const StyledHeader = styled(AppBar)`
   flex-direction: row !important;
   align-items: center; /* 縦方向中央揃え */
   padding: 5px 0;
+  z-index: 10;
 `;
 
 const HeaderTitle = styled(Typography)`
