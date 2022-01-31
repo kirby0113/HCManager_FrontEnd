@@ -1,8 +1,10 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {GetUsers, getUser as getUserAPI} from '../components/API/UserAPIs';
 
+import {UserContext} from '../contexts/UserContext';
+
 export const useUser = () => {
-  const [users, setUsers] = useState([{user_id: '', name: ''}]);
+  const {users, setUsers} = useContext(UserContext);
 
   const updateUser = () => {};
 
