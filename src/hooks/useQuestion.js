@@ -5,8 +5,8 @@ import {QuestionContext} from '../contexts/QuestionContext';
 export const useQuestion = () => {
   const {questions, setQuestions, selectQuestion, setSelectQuestion} = useContext(QuestionContext);
 
-  const getQuestions = () => {
-    getQuestionsAPI().then((json) => setQuestions(json));
+  const getQuestions = async () => {
+    return await getQuestionsAPI().then((json) => setQuestions(json));
   };
 
   const getQuestion = async (id) => {

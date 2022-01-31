@@ -16,8 +16,10 @@ import {
 export const useBook = () => {
   const [books, setBooks] = useState();
 
-  const getBooks = () => {
-    getBooksAPI().then((json) => setBooks(json));
+  const getBooks = async () => {
+    return await getBooksAPI().then((json) => {
+      return json;
+    });
   };
 
   const createBook = (postData) => {
@@ -62,11 +64,7 @@ export const useBook = () => {
     return await getRecodes(id);
   };
 
-  useEffect(() => {
-    getBooks();
-  }, []);
-
-  return {books, setBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecode};
+  return {books, setBooks, getBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecode};
 };
 
 /* Bookの編集・作成用のFormフック */
