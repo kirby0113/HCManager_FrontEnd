@@ -37,7 +37,13 @@ export const LoadingWindow = () => {
       <LoadingWindowOverlay></LoadingWindowOverlay>
       <LoadingContent>
         <StyledLoader>
-          <BallTriangle ariaLabel='LoadingIndicator' width={150} height={150} color='blue' secondaryColor='white' />
+          <BallTriangle
+            ariaLabel='LoadingIndicator'
+            width={150}
+            height={150}
+            color={Color['lightBlue']}
+            secondaryColor='white'
+          />
         </StyledLoader>
         <LoadingText>Loading Now...</LoadingText>
       </LoadingContent>
