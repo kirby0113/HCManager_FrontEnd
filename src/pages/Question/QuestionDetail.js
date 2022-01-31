@@ -13,6 +13,7 @@ import {DetailCard, DetailCardContent} from '../../components/Cards/DetailCard';
 import {AnswerCard} from '../../components/Cards/AnswerCard';
 
 import {useQuestion} from '../../hooks/useQuestion';
+import {useUser} from '../../hooks/useUser';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -77,10 +78,13 @@ const QuestionCardView = styled.div`
 const QuestionDetail = () => {
   const param = useParams();
   const {selectQuestion, getQuestion} = useQuestion();
+  const {getUser} = useUser();
   const [createdBy, setCreatedBy] = useState();
+
   useEffect(() => {
-    getQuestion(param['id']);
+    getQuestion(param['id']).then((json) => getUser(json.user_id).then((json) => setCreatedBy(json.name)));
   }, []);
+
   return (
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>

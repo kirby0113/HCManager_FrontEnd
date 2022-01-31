@@ -9,10 +9,10 @@ export const useQuestion = () => {
     getQuestionsAPI().then((json) => setQuestions(json));
   };
 
-  const getQuestion = (id) => {
-    getQuestionAPI(id).then((json) => {
-      console.log(json);
+  const getQuestion = async (id) => {
+    return await getQuestionAPI(id).then((json) => {
       setSelectQuestion(json);
+      return json;
     });
   };
 
