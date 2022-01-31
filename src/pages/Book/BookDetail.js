@@ -22,7 +22,6 @@ import {getQuestions} from '../../components/API/QuestionAPIs';
 
 const BookDetail = () => {
   const param = useParams();
-
   const {users, getUser} = useUser();
   const {updateBook, addRecode, removeRecode, getRecode} = useBook();
   const {bookPost, setBookPost} = useBookPost();
@@ -32,7 +31,6 @@ const BookDetail = () => {
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
   const {questions, setQuestions} = useQuestion();
-
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const getQuestionInBook = () => {
@@ -41,7 +39,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     getBook(param.id)
-      .then((json) => {
+      .then(async (json) => {
         setBook(json);
         setBookPost({
           name: json.name,
@@ -49,7 +47,7 @@ const BookDetail = () => {
           access_key: json.access_key,
           user_id: json.user_id,
         });
-        return getUser(json.user_id).then((json) => setCreatedBy(json.name));
+        return await getUser(json.user_id).then((json) => setCreatedBy(json.name));
       })
       .then(() => getQuestions().then((json) => setQuestions(json)))
       .then(() => setLoading(false));

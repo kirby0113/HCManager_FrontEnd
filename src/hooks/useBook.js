@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useContext} from 'react';
 
 import {
   getBooks as getBooksAPI,
@@ -13,8 +13,10 @@ import {
   getRecodes,
 } from '../components/API/BookAPIs';
 
+import {BookContext} from '../contexts/BookContext';
+
 export const useBook = () => {
-  const [books, setBooks] = useState();
+  const {books, setBooks} = useContext(BookContext);
 
   const getBooks = async () => {
     return await getBooksAPI().then((json) => {
