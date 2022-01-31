@@ -1,4 +1,3 @@
-import {LaptopWindows} from '@material-ui/icons';
 import {QuestionsAPI} from '../../APILink';
 
 export const getQuestion = async (id) => {
