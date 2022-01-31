@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {GetUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
+import {getUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
 
 import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
 import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
@@ -22,8 +22,10 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
 
+import {useUser} from '../../hooks/useUser';
+
 const UserList = () => {
-  const [Users, setUsers] = useState([]);
+  const {users, setUsers, getUsers} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [UserPost, setUserPost] = useState({
@@ -61,7 +63,7 @@ const UserList = () => {
   };
 
   const UpdateUsers = () => {
-    GetUsers().then((json) => setUsers(json));
+    getUsers().then((json) => setUsers(json));
   };
 
   useEffect(() => {
@@ -84,7 +86,7 @@ const UserList = () => {
 
       <PageTitle color='lightGreen'>ユーザ一覧</PageTitle>
 
-      <UserPagination setOffset={setOffset} dataleng={Users ? Users.length : 0} perPage={perPage}></UserPagination>
+      <UserPagination setOffset={setOffset} dataleng={users ? users.length : 0} perPage={perPage}></UserPagination>
 
       <AddButtonList>
         <PrimaryButton onClick={() => OpenCreateModal()} sizeX='large' sizeY='small'>
@@ -109,15 +111,17 @@ const UserList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Users
-              ? Users.slice(offset, offset + perPage).map((data) => (
-                  <UserInfo
-                    data={data}
-                    key={data.user_id}
-                    onEdit={(editdata) => OpenEditModal(editdata)}
-                    UpdateUsers={UpdateUsers}
-                  ></UserInfo>
-                ))
+            {users
+              ? users
+                  .slice(offset, offset + perPage)
+                  .map((data) => (
+                    <UserInfo
+                      data={data}
+                      key={data.user_id}
+                      onEdit={(editdata) => OpenEditModal(editdata)}
+                      UpdateUsers={UpdateUsers}
+                    ></UserInfo>
+                  ))
               : ''}
           </TableBody>
         </Table>

@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {GetUsers, getUser as getUserAPI} from '../components/API/UserAPIs';
+import {getUsers as getUsersAPI, getUser as getUserAPI} from '../components/API/UserAPIs';
 
 import {UserContext} from '../contexts/UserContext';
 
@@ -16,13 +16,18 @@ export const useUser = () => {
     return await getUserAPI(id);
   };
 
-  useEffect(() => {
-    GetUsers().then((json) => {
+  const getUsers = async () => {
+    return await getUsersAPI().then((json) => {
       setUsers(json);
+      return json;
     });
+  };
+
+  useEffect(() => {
+    getUsers();
   }, []);
 
-  return {users, setUsers, updateUser, deleteUser, createUser, getUser};
+  return {users, setUsers, updateUser, deleteUser, createUser, getUser, getUsers};
 };
 
 export const useUserPost = () => {

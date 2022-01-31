@@ -8,7 +8,7 @@ export const getUser = async (id) => {
       return json;
     });
 };
-export const GetUsers = async () => {
+export const getUsers = async () => {
   //全ユーザー取得
   return await fetch(UsersAPI) //api
     .then((res) => res.json())
@@ -29,7 +29,7 @@ export const CreateUser = (jsonData, password) => {
       role: jsonData.role,
       password: password,
     }),
-  }).then(() => GetUsers());
+  }).then(() => getUsers());
 };
 
 export const EditUser = async (jsonData, password) => {
@@ -43,7 +43,7 @@ export const EditUser = async (jsonData, password) => {
       role: jsonData.role,
       password: password,
     }),
-  }).then(() => GetUsers());
+  }).then(() => getUsers());
 };
 
 export const DeleteUser = (id) => {
