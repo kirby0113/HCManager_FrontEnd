@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 import {useBook, useBookPost} from '../../hooks/useBook';
 import {useUser} from '../../hooks/useUser';
@@ -11,16 +11,26 @@ import {PageTitle} from '../../components/Utilities/Title';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
 const BookList = () => {
-  const {books, createBook} = useBook();
+  const {books, createBook, getBooks, setBooks} = useBook();
   const {users} = useUser();
   const {bookPost, setBookPost} = useBookPost();
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  return (
+  useEffect(() => {
+    getBooks()
+      .then((json) => setBooks(json))
+      .then(() => setLoading(false));
+  }, []);
+
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div className='Body'>
       <PageTitle color='pink'>教材一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>

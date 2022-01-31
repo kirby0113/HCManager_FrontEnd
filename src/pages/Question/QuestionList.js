@@ -12,20 +12,24 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {Anchor} from '../../components/Utilities/Anchor';
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useQuestion} from '../../hooks/useQuestion';
 
 const QuestionList = () => {
+  const [loading, setLoading] = useState(true);
   const {questions, setQuestions, getQuestions} = useQuestion();
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    getQuestions();
+    getQuestions().then(() => setLoading(false));
   }, []);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   //const [modalVisible,setModalVisible] = useState(false);
 
-  return (
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div className='Body'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
       <PageTitle color='orange'>問題一覧</PageTitle>

@@ -9,15 +9,16 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {Label} from '../../components/Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../../components/Cards/DetailCard';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
-import {QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useUser} from '../../hooks/useUser';
 import {useBookPost, useBook, useBookRecodePost} from '../../hooks/useBook';
 import {useQuestion} from '../../hooks/useQuestion';
 
 import {getBook} from '../../components/API/BookAPIs';
+import {getQuestions} from '../../components/API/QuestionAPIs';
 
 const BookDetail = () => {
   const param = useParams();
@@ -26,7 +27,7 @@ const BookDetail = () => {
   const {updateBook, addRecode, removeRecode, getRecode} = useBook();
   const {bookPost, setBookPost} = useBookPost();
   const {bookRecodePost, setBookRecodePost} = useBookRecodePost(param['id']);
-
+  const [loading, setLoading] = useState(true);
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
@@ -38,21 +39,20 @@ const BookDetail = () => {
     getRecode(param['id']).then((json) => setQuestionInBook(json));
   };
 
-  const getBookDataFetch = () => {
-    getBook(param.id).then((json) => {
-      setBook(json);
-      setBookPost({
-        name: json.name,
-        summary: json.summary,
-        access_key: json.access_key,
-        user_id: json.user_id,
-      });
-      getUser(json.user_id).then((json) => setCreatedBy(json.name));
-    });
-  };
-
   useEffect(() => {
-    getBookDataFetch();
+    getBook(param.id)
+      .then((json) => {
+        setBook(json);
+        setBookPost({
+          name: json.name,
+          summary: json.summary,
+          access_key: json.access_key,
+          user_id: json.user_id,
+        });
+        return getUser(json.user_id).then((json) => setCreatedBy(json.name));
+      })
+      .then(() => getQuestions().then((json) => setQuestions(json)))
+      .then(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -70,7 +70,9 @@ const BookDetail = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div>
       <PageTitle color='red'>教材詳細</PageTitle>
 
