@@ -29,5 +29,20 @@ export const useGroup = () => {
 
   const updateGroup = () => {};
 
-  return {groups, setGroups, selectGroup, setSelectGroup, getGroups, getGroup, createGroup, deleteGroup, updateGroup};
+  const selectGroupInit = () => {
+    setSelectGroup({name: '', summary: '', access_key: '', user_id: ''});
+  };
+
+  return {
+    groups,
+    setGroups,
+    selectGroup,
+    selectGroupInit,
+    setSelectGroup,
+    getGroups,
+    getGroup,
+    createGroup,
+    deleteGroup,
+    updateGroup,
+  };
 };

@@ -16,33 +16,26 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 const GroupList = () => {
-  const {groups, setGroups, selectGroup, setSelectGroup, getGroups, createGroup} = useGroup();
+  const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const [modalVisible, setModalVisible] = useState(false);
-  const [CreateGroupPostData, setCreateGroupPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
 
   useEffect(() => {
     getGroups();
   }, []);
+
+  const openCreateModal = () => {
+    selectGroupInit();
+    setModalVisible(true);
+  };
 
   return (
     <div className='Body'>
       <PageTitle color='lightBlue'>グループ一覧</PageTitle>
       {groups ? <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination> : ''}
       <AddButtonList>
-        <PrimaryButton
-          sizeX='large'
-          sizeY='small'
-          onClick={() => {
-            setModalVisible(true);
-          }}
-        >
+        <PrimaryButton sizeX='large' sizeY='small' onClick={() => openCreateModal()}>
           グループ追加
         </PrimaryButton>
       </AddButtonList>
@@ -61,9 +54,9 @@ const GroupList = () => {
       {modalVisible ? (
         <CreateGroupModal
           onClose={() => setModalVisible(false)}
-          PostData={CreateGroupPostData}
-          setPostData={setCreateGroupPostData}
-          CreateGroupFetch={() => createGroup(CreateGroupPostData)}
+          PostData={selectGroup}
+          setPostData={setSelectGroup}
+          CreateGroupFetch={() => createGroup(selectGroup)}
         ></CreateGroupModal>
       ) : (
         ''
