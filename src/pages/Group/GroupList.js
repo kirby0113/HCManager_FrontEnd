@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 
+import {useGroup} from '../../hooks/useGroup';
+
 import GroupInfo from '../../components/pages/Group/GroupInfo';
 import Pagination from '../../components/Pagination/Pagination';
 
@@ -14,8 +16,8 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 const GroupList = () => {
+  const {groups, setGroups, selectGroup, setSelectGroup, getGroups} = useGroup();
   const [offset, setOffset] = useState(0);
-  const [Groups, setGroups] = useState();
   const [perPage, setPerPage] = useState(5);
   const [modalVisible, setModalVisible] = useState(false);
   const [CreateGroupPostData, setCreateGroupPostData] = useState({
@@ -24,14 +26,6 @@ const GroupList = () => {
     access_key: '',
     user_id: '',
   });
-
-  const getGroups = () => {
-    fetch(GroupsAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setGroups(json);
-      });
-  };
 
   useEffect(() => {
     getGroups();
@@ -53,7 +47,7 @@ const GroupList = () => {
   return (
     <div className='Body'>
       <PageTitle color='lightBlue'>グループ一覧</PageTitle>
-      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+      {groups ? <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination> : ''}
       <AddButtonList>
         <PrimaryButton
           sizeX='large'
@@ -67,16 +61,16 @@ const GroupList = () => {
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
-      {Groups ? (
+      {groups ? (
         <InfoCardList>
-          {Groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
+          {groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
           ))}
         </InfoCardList>
       ) : (
         ''
       )}
-      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
+      {groups ? <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination> : ''}
       {modalVisible ? (
         <CreateGroupModal
           onClose={() => setModalVisible(false)}
