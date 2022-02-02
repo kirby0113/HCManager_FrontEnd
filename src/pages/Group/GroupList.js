@@ -16,7 +16,7 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 const GroupList = () => {
-  const {groups, setGroups, selectGroup, setSelectGroup, getGroups} = useGroup();
+  const {groups, setGroups, selectGroup, setSelectGroup, getGroups, createGroup} = useGroup();
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,19 +30,6 @@ const GroupList = () => {
   useEffect(() => {
     getGroups();
   }, []);
-
-  const CreateGroupFetch = () => {
-    fetch(GroupsAPI, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: CreateGroupPostData.name,
-        summary: CreateGroupPostData.summary,
-        access_key: CreateGroupPostData.access_key,
-        user_id: CreateGroupPostData.user_id,
-      }),
-    }).then(() => getGroups());
-  };
 
   return (
     <div className='Body'>
@@ -76,7 +63,7 @@ const GroupList = () => {
           onClose={() => setModalVisible(false)}
           PostData={CreateGroupPostData}
           setPostData={setCreateGroupPostData}
-          CreateGroupFetch={CreateGroupFetch}
+          CreateGroupFetch={() => createGroup(CreateGroupPostData)}
         ></CreateGroupModal>
       ) : (
         ''
