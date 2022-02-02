@@ -1,7 +1,8 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import {GroupContext} from '../contexts/GroupContext';
 
 export const useGroup = () => {
-  const [groups, setGroups] = useState();
+  const {groups, setGroups, selectGroup, setSelectGroup} = useContext(GroupContext);
 
   const getGroups = () => {};
 
@@ -13,5 +14,5 @@ export const useGroup = () => {
 
   const updateGroup = () => {};
 
-  return {groups, setGroups, getGroups, getGroup, registerGroup, deleteGroup, updateGroup};
+  return {groups, setGroups, selectGroup, setSelectGroup, getGroups, getGroup, registerGroup, deleteGroup, updateGroup};
 };
