@@ -5,8 +5,6 @@ import TableCell from '@material-ui/core/TableCell';
 
 import {Delete, Edit} from '@material-ui/icons';
 
-import {DeleteUser} from '../../API/UserAPIs';
-
 const StyledDelete = styled(Delete)`
   color: red;
   cursor: pointer;
@@ -24,8 +22,7 @@ const StyledEdit = styled(Edit)`
 const UserInfo = (props) => {
   const onDelete = async (id) => {
     if (confirm('対象を学習終了者としてよろしいですか？')) {
-      await DeleteUser(id);
-      props.UpdateUsers();
+      return await props.deleteUser(id);
     }
   };
   return (

@@ -1,8 +1,6 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import parse, {domToReact} from 'html-react-parser';
-import {getQuestion} from '../../components/API/QuestionAPIs';
-import {getUser} from '../../components/API/UserAPIs';
 import {useParams} from 'react-router';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
@@ -11,6 +9,10 @@ import {CodeBoard} from '../../components/Utilities/Card/CodeBoard';
 import {QuestionBoard} from '../../components/Utilities/Card/QuestionBoard';
 import {DetailCard, DetailCardContent} from '../../components/Cards/DetailCard';
 import {AnswerCard} from '../../components/Cards/AnswerCard';
+import {LoadingWindow} from '../../components/Utilities/Loading';
+
+import {useQuestion} from '../../hooks/useQuestion';
+import {useUser} from '../../hooks/useUser';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -74,43 +76,46 @@ const QuestionCardView = styled.div`
 
 const QuestionDetail = () => {
   const param = useParams();
-  const [questionData, setQuestionData] = useState();
+  const {selectQuestion, getQuestion} = useQuestion();
+  const [loading, setLoading] = useState(true);
+  const {getUser} = useUser();
   const [createdBy, setCreatedBy] = useState();
+
   useEffect(() => {
-    getQuestion(param['id'])
-      .then((json) => {
-        setQuestionData(json);
-        console.log(json);
-        return json;
-      })
-      .then((json) => {
-        getUser(json.user_id).then((json) => setCreatedBy(json.name));
-      })
-      .then(() => {});
+    getQuestion(param['id']).then((json) =>
+      getUser(json.user_id)
+        .then((json) => {
+          return setCreatedBy(json.name);
+        })
+        .then(() => setLoading(false))
+    );
   }, []);
-  return (
+
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>
       <DetailCard>
-        {questionData && questionData.card_question && (
-          <CardQuestionDetail questionData={questionData} createdBy={createdBy}></CardQuestionDetail>
+        {selectQuestion && selectQuestion.card_question && (
+          <CardQuestionDetail selectQuestion={selectQuestion} createdBy={createdBy}></CardQuestionDetail>
         )}
 
-        {questionData && questionData.blank_select_question && (
-          <BlankQuestionDetail questionData={questionData} createdBy={createdBy}></BlankQuestionDetail>
+        {selectQuestion && selectQuestion.blank_select_question && (
+          <BlankQuestionDetail selectQuestion={selectQuestion} createdBy={createdBy}></BlankQuestionDetail>
         )}
       </DetailCard>
     </div>
   );
 };
 
-const CardQuestionDetail = ({questionData, createdBy}) => {
+const CardQuestionDetail = ({selectQuestion, createdBy}) => {
   return (
     <div>
       <DetailCardContent>
         <div>
           <Label>問題名</Label>
-          {questionData.name}
+          {selectQuestion.name}
         </div>
         <div>
           <Label>作成者</Label>
@@ -118,44 +123,44 @@ const CardQuestionDetail = ({questionData, createdBy}) => {
         </div>
         <div>
           <Label>問題形式</Label>
-          {questionData.mode}
+          {selectQuestion.mode}
         </div>
         <div>
           <Label>作成日</Label>
-          {questionData.created_at}
+          {selectQuestion.created_at}
         </div>
         <div>
           <Label>学習言語</Label>
-          {questionData.card_question.language}
+          {selectQuestion.card_question.language}
         </div>
         <div>
           <Label>解答時間</Label>
           <span>
-            {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
+            {Math.trunc(selectQuestion.time_limit / 60)}分{selectQuestion.time_limit % 60}秒
           </span>
         </div>
         <div>
           <Label>実行時間制限</Label>
-          {questionData.card_question.max_exec_time} sec
+          {selectQuestion.card_question.max_exec_time} sec
         </div>
         <div>
           <Label>行数制限</Label>
-          {questionData.number_limit}行
+          {selectQuestion.number_limit}行
         </div>
         <div>
           <Label>ヒント</Label>
-          {questionData.card_question.hint_type}
+          {selectQuestion.card_question.hint_type}
         </div>
       </DetailCardContent>
 
       <PageSubTitle color='blue'>問題内容</PageSubTitle>
-      <CodeBoard code={questionData.card_question.base_code} />
-      <QuestionBoard>{parse(questionData.card_question.explain, {replace})}</QuestionBoard>
+      <CodeBoard code={selectQuestion.card_question.base_code} />
+      <QuestionBoard>{parse(selectQuestion.card_question.explain, {replace})}</QuestionBoard>
 
       <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
       <QuestionCardView>
-        {questionData &&
-          questionData.card_question.card
+        {selectQuestion &&
+          selectQuestion.card_question.card
             .sort((a, b) => {
               if (a.loc.line >= b.loc.line) {
                 return 1;
@@ -169,8 +174,8 @@ const CardQuestionDetail = ({questionData, createdBy}) => {
                   line={card.loc.line}
                   options={card.option}
                   answer={
-                    questionData.card_question.correct_blank[index]
-                      ? questionData.card_question.correct_blank[index]
+                    selectQuestion.card_question.correct_blank[index]
+                      ? selectQuestion.card_question.correct_blank[index]
                       : -1
                   }
                 />
@@ -181,13 +186,13 @@ const CardQuestionDetail = ({questionData, createdBy}) => {
   );
 };
 
-const BlankQuestionDetail = ({questionData, createdBy}) => {
+const BlankQuestionDetail = ({selectQuestion, createdBy}) => {
   return (
     <div>
       <DetailCardContent>
         <div>
           <Label>問題名</Label>
-          {questionData.name}
+          {selectQuestion.name}
         </div>
         <div>
           <Label>作成者</Label>
@@ -195,50 +200,50 @@ const BlankQuestionDetail = ({questionData, createdBy}) => {
         </div>
         <div>
           <Label>問題形式</Label>
-          {questionData.mode}
+          {selectQuestion.mode}
         </div>
         <div>
           <Label>作成日</Label>
-          {questionData.created_at}
+          {selectQuestion.created_at}
         </div>
         <div>
           <Label>学習言語</Label>
-          {questionData.blank_select_question.language}
+          {selectQuestion.blank_select_question.language}
         </div>
         <div>
           <Label>解答時間</Label>
           <span>
-            {Math.trunc(questionData.time_limit / 60)}分{questionData.time_limit % 60}秒
+            {Math.trunc(selectQuestion.time_limit / 60)}分{selectQuestion.time_limit % 60}秒
           </span>
         </div>
         <div>
           <Label>実行時間制限</Label>
-          {questionData.blank_select_question.max_exec_time} sec
+          {selectQuestion.blank_select_question.max_exec_time} sec
         </div>
         <div>
           <Label>行数制限</Label>
-          {questionData.number_limit}行
+          {selectQuestion.number_limit}行
         </div>
         <div>
           <Label>ヒント</Label>
-          {questionData.blank_select_question.hint_type}
+          {selectQuestion.blank_select_question.hint_type}
         </div>
       </DetailCardContent>
 
       <PageSubTitle color='blue'>問題内容</PageSubTitle>
-      <CodeBoard code={questionData.blank_select_question.base_code} />
-      <QuestionBoard>{parse(questionData.blank_select_question.explain, {replace})}</QuestionBoard>
+      <CodeBoard code={selectQuestion.blank_select_question.base_code} />
+      <QuestionBoard>{parse(selectQuestion.blank_select_question.explain, {replace})}</QuestionBoard>
 
       <PageSubTitle color='red'>選択肢・解答</PageSubTitle>
       <QuestionCardView>
-        {questionData &&
-          Object.entries(questionData.blank_select_question.select_blank).map((card, index) => {
+        {selectQuestion &&
+          Object.entries(selectQuestion.blank_select_question.select_blank).map((card, index) => {
             return (
               <AnswerCard
                 options={Object.entries(card[1].option).map((elem, i) => elem[1])}
                 answer={
-                  questionData.blank_select_question.correct_blank[index]
-                    ? questionData.blank_select_question.correct_blank[index]
+                  selectQuestion.blank_select_question.correct_blank[index]
+                    ? selectQuestion.blank_select_question.correct_blank[index]
                     : -1
                 }
               />

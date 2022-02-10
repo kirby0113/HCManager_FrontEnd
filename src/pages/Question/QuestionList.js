@@ -1,10 +1,7 @@
 import {useState, useEffect} from 'react';
-//import ReactDOM from "react-dom";
-import {QuestionsAPI} from '../../APILink';
 
 import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
 import Pagination from '../../components/Pagination/Pagination';
-//import CreateGroupModal from "./CreateGroupModal";
 
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
@@ -12,33 +9,28 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {Anchor} from '../../components/Utilities/Anchor';
-// const CreateGroup = (props) => {
-//     return ReactDOM.createPortal(
-//         <CreateGroupModal modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}></CreateGroupModal>,
-//         document.getElementById("modal-creategroup")
-//     );
-// }
+import {LoadingWindow} from '../../components/Utilities/Loading';
+
+import {useQuestion} from '../../hooks/useQuestion';
+import {usePagination} from '../../hooks/usePagination';
 
 const QuestionList = () => {
-  const [offset, setOffset] = useState(0);
-  const [Questions, setQuestions] = useState();
+  const [loading, setLoading] = useState(true);
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
+  const {questions, setQuestions, getQuestions} = useQuestion();
 
   useEffect(() => {
-    fetch(QuestionsAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setQuestions(json);
-        console.log(json);
-      });
+    setOffset(0);
+    setLoading(true);
+    getQuestions().then(() => setLoading(false));
   }, []);
-  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
-  //const [modalVisible,setModalVisible] = useState(false);
 
-  return (
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div className='Body'>
-      {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
       <PageTitle color='orange'>問題一覧</PageTitle>
-      <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
+      <Pagination setOffset={setOffset} dataleng={questions ? questions.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>
         <PrimaryButton color='primary' sizeX='large' sizeY='small'>
           記述問題作成
@@ -50,16 +42,16 @@ const QuestionList = () => {
         </Anchor>
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
-      {Questions ? (
+      {questions ? (
         <InfoCardList>
-          {Questions.slice(offset, Number(offset) + Number(perPage)).map((data) => (
+          {questions.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <QuestionInfo data={data} key={data.question_id} setQuestions={setQuestions}></QuestionInfo>
           ))}
         </InfoCardList>
       ) : (
         ''
       )}
-      <Pagination setOffset={setOffset} dataleng={Questions ? Questions.length : 0} perPage={perPage}></Pagination>
+      <Pagination setOffset={setOffset} dataleng={questions ? questions.length : 0} perPage={perPage}></Pagination>
     </div>
   );
 };

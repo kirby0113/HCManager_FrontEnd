@@ -9,163 +9,68 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {Label} from '../../components/Utilities/Card/Label';
 import {DetailCard, DetailCardButtons, DetailCardContent, DetailCardSummary} from '../../components/Cards/DetailCard';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
-import {BooksAPI, UsersAPI, QuestionsAPI} from '../../APILink';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {EditBookModal} from '../../components/Modals/Edit/EditBookModal';
+import {LoadingWindow} from '../../components/Utilities/Loading';
+
+import {useUser} from '../../hooks/useUser';
+import {useBookPost, useBook, useBookRecodePost} from '../../hooks/useBook';
+import {useQuestion} from '../../hooks/useQuestion';
+
+import {getBook} from '../../components/API/BookAPIs';
+import {getQuestions} from '../../components/API/QuestionAPIs';
 
 const BookDetail = () => {
   const param = useParams();
-
+  const {users, getUser} = useUser();
+  const {updateBook, addRecode, removeRecode, getRecodes} = useBook();
+  const {bookPost, setBookPost} = useBookPost();
+  const {bookRecodePost, setBookRecodePost} = useBookRecodePost(param['id']);
+  const [loading, setLoading] = useState(true);
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
-  const [Questions, setQuestions] = useState(); //全ての問題
-  const [Users, setUsers] = useState(); //Formで使用
-
+  const {questions, setQuestions} = useQuestion();
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const [QuestionPostBody, setQuestionPostBody] = useState({
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({book_id: param['id'], question_id: 1}),
-  });
-
-  const [editBookPostData, setEditBookPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
-
   const getQuestionInBook = () => {
-    if (typeof Book !== 'undefined') {
-      fetch(BooksAPI + '/' + param['id'] + '/questions') //api
-        .then((res) => res.json())
-        .then((json) => {
-          if (Array.isArray(json)) {
-            setQuestionInBook(json);
-          } else {
-            setQuestionInBook([]);
-          }
-        });
-    }
+    getRecodes(param['id']).then((json) => setQuestionInBook(json));
   };
 
-  const registerQuestion = () => {
-    fetch(BooksAPI + '/addRecord', {...QuestionPostBody, method: 'POST'}) //api groups/addBook
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-        getQuestionInBook();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
-  const removeQuestion = () => {
-    fetch(BooksAPI + '/removeRecord', {...QuestionPostBody, method: 'DELETE'}) //api groups/addBook
-      .then((response) => response)
-      .then((data) => {
-        console.log('Success:', data);
-        getQuestionInBook();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
-  const QuestionPostChange = (id) => {
-    setQuestionPostBody({
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({book_id: param['id'], question_id: id}),
-    });
-  };
-
-  const getBookDataFetch = () => {
-    fetch(BooksAPI + '/' + param['id']) //api
-      .then((res) => res.json())
-      .then((json) => {
+  useEffect(() => {
+    getBook(param.id)
+      .then(async (json) => {
         setBook(json);
-        setEditBookPostData({
+        setBookPost({
           name: json.name,
           summary: json.summary,
           access_key: json.access_key,
           user_id: json.user_id,
         });
-      });
-  };
-
-  useEffect(() => {
-    getBookDataFetch();
+        return await getUser(json.user_id).then((json) => setCreatedBy(json.name));
+      })
+      .then(() => getQuestions().then((json) => setQuestions(json)))
+      .then(() => setLoading(false));
   }, []);
-
-  useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json);
-      });
-  }, []);
-
-  useEffect(() => {
-    //Groupデータ更新時に作成者名を取得
-    if (typeof Book !== 'undefined') {
-      fetch(UsersAPI + '/' + Book.user_id) //api
-        .then((res) => res.json())
-        .then((json) => {
-          setCreatedBy(json.name);
-        });
-    }
-  }, [Book]);
 
   useEffect(() => {
     //Groupデータ更新時に紐づけされてる問題を取得
     getQuestionInBook();
   }, [Book]);
 
-  useEffect(() => {
-    //Groupデータ更新時に紐づけされてる問題を取得
-    if (typeof Book !== 'undefined') {
-      fetch(QuestionsAPI) //api
-        .then((res) => res.json())
-        .then((json) => {
-          if (Array.isArray(json)) {
-            setQuestions(json);
-          } else {
-            setQuestions([]);
-          }
-        });
-    }
-  }, [Book]);
-
-  const EditBookFetch = () => {
-    //Group編集用Fetch
-    fetch(BooksAPI + '/' + param['id'], {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: editBookPostData.name,
-        summary: editBookPostData.summary,
-        access_key: editBookPostData.access_key,
-        user_id: editBookPostData.user_id,
-      }),
-    }) //api
-      .then((res) => res)
-      .then(() => {
-        getBookDataFetch();
-      });
-  };
-
   const EditBookCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      EditBookFetch();
+      updateBook(param.id, bookPost).then((json) => {
+        setBook(json);
+        getUser(json.user_id).then((json) => setCreatedBy(json.name));
+      });
       setIsOpenModal(false);
-      // console.log(EditGroupPostData);
     }
   };
 
-  return (
+  return loading ? (
+    <LoadingWindow />
+  ) : (
     <div>
       <PageTitle color='red'>教材詳細</PageTitle>
 
@@ -202,15 +107,18 @@ const BookDetail = () => {
       <PageSubTitle color='orange'>教材内問題一覧</PageSubTitle>
 
       <EditRelationButtonList
-        onAdd={() => registerQuestion()}
-        onDelete={() => removeQuestion()}
+        onAdd={() => addRecode(bookRecodePost).then((json) => setQuestionInBook(json))}
+        onDelete={() => removeRecode(bookRecodePost).then((json) => setQuestionInBook(json))}
         onChange={(e) => {
-          QuestionPostChange(e.target.value);
+          setBookRecodePost({
+            book_id: param['id'],
+            question_id: e.target.value,
+          });
         }}
         label='教材名'
       >
-        {Questions
-          ? Questions.map((data) => (
+        {questions
+          ? questions.map((data) => (
               <option value={data.question_id} key={data.question_id}>
                 {data.name}
               </option>
@@ -231,10 +139,10 @@ const BookDetail = () => {
       {/* Modal*/}
       {isOpenModal ? (
         <EditBookModal
-          onChange={setEditBookPostData}
+          onChange={setBookPost}
           onSave={EditBookCheck}
-          users={Users}
-          postData={editBookPostData}
+          users={users}
+          postData={bookPost}
           onClose={() => setIsOpenModal(false)}
         />
       ) : (

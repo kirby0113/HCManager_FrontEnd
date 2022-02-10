@@ -37,7 +37,7 @@ const ModalTitle = styled.div`
 `;
 
 export const CreateTeachingMaterialModal = (props) => {
-  const CreateBookCheck = () => {
+  const createBookCheck = () => {
     if (
       props.BookPost.name == '' ||
       props.BookPost.summary == '' ||
@@ -48,7 +48,7 @@ export const CreateTeachingMaterialModal = (props) => {
       return;
     }
     if (confirm('データを作成してよろしいですか？')) {
-      props.CreateBookFetch();
+      props.createBookFetch();
       props.onClose();
     }
   };
@@ -99,7 +99,7 @@ export const CreateTeachingMaterialModal = (props) => {
               : ''}
           </select>
         </InputUnit>
-        <CreateTMButton variant='contained' color='primary' onClick={() => CreateBookCheck()}>
+        <CreateTMButton variant='contained' color='primary' onClick={() => createBookCheck()}>
           作成
         </CreateTMButton>
       </Modal>

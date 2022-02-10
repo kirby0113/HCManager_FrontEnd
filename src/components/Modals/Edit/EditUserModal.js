@@ -38,7 +38,13 @@ const ModalTitle = styled.div`
 
 export const EditUserModal = (props) => {
   const EditUserCheck = () => {
-    if (props.editData.name == '' || props.editData.mail == '' || props.editData.role == '' || props.password == '') {
+    console.log(props.editData);
+    if (
+      props.editData.name === '' ||
+      props.editData.mail === '' ||
+      props.editData.role === '' ||
+      props.editData.password === ''
+    ) {
       alert('全ての項目を入力してください。');
       return;
     }
@@ -91,8 +97,8 @@ export const EditUserModal = (props) => {
           <input
             type='password'
             id='password'
-            value={props.password}
-            onChange={(e) => props.setPassword(e.target.value)}
+            value={props.editData.password}
+            onChange={(e) => props.setEdit({...props.editData, password: e.target.value})}
           ></input>
         </InputUnit>
         <CreateGroupButton variant='contained' color='primary' onClick={() => EditUserCheck()}>

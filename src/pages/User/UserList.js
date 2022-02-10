@@ -1,8 +1,6 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {GetUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
-
 import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
 import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
 
@@ -21,70 +19,68 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
+import {LoadingWindow} from '../../components/Utilities/Loading';
+
+import {useUser} from '../../hooks/useUser';
+import {usePagination} from '../../hooks/usePagination';
+
+const UserTable = styled(TableContainer)`
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80% !important;
+`;
 
 const UserList = () => {
-  const [Users, setUsers] = useState([]);
+  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser, deleteUser} = useUser();
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
-  const [UserPost, setUserPost] = useState({
-    user_id: '',
-    name: '',
-    mail: '',
-    password: '',
-    role: '',
-  });
-  const [passwordPost, setPasswordPost] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const EditUserFetch = () => {
-    EditUser(UserPost, passwordPost).then((json) => setUsers(json));
+    updateUser(selectUser).then((json) => setUsers(json));
   };
 
   const CreateUserFetch = () => {
-    CreateUser(UserPost, passwordPost).then((json) => setUsers(json));
+    createUser(selectUser).then((json) => setUsers(json));
   };
 
-  const OpenEditModal = (editdata) => {
-    setUserPost(editdata);
-    setPasswordPost('');
+  const OpenEditModal = (data) => {
+    setSelectUser({...data, password: ''});
     setIsOpenEditModal(true);
   };
 
   const OpenCreateModal = () => {
-    setUserPost({
+    setSelectUser({
       name: '',
       mail: '',
       password: '',
       role: '',
     });
-    setPasswordPost('');
     setIsOpenCreateModal(true);
   };
 
-  const UpdateUsers = () => {
-    GetUsers().then((json) => setUsers(json));
-  };
+  useEffect(() => {
+    console.log('offset:', offset);
+    console.log('perPage:', perPage);
+  }, [perPage, offset]);
 
   useEffect(() => {
-    UpdateUsers();
-  }, [EditUser]);
+    setOffset(0);
+    setLoading(true);
+    getUsers().then(() => setLoading(false));
+  }, []);
 
-  const [offset, setOffset] = useState(0);
-  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
-
-  const UserTable = styled(TableContainer)`
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80% !important;
-  `;
-
-  return (
+  return loading ? (
+    <LoadingWindow></LoadingWindow>
+  ) : (
     <div className='UsersBody'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
 
       <PageTitle color='lightGreen'>ユーザ一覧</PageTitle>
 
-      <UserPagination setOffset={setOffset} dataleng={Users ? Users.length : 0} perPage={perPage}></UserPagination>
+      <UserPagination setOffset={setOffset} dataleng={users ? users.length : 0} perPage={perPage}></UserPagination>
 
       <AddButtonList>
         <PrimaryButton onClick={() => OpenCreateModal()} sizeX='large' sizeY='small'>
@@ -109,44 +105,37 @@ const UserList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Users
-              ? Users.slice(offset, offset + perPage).map((data) => (
+            {users &&
+              users
+                .slice(offset, Number(offset) + Number(perPage))
+                .map((data) => (
                   <UserInfo
                     data={data}
                     key={data.user_id}
-                    onEdit={(editdata) => OpenEditModal(editdata)}
-                    UpdateUsers={UpdateUsers}
+                    onEdit={() => OpenEditModal(data)}
+                    deleteUser={deleteUser}
                   ></UserInfo>
-                ))
-              : ''}
+                ))}
           </TableBody>
         </Table>
       </UserTable>
 
-      {isOpenEditModal ? (
+      {isOpenEditModal && (
         <EditUserModal
           onClose={() => setIsOpenEditModal(false)}
-          editData={UserPost}
-          setEdit={setUserPost}
-          setPassword={setPasswordPost}
-          password={passwordPost}
+          editData={selectUser}
+          setEdit={setSelectUser}
           EditUserFetch={EditUserFetch}
         ></EditUserModal>
-      ) : (
-        ''
       )}
 
-      {isOpenCreateModal ? (
+      {isOpenCreateModal && (
         <CreateUserModal
           onClose={() => setIsOpenCreateModal(false)}
-          createData={UserPost}
-          setPost={setUserPost}
-          setPassword={setPasswordPost}
-          password={passwordPost}
+          createData={selectUser}
+          setPost={setSelectUser}
           CreateUserFetch={CreateUserFetch}
         ></CreateUserModal>
-      ) : (
-        ''
       )}
     </div>
   );

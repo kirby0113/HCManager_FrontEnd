@@ -1,9 +1,10 @@
 import {useState, useEffect} from 'react';
 
+import {useGroup} from '../../hooks/useGroup';
+import {usePagination} from '../../hooks/usePagination';
+
 import GroupInfo from '../../components/pages/Group/GroupInfo';
 import Pagination from '../../components/Pagination/Pagination';
-
-import {GroupsAPI} from '../../APILink';
 
 import {CreateGroupModal} from '../../components/Modals/Create/CreateGroupModal';
 
@@ -13,79 +14,57 @@ import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
-const GroupList = () => {
-  const [offset, setOffset] = useState(0);
-  const [Groups, setGroups] = useState();
-  const [perPage, setPerPage] = useState(5);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [CreateGroupPostData, setCreateGroupPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
-  const getGroups = () => {
-    fetch(GroupsAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setGroups(json);
-      });
-  };
+const GroupList = () => {
+  const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getGroups();
+    setOffset(0);
+    setLoading(true);
+    getGroups().then(() => setLoading(false));
   }, []);
 
-  const CreateGroupFetch = () => {
-    fetch(GroupsAPI, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: CreateGroupPostData.name,
-        summary: CreateGroupPostData.summary,
-        access_key: CreateGroupPostData.access_key,
-        user_id: CreateGroupPostData.user_id,
-      }),
-    }).then(() => getGroups());
+  const openCreateModal = () => {
+    selectGroupInit();
+    setModalVisible(true);
   };
 
   return (
     <div className='Body'>
-      <PageTitle color='lightBlue'>グループ一覧</PageTitle>
-      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
-      <AddButtonList>
-        <PrimaryButton
-          sizeX='large'
-          sizeY='small'
-          onClick={() => {
-            setModalVisible(true);
-          }}
-        >
-          グループ追加
-        </PrimaryButton>
-      </AddButtonList>
-      <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
+      {loading ? (
+        <LoadingWindow></LoadingWindow>
+      ) : (
+        <div>
+          <PageTitle color='lightBlue'>グループ一覧</PageTitle>
+          {groups ? <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination> : ''}
+          <AddButtonList>
+            <PrimaryButton sizeX='large' sizeY='small' onClick={() => openCreateModal()}>
+              グループ追加
+            </PrimaryButton>
+          </AddButtonList>
+          <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
 
-      {Groups ? (
-        <InfoCardList>
-          {Groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-            <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
-          ))}
-        </InfoCardList>
-      ) : (
-        ''
-      )}
-      {Groups ? <Pagination setOffset={setOffset} dataleng={Groups.length} perPage={perPage}></Pagination> : ''}
-      {modalVisible ? (
-        <CreateGroupModal
-          onClose={() => setModalVisible(false)}
-          PostData={CreateGroupPostData}
-          setPostData={setCreateGroupPostData}
-          CreateGroupFetch={CreateGroupFetch}
-        ></CreateGroupModal>
-      ) : (
-        ''
+          {groups && (
+            <InfoCardList>
+              {groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
+                <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
+              ))}
+            </InfoCardList>
+          )}
+          {groups && <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination>}
+          {modalVisible && (
+            <CreateGroupModal
+              onClose={() => setModalVisible(false)}
+              PostData={selectGroup}
+              setPostData={setSelectGroup}
+              CreateGroupFetch={() => createGroup(selectGroup)}
+            ></CreateGroupModal>
+          )}
+        </div>
       )}
     </div>
   );

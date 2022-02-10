@@ -1,4 +1,4 @@
-import {GroupsAPI, UsersAPI} from '../../APILink';
+import {UsersAPI} from '../../APILink';
 
 export const getUser = async (id) => {
   //id指定で1データ取る
@@ -8,7 +8,7 @@ export const getUser = async (id) => {
       return json;
     });
 };
-export const GetUsers = async () => {
+export const getUsers = async () => {
   //全ユーザー取得
   return await fetch(UsersAPI) //api
     .then((res) => res.json())
@@ -18,7 +18,7 @@ export const GetUsers = async () => {
     });
 };
 
-export const CreateUser = (jsonData, password) => {
+export const createUser = (jsonData) => {
   //ユーザー作成
   return fetch(UsersAPI, {
     method: 'POST',
@@ -27,12 +27,12 @@ export const CreateUser = (jsonData, password) => {
       name: jsonData.name,
       mail: jsonData.mail,
       role: jsonData.role,
-      password: password,
+      password: jsonData.password,
     }),
-  }).then(() => GetUsers());
+  });
 };
 
-export const EditUser = async (jsonData, password) => {
+export const editUser = async (jsonData) => {
   //ユーザー編集
   return fetch(UsersAPI + '/' + jsonData.user_id, {
     method: 'PUT',
@@ -41,17 +41,14 @@ export const EditUser = async (jsonData, password) => {
       name: jsonData.name,
       mail: jsonData.mail,
       role: jsonData.role,
-      password: password,
+      password: jsonData.password,
     }),
-  }).then(() => GetUsers());
+  });
 };
 
-export const DeleteUser = (id) => {
-  fetch(UsersAPI + '/' + id, {
+export const deleteUser = async (id) => {
+  return await fetch(UsersAPI + '/' + id, {
     method: 'DELETE',
   }) //api
-    .then((res) => res.json())
-    .then((json) => {
-      console.log(json);
-    });
+    .then((res) => res);
 };
