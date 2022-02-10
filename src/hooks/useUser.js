@@ -4,6 +4,7 @@ import {
   getUser as getUserAPI,
   createUser as createUserAPI,
   editUser,
+  deleteUser as deleteUserAPI,
 } from '../components/API/UserAPIs';
 
 import {UserContext} from '../contexts/UserContext';
@@ -17,7 +18,11 @@ export const useUser = () => {
     });
   };
 
-  const deleteUser = () => {};
+  const deleteUser = async (id) => {
+    return await deleteUserAPI(id).then(() => {
+      return getUsers();
+    });
+  };
 
   const createUser = async (data) => {
     return await createUserAPI(data).then(() => {

@@ -30,7 +30,7 @@ const UserTable = styled(TableContainer)`
 `;
 
 const UserList = () => {
-  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser} = useUser();
+  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser, deleteUser} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
 
@@ -108,6 +108,7 @@ const UserList = () => {
                       key={data.user_id}
                       onEdit={() => OpenEditModal(data)}
                       UpdateUsers={UpdateUsers}
+                      deleteUser={deleteUser}
                     ></UserInfo>
                   ))
               : ''}

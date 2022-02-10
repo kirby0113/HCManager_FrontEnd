@@ -46,12 +46,9 @@ export const editUser = async (jsonData) => {
   });
 };
 
-export const DeleteUser = (id) => {
-  fetch(UsersAPI + '/' + id, {
+export const deleteUser = async (id) => {
+  return await fetch(UsersAPI + '/' + id, {
     method: 'DELETE',
   }) //api
-    .then((res) => res.json())
-    .then((json) => {
-      console.log(json);
-    });
+    .then((res) => res);
 };
