@@ -1,8 +1,6 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {getUsers, EditUser} from '../../components/API/UserAPIs';
-
 import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
 import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
 
@@ -24,21 +22,28 @@ import {PageTitle} from '../../components/Utilities/Title';
 
 import {useUser} from '../../hooks/useUser';
 
+const UserTable = styled(TableContainer)`
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80% !important;
+`;
+
 const UserList = () => {
-  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser} = useUser();
+  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
 
   const EditUserFetch = () => {
-    EditUser(selectUser).then((json) => setUsers(json));
+    updateUser(selectUser).then((json) => setUsers(json));
   };
 
   const CreateUserFetch = () => {
     createUser(selectUser).then((json) => setUsers(json));
   };
 
-  const OpenEditModal = (editdata) => {
-    setSelectUser(editdata);
+  const OpenEditModal = (data) => {
+    setSelectUser({...data, password: ''});
     setIsOpenEditModal(true);
   };
 
@@ -57,22 +62,11 @@ const UserList = () => {
   };
 
   useEffect(() => {
-    UpdateUsers();
-  }, [EditUser]);
-
-  useEffect(() => {
     getUsers();
   }, []);
 
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
-
-  const UserTable = styled(TableContainer)`
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80% !important;
-  `;
 
   return (
     <div className='UsersBody'>
@@ -112,7 +106,7 @@ const UserList = () => {
                     <UserInfo
                       data={data}
                       key={data.user_id}
-                      onEdit={(editdata) => OpenEditModal(editdata)}
+                      onEdit={() => OpenEditModal(data)}
                       UpdateUsers={UpdateUsers}
                     ></UserInfo>
                   ))

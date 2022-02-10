@@ -38,11 +38,12 @@ const ModalTitle = styled.div`
 
 export const EditUserModal = (props) => {
   const EditUserCheck = () => {
+    console.log(props.editData);
     if (
-      props.editData.name == '' ||
-      props.editData.mail == '' ||
-      props.editData.role == '' ||
-      props.editData.password == ''
+      props.editData.name === '' ||
+      props.editData.mail === '' ||
+      props.editData.role === '' ||
+      props.editData.password === ''
     ) {
       alert('全ての項目を入力してください。');
       return;
