@@ -25,40 +25,30 @@ import {PageTitle} from '../../components/Utilities/Title';
 import {useUser} from '../../hooks/useUser';
 
 const UserList = () => {
-  const {users, setUsers, getUsers} = useUser();
+  const {users, setUsers, selectUser, setSelectUser, getUsers} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
-  const [UserPost, setUserPost] = useState({
-    user_id: '',
-    name: '',
-    mail: '',
-    password: '',
-    role: '',
-  });
-  const [passwordPost, setPasswordPost] = useState('');
 
   const EditUserFetch = () => {
-    EditUser(UserPost, passwordPost).then((json) => setUsers(json));
+    EditUser(selectUser).then((json) => setUsers(json));
   };
 
   const CreateUserFetch = () => {
-    CreateUser(UserPost, passwordPost).then((json) => setUsers(json));
+    CreateUser(selectUser).then((json) => setUsers(json));
   };
 
   const OpenEditModal = (editdata) => {
-    setUserPost(editdata);
-    setPasswordPost('');
+    setSelectUser(editdata);
     setIsOpenEditModal(true);
   };
 
   const OpenCreateModal = () => {
-    setUserPost({
+    setSelectUser({
       name: '',
       mail: '',
       password: '',
       role: '',
     });
-    setPasswordPost('');
     setIsOpenCreateModal(true);
   };
 
@@ -69,6 +59,10 @@ const UserList = () => {
   useEffect(() => {
     UpdateUsers();
   }, [EditUser]);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
@@ -130,10 +124,8 @@ const UserList = () => {
       {isOpenEditModal ? (
         <EditUserModal
           onClose={() => setIsOpenEditModal(false)}
-          editData={UserPost}
-          setEdit={setUserPost}
-          setPassword={setPasswordPost}
-          password={passwordPost}
+          editData={selectUser}
+          setEdit={setSelectUser}
           EditUserFetch={EditUserFetch}
         ></EditUserModal>
       ) : (
@@ -143,10 +135,8 @@ const UserList = () => {
       {isOpenCreateModal ? (
         <CreateUserModal
           onClose={() => setIsOpenCreateModal(false)}
-          createData={UserPost}
-          setPost={setUserPost}
-          setPassword={setPasswordPost}
-          password={passwordPost}
+          createData={selectUser}
+          setPost={setSelectUser}
           CreateUserFetch={CreateUserFetch}
         ></CreateUserModal>
       ) : (

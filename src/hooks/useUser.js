@@ -4,7 +4,7 @@ import {getUsers as getUsersAPI, getUser as getUserAPI} from '../components/API/
 import {UserContext} from '../contexts/UserContext';
 
 export const useUser = () => {
-  const {users, setUsers} = useContext(UserContext);
+  const {users, setUsers, selectUser, setSelectUser} = useContext(UserContext);
 
   const updateUser = () => {};
 
@@ -23,13 +23,25 @@ export const useUser = () => {
     });
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  const initSelectUser = () => {
+    setSelectUser({
+      name: '',
+      mail: '',
+      password: '',
+      role: '',
+    });
+  };
 
-  return {users, setUsers, updateUser, deleteUser, createUser, getUser, getUsers};
-};
-
-export const useUserPost = () => {
-  const [userPost, setUserPost] = useState({name: '', mail: '', password: '', role: ''});
+  return {
+    users,
+    setUsers,
+    selectUser,
+    setSelectUser,
+    initSelectUser,
+    updateUser,
+    deleteUser,
+    createUser,
+    getUser,
+    getUsers,
+  };
 };
