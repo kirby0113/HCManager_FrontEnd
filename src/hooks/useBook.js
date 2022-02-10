@@ -10,7 +10,6 @@ import {
   removeRecode as removeRecodeAPI,
   getRecodes as getRecodesAPI,
   checkBookInQuestions,
-  getRecodes,
 } from '../components/API/BookAPIs';
 
 import {BookContext} from '../contexts/BookContext';
@@ -62,11 +61,11 @@ export const useBook = () => {
     return await removeRecodeAPI(postData);
   };
 
-  const getRecode = async (id) => {
-    return await getRecodes(id);
+  const getRecodes = async (id) => {
+    return await getRecodesAPI(id);
   };
 
-  return {books, setBooks, getBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecode};
+  return {books, setBooks, getBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecodes};
 };
 
 /* Bookの編集・作成用のFormフック */

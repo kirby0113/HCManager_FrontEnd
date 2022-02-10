@@ -23,7 +23,7 @@ import {getQuestions} from '../../components/API/QuestionAPIs';
 const BookDetail = () => {
   const param = useParams();
   const {users, getUser} = useUser();
-  const {updateBook, addRecode, removeRecode, getRecode} = useBook();
+  const {updateBook, addRecode, removeRecode, getRecodes} = useBook();
   const {bookPost, setBookPost} = useBookPost();
   const {bookRecodePost, setBookRecodePost} = useBookRecodePost(param['id']);
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ const BookDetail = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const getQuestionInBook = () => {
-    getRecode(param['id']).then((json) => setQuestionInBook(json));
+    getRecodes(param['id']).then((json) => setQuestionInBook(json));
   };
 
   useEffect(() => {

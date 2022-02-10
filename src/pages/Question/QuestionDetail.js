@@ -1,8 +1,6 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import parse, {domToReact} from 'html-react-parser';
-import {getQuestion} from '../../components/API/QuestionAPIs';
-import {getUser} from '../../components/API/UserAPIs';
 import {useParams} from 'react-router';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';

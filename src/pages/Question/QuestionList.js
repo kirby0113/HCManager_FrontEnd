@@ -1,10 +1,7 @@
 import {useState, useEffect} from 'react';
-//import ReactDOM from "react-dom";
-import {QuestionsAPI} from '../../APILink';
 
 import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
 import Pagination from '../../components/Pagination/Pagination';
-//import CreateGroupModal from "./CreateGroupModal";
 
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
@@ -25,13 +22,11 @@ const QuestionList = () => {
     getQuestions().then(() => setLoading(false));
   }, []);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
-  //const [modalVisible,setModalVisible] = useState(false);
 
   return loading ? (
     <LoadingWindow />
   ) : (
     <div className='Body'>
-      {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
       <PageTitle color='orange'>問題一覧</PageTitle>
       <Pagination setOffset={setOffset} dataleng={questions ? questions.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>

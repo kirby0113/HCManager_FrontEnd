@@ -1,4 +1,4 @@
-import {GroupsAPI, UsersAPI} from '../../APILink';
+import {UsersAPI} from '../../APILink';
 
 export const getUser = async (id) => {
   //id指定で1データ取る
