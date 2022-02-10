@@ -57,10 +57,6 @@ const UserList = () => {
     setIsOpenCreateModal(true);
   };
 
-  const UpdateUsers = () => {
-    getUsers().then((json) => setUsers(json));
-  };
-
   useEffect(() => {
     getUsers();
   }, []);
@@ -99,43 +95,37 @@ const UserList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users
-              ? users
-                  .slice(offset, offset + perPage)
-                  .map((data) => (
-                    <UserInfo
-                      data={data}
-                      key={data.user_id}
-                      onEdit={() => OpenEditModal(data)}
-                      UpdateUsers={UpdateUsers}
-                      deleteUser={deleteUser}
-                    ></UserInfo>
-                  ))
-              : ''}
+            {users &&
+              users
+                .slice(offset, offset + perPage)
+                .map((data) => (
+                  <UserInfo
+                    data={data}
+                    key={data.user_id}
+                    onEdit={() => OpenEditModal(data)}
+                    deleteUser={deleteUser}
+                  ></UserInfo>
+                ))}
           </TableBody>
         </Table>
       </UserTable>
 
-      {isOpenEditModal ? (
+      {isOpenEditModal && (
         <EditUserModal
           onClose={() => setIsOpenEditModal(false)}
           editData={selectUser}
           setEdit={setSelectUser}
           EditUserFetch={EditUserFetch}
         ></EditUserModal>
-      ) : (
-        ''
       )}
 
-      {isOpenCreateModal ? (
+      {isOpenCreateModal && (
         <CreateUserModal
           onClose={() => setIsOpenCreateModal(false)}
           createData={selectUser}
           setPost={setSelectUser}
           CreateUserFetch={CreateUserFetch}
         ></CreateUserModal>
-      ) : (
-        ''
       )}
     </div>
   );
