@@ -42,7 +42,7 @@ export const CreateUserModal = (props) => {
       props.createData.name == '' ||
       props.createData.mail == '' ||
       props.createData.role == '' ||
-      props.password == ''
+      props.createData.password == ''
     ) {
       alert('全ての項目を入力してください。');
       return;
@@ -94,8 +94,8 @@ export const CreateUserModal = (props) => {
           <input
             type='password'
             id='password'
-            value={props.password}
-            onChange={(e) => props.setPassword(e.target.value)}
+            value={props.createData.password}
+            onChange={(e) => props.setPost({...props.createData, password: e.target.value})}
           ></input>
         </InputUnit>
         <CreateGroupButton variant='contained' color='primary' onClick={() => EditUserCheck()}>
