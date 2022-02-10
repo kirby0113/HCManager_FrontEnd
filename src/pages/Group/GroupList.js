@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 
 import {useGroup} from '../../hooks/useGroup';
+import {usePagination} from '../../hooks/usePagination';
 
 import GroupInfo from '../../components/pages/Group/GroupInfo';
 import Pagination from '../../components/Pagination/Pagination';
@@ -17,12 +18,12 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 
 const GroupList = () => {
   const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
-  const [offset, setOffset] = useState(0);
-  const [perPage, setPerPage] = useState(5);
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setOffset(0);
     setLoading(true);
     getGroups().then(() => setLoading(false));
   }, []);

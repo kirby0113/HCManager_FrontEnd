@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 
 import {useBook, useBookPost} from '../../hooks/useBook';
 import {useUser} from '../../hooks/useUser';
+import {usePagination} from '../../hooks/usePagination';
 
 import BookInfo from '../../components/pages/Book/BookInfo';
 import Pagination from '../../components/Pagination/Pagination';
@@ -15,14 +16,15 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 
 const BookList = () => {
   const {books, createBook, getBooks, setBooks} = useBook();
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {users} = useUser();
   const {bookPost, setBookPost} = useBookPost();
-  const [offset, setOffset] = useState(0);
-  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setOffset(0);
+    setLoading(true);
     getBooks()
       .then((json) => setBooks(json))
       .then(() => setLoading(false));

@@ -22,6 +22,7 @@ import {PageTitle} from '../../components/Utilities/Title';
 import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useUser} from '../../hooks/useUser';
+import {usePagination} from '../../hooks/usePagination';
 
 const UserTable = styled(TableContainer)`
   position: relative;
@@ -32,6 +33,7 @@ const UserTable = styled(TableContainer)`
 
 const UserList = () => {
   const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser, deleteUser} = useUser();
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -60,12 +62,15 @@ const UserList = () => {
   };
 
   useEffect(() => {
+    console.log('offset:', offset);
+    console.log('perPage:', perPage);
+  }, [perPage, offset]);
+
+  useEffect(() => {
+    setOffset(0);
     setLoading(true);
     getUsers().then(() => setLoading(false));
   }, []);
-
-  const [offset, setOffset] = useState(0);
-  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
 
   return loading ? (
     <LoadingWindow></LoadingWindow>
@@ -102,7 +107,7 @@ const UserList = () => {
           <TableBody>
             {users &&
               users
-                .slice(offset, offset + perPage)
+                .slice(offset, Number(offset) + Number(perPage))
                 .map((data) => (
                   <UserInfo
                     data={data}

@@ -12,16 +12,18 @@ import {Anchor} from '../../components/Utilities/Anchor';
 import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useQuestion} from '../../hooks/useQuestion';
+import {usePagination} from '../../hooks/usePagination';
 
 const QuestionList = () => {
   const [loading, setLoading] = useState(true);
+  const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {questions, setQuestions, getQuestions} = useQuestion();
-  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
+    setOffset(0);
+    setLoading(true);
     getQuestions().then(() => setLoading(false));
   }, []);
-  const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
 
   return loading ? (
     <LoadingWindow />
