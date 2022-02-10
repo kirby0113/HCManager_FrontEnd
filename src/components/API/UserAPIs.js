@@ -29,10 +29,10 @@ export const createUser = (jsonData) => {
       role: jsonData.role,
       password: jsonData.password,
     }),
-  }).then(() => getUsers());
+  });
 };
 
-export const EditUser = async (jsonData) => {
+export const editUser = async (jsonData) => {
   //ユーザー編集
   return fetch(UsersAPI + '/' + jsonData.user_id, {
     method: 'PUT',
@@ -43,7 +43,7 @@ export const EditUser = async (jsonData) => {
       role: jsonData.role,
       password: jsonData.password,
     }),
-  }).then(() => getUsers());
+  });
 };
 
 export const DeleteUser = (id) => {

@@ -1,12 +1,21 @@
 import {useState, useEffect, useContext} from 'react';
-import {getUsers as getUsersAPI, getUser as getUserAPI, createUser as createUserAPI} from '../components/API/UserAPIs';
+import {
+  getUsers as getUsersAPI,
+  getUser as getUserAPI,
+  createUser as createUserAPI,
+  editUser,
+} from '../components/API/UserAPIs';
 
 import {UserContext} from '../contexts/UserContext';
 
 export const useUser = () => {
   const {users, setUsers, selectUser, setSelectUser} = useContext(UserContext);
 
-  const updateUser = () => {};
+  const updateUser = async (data) => {
+    return await editUser(data).then(() => {
+      return getUsers();
+    });
+  };
 
   const deleteUser = () => {};
 
