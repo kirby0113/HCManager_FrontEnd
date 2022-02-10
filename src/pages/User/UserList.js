@@ -19,6 +19,7 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 
 import {SelectPerPage} from '../../components/Pagination/SelectPerPage';
 import {PageTitle} from '../../components/Utilities/Title';
+import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useUser} from '../../hooks/useUser';
 
@@ -33,6 +34,7 @@ const UserList = () => {
   const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser, deleteUser} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const EditUserFetch = () => {
     updateUser(selectUser).then((json) => setUsers(json));
@@ -58,13 +60,16 @@ const UserList = () => {
   };
 
   useEffect(() => {
-    getUsers();
+    setLoading(true);
+    getUsers().then(() => setLoading(false));
   }, []);
 
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(5); // 1ページあたりに表示したいアイテムの数
 
-  return (
+  return loading ? (
+    <LoadingWindow></LoadingWindow>
+  ) : (
     <div className='UsersBody'>
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
 
