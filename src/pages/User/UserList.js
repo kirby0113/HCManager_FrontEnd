@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {getUsers, EditUser, CreateUser} from '../../components/API/UserAPIs';
+import {getUsers, EditUser} from '../../components/API/UserAPIs';
 
 import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
 import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
@@ -25,7 +25,7 @@ import {PageTitle} from '../../components/Utilities/Title';
 import {useUser} from '../../hooks/useUser';
 
 const UserList = () => {
-  const {users, setUsers, selectUser, setSelectUser, getUsers} = useUser();
+  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser} = useUser();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
 
@@ -34,7 +34,7 @@ const UserList = () => {
   };
 
   const CreateUserFetch = () => {
-    CreateUser(selectUser).then((json) => setUsers(json));
+    createUser(selectUser).then((json) => setUsers(json));
   };
 
   const OpenEditModal = (editdata) => {
