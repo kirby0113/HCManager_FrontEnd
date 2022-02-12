@@ -54,6 +54,17 @@ const UserList = () => {
   };
 
   const onCreateUsers = () => {
+    if (!csv) {
+      alert('ファイルが指定されていません。');
+      return;
+    }
+    if (!csv.name.match(/[^.]+.csv$/)) {
+      alert('CSVファイルを指定してください。');
+      return;
+    }
+    if (!confirm('データを追加してもよろしいですか？')) {
+      return;
+    }
     return Papa.parse(csv, {
       header: true,
       delimiter: ',',
@@ -122,7 +133,15 @@ const UserList = () => {
         <PrimaryButton onClick={() => OpenCreateModal()} sizeX='large' sizeY='small'>
           ユーザ作成
         </PrimaryButton>
-        <PrimaryButton sizeX='large' sizeY='small' onClick={() => setIsOpenCreateUsersModal(true)}>
+        <PrimaryButton
+          sizeX='large'
+          sizeY='small'
+          onClick={() => {
+            setCsv(undefined);
+            setSubmitUsers(undefined);
+            setIsOpenCreateUsersModal(true);
+          }}
+        >
           複数
         </PrimaryButton>
       </AddButtonList>
