@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
+import Papa from 'papaparse';
 
 import {EditUserModal} from '../../components/Modals/Edit/EditUserModal';
-import {CreateUserModal} from '../../components/Modals/Create/CreateUserModal';
+import {CreateUserModal, CreateUsersModal} from '../../components/Modals/Create/CreateUserModal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -32,11 +33,17 @@ const UserTable = styled(TableContainer)`
 `;
 
 const UserList = () => {
-  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, updateUser, deleteUser} = useUser();
+  const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, createUsers, updateUser, deleteUser} =
+    useUser();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
+  const [isOpenCreateUsersModal, setIsOpenCreateUsersModal] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  //ユーザー一括登録用
+  const [csv, setCsv] = useState();
+  const [submitUsers, setSubmitUsers] = useState();
 
   const EditUserFetch = () => {
     updateUser(selectUser).then((json) => setUsers(json));
@@ -44,6 +51,46 @@ const UserList = () => {
 
   const CreateUserFetch = () => {
     createUser(selectUser).then((json) => setUsers(json));
+  };
+
+  const onCreateUsers = () => {
+    if (!csv) {
+      alert('ファイルが指定されていません。');
+      return;
+    }
+    if (!csv.name.match(/[^.]+.csv$/)) {
+      alert('CSVファイルを指定してください。');
+      return;
+    }
+    if (!confirm('データを追加してもよろしいですか？')) {
+      return;
+    }
+    return Papa.parse(csv, {
+      header: true,
+      delimiter: ',',
+      encoding: 'Shift-JIS',
+
+      complete: (buf) => {
+        console.log(buf.data);
+        createUsers(
+          buf.data
+            .map((elem) => {
+              if (elem['ユーザ名'] && elem['パスワード'] && elem['メールアドレス'] && elem['権限']) {
+                return {
+                  password: elem['パスワード'],
+                  mail: elem['メールアドレス'],
+                  role: elem['権限'],
+                  name: elem['ユーザ名'],
+                };
+              }
+            })
+            .filter((elem) => elem !== undefined)
+        ).then(() => {
+          setIsOpenCreateUsersModal(false);
+          getUsers();
+        });
+      },
+    });
   };
 
   const OpenEditModal = (data) => {
@@ -86,7 +133,15 @@ const UserList = () => {
         <PrimaryButton onClick={() => OpenCreateModal()} sizeX='large' sizeY='small'>
           ユーザ作成
         </PrimaryButton>
-        <PrimaryButton sizeX='large' sizeY='small'>
+        <PrimaryButton
+          sizeX='large'
+          sizeY='small'
+          onClick={() => {
+            setCsv(undefined);
+            setSubmitUsers(undefined);
+            setIsOpenCreateUsersModal(true);
+          }}
+        >
           複数
         </PrimaryButton>
       </AddButtonList>
@@ -136,6 +191,14 @@ const UserList = () => {
           setPost={setSelectUser}
           CreateUserFetch={CreateUserFetch}
         ></CreateUserModal>
+      )}
+
+      {isOpenCreateUsersModal && (
+        <CreateUsersModal
+          setCsv={setCsv}
+          onCreateUsers={() => onCreateUsers()}
+          onClose={() => setIsOpenCreateUsersModal(false)}
+        ></CreateUsersModal>
       )}
     </div>
   );

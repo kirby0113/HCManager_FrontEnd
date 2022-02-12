@@ -30,6 +30,14 @@ export const useUser = () => {
     });
   };
 
+  const createUsers = async (datas) => {
+    return await Promise.all(
+      datas.map(async (data) => {
+        return await createUserAPI(data);
+      })
+    ).then(() => getUsers());
+  };
+
   const getUser = async (id) => {
     return await getUserAPI(id);
   };
@@ -59,6 +67,7 @@ export const useUser = () => {
     updateUser,
     deleteUser,
     createUser,
+    createUsers,
     getUser,
     getUsers,
   };
