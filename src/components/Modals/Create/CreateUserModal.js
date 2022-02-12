@@ -1,4 +1,6 @@
+import {useState} from 'react';
 import styled from 'styled-components';
+import Papa from 'papaparse';
 
 import Button from '@material-ui/core/Button';
 
@@ -99,6 +101,36 @@ export const CreateUserModal = (props) => {
           ></input>
         </InputUnit>
         <CreateGroupButton variant='contained' color='primary' onClick={() => EditUserCheck()}>
+          保存
+        </CreateGroupButton>
+      </Modal>
+      <Overray onClick={props.onClose}></Overray>
+    </div>
+  );
+};
+
+export const CreateUsersModal = (props) => {
+  const onChangeHandler = (e) => {
+    console.log(e.target.files[0]);
+    props.setCsv(e.target.files[0]);
+  };
+  return (
+    <div>
+      <Modal>
+        <ModalTitle className='ModalTitle'>ユーザー複数作成</ModalTitle>
+
+        <InputUnit>
+          <label htmlFor='csv'>CSVファイル</label>
+          <input
+            type='file'
+            id='csv'
+            onChange={(e) => {
+              onChangeHandler(e);
+            }}
+          ></input>
+        </InputUnit>
+
+        <CreateGroupButton variant='contained' color='primary' onClick={props.onCreateUsers}>
           保存
         </CreateGroupButton>
       </Modal>
