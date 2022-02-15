@@ -15,6 +15,7 @@ import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 import {LoadingWindow} from '../../components/Utilities/Loading';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const GroupList = () => {
   const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
@@ -40,6 +41,7 @@ const GroupList = () => {
       ) : (
         <div>
           <PageTitle color='lightBlue'>グループ一覧</PageTitle>
+          <Breadcrumbs />
           {groups ? <Pagination setOffset={setOffset} dataleng={groups.length} perPage={perPage}></Pagination> : ''}
           <AddButtonList>
             <PrimaryButton sizeX='large' sizeY='small' onClick={() => openCreateModal()}>

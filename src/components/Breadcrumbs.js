@@ -22,6 +22,11 @@ const BreadcrumbsLink = styled(Link)`
   }
 `;
 
+const StyledBreadcrumb = styled.div`
+  margin: 20px;
+  margin-top: 30px;
+`;
+
 const getLinkName = (name) => {
   switch (name) {
     case 'home':
@@ -57,7 +62,7 @@ export const Breadcrumbs = () => {
     setPaths([{name: 'Home', route: '/'}, ...pathobj]);
   }, [location]);
   return (
-    <div>
+    <StyledBreadcrumb>
       {paths &&
         paths.map((path, index) => {
           return (
@@ -69,6 +74,6 @@ export const Breadcrumbs = () => {
             </LinkSpan>
           );
         })}
-    </div>
+    </StyledBreadcrumb>
   );
 };

@@ -13,6 +13,7 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {LoadingWindow} from '../../components/Utilities/Loading';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const BookList = () => {
   const {books, createBook, getBooks, setBooks} = useBook();
@@ -35,6 +36,7 @@ const BookList = () => {
   ) : (
     <div className='Body'>
       <PageTitle color='pink'>教材一覧</PageTitle>
+      <Breadcrumbs />
       <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>
         <PrimaryButton variant='contained' onClick={() => setModalVisible(true)} sizeX='large' sizeY='small'>

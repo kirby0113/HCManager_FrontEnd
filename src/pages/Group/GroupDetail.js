@@ -14,6 +14,7 @@ import {DetailCard, DetailCardContent, DetailCardSummary, DetailCardButtons} fro
 import {Label} from '../../components/Utilities/Card/Label';
 import {EditGroupModal} from '../../components/Modals/Edit/EditGroupModal';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -180,6 +181,7 @@ const GroupDetail = () => {
   return (
     <div>
       <PageTitle color='blue'>グループ詳細</PageTitle>
+      <Breadcrumbs />
       <GroupDetailCard>
         {GroupData ? (
           <DetailCardContent>

@@ -24,6 +24,7 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useUser} from '../../hooks/useUser';
 import {usePagination} from '../../hooks/usePagination';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const UserTable = styled(TableContainer)`
   position: relative;
@@ -126,6 +127,7 @@ const UserList = () => {
       {/* <CreateGroup modalVisible={modalVisible} setModalVisible={setModalVisible}></CreateGroup> */}
 
       <PageTitle color='lightGreen'>ユーザ一覧</PageTitle>
+      <Breadcrumbs />
 
       <UserPagination setOffset={setOffset} dataleng={users ? users.length : 0} perPage={perPage}></UserPagination>
 

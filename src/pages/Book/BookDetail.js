@@ -19,6 +19,7 @@ import {useQuestion} from '../../hooks/useQuestion';
 
 import {getBook} from '../../components/API/BookAPIs';
 import {getQuestions} from '../../components/API/QuestionAPIs';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const BookDetail = () => {
   const param = useParams();
@@ -73,7 +74,7 @@ const BookDetail = () => {
   ) : (
     <div>
       <PageTitle color='red'>教材詳細</PageTitle>
-
+      <Breadcrumbs />
       {Book ? (
         <DetailCard>
           <DetailCardContent>

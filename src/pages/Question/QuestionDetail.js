@@ -13,6 +13,7 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useQuestion} from '../../hooks/useQuestion';
 import {useUser} from '../../hooks/useUser';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -96,6 +97,7 @@ const QuestionDetail = () => {
   ) : (
     <div>
       <PageTitle color='blue'>問題詳細</PageTitle>
+      <Breadcrumbs />
       <DetailCard>
         {selectQuestion && selectQuestion.card_question && (
           <CardQuestionDetail selectQuestion={selectQuestion} createdBy={createdBy}></CardQuestionDetail>
