@@ -45,13 +45,13 @@ const App = () => {
                       <Route exact path='/group'>
                         <GroupList />
                       </Route>
-                      <Route exact path='/users'>
+                      <Route exact path='/user'>
                         <UserList />
                       </Route>
-                      <Route exact path='/questions'>
+                      <Route exact path='/question'>
                         <QuestionList />
                       </Route>
-                      <Route exact path='/teachingMaterials'>
+                      <Route exact path='/book'>
                         <BookList />
                       </Route>
                       <Route exact path='/'>
