@@ -44,7 +44,7 @@ const BookInfo = (props) => {
         <PrimaryButton color='secondary' onClick={() => deleteBook(props.data.book_id, props.data.name)}>
           削除する
         </PrimaryButton>
-        <Anchor to={'/book/detail/'.concat(props.data.book_id)}>
+        <Anchor to={'/book/'.concat(props.data.book_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </Anchor>
       </InfoCardButtons>

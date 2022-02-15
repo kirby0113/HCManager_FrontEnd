@@ -60,11 +60,11 @@ const App = () => {
 
                       {/* 詳細ページのルーティング */}
 
-                      <Route render={() => <GroupDetail />} path='/group/detail/:id(\d+)' />
+                      <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
 
-                      <Route render={() => <BookDetail />} path='/book/detail/:id(\d+)' />
+                      <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
 
-                      <Route render={() => <QuestionDetail />} path='/question/detail/:id(\d+)' />
+                      <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
 
                       {/*  問題作成・編集ページのルーティング */}
                       <Route render={() => <CreateBlankQuestion />} path='/question/create/blank' />

@@ -65,7 +65,7 @@ const GroupInfo = (props) => {
         <PrimaryButton color='secondary' onClick={() => Delete(props.data.group_id, props.data.name)}>
           削除する
         </PrimaryButton>
-        <Anchor to={'/group/detail/'.concat(props.data.group_id)}>
+        <Anchor to={'/group/'.concat(props.data.group_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </Anchor>
       </InfoCardButtons>
