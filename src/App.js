@@ -67,7 +67,7 @@ const App = () => {
                       <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
 
                       {/*  問題作成・編集ページのルーティング */}
-                      <Route render={() => <CreateBlankQuestion />} path='/question/create/blank' />
+                      <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
                     </Switch>
                   </div>
                 </MuiThemeProvider>

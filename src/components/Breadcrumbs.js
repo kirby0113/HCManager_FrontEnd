@@ -39,6 +39,8 @@ const getLinkName = (name) => {
       return 'ユーザ一覧';
     case 'question':
       return '問題一覧';
+    case 'createBlank':
+      return '空欄補充問題作成';
     default: {
       if (name.match(/[\d+]/)) {
         return '詳細:' + name;
