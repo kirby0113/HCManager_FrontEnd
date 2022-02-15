@@ -13,15 +13,15 @@ const Navigation = (props) => {
         <MenuItem>グループ一覧</MenuItem>
       </Anchor>
 
-      <Anchor to='/users' onClick={() => props.setOpenNavigation(false)}>
+      <Anchor to='/user' onClick={() => props.setOpenNavigation(false)}>
         <MenuItem>ユーザー覧</MenuItem>
       </Anchor>
 
-      <Anchor to='/questions' onClick={() => props.setOpenNavigation(false)}>
+      <Anchor to='/question' onClick={() => props.setOpenNavigation(false)}>
         <MenuItem>問題一覧</MenuItem>
       </Anchor>
 
-      <Anchor to='/teachingMaterials' onClick={() => props.setOpenNavigation(false)}>
+      <Anchor to='/book' onClick={() => props.setOpenNavigation(false)}>
         <MenuItem>教材一覧</MenuItem>
       </Anchor>
     </Drawer>

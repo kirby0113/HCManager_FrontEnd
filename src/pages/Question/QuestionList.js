@@ -13,6 +13,7 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 
 import {useQuestion} from '../../hooks/useQuestion';
 import {usePagination} from '../../hooks/usePagination';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const QuestionList = () => {
   const [loading, setLoading] = useState(true);
@@ -30,12 +31,13 @@ const QuestionList = () => {
   ) : (
     <div className='Body'>
       <PageTitle color='orange'>問題一覧</PageTitle>
+      <Breadcrumbs />
       <Pagination setOffset={setOffset} dataleng={questions ? questions.length : 0} perPage={perPage}></Pagination>
       <AddButtonList>
         <PrimaryButton color='primary' sizeX='large' sizeY='small'>
           記述問題作成
         </PrimaryButton>
-        <Anchor to='/question/create/blank' color='white'>
+        <Anchor to='/question/createBlank' color='white'>
           <PrimaryButton color='primary' sizeX='large' sizeY='small'>
             空欄問題作成
           </PrimaryButton>

@@ -59,7 +59,7 @@ const QuestionInfo = (props) => {
         >
           削除する
         </PrimaryButton>
-        <Anchor to={'/question/detail/'.concat(props.data.question_id)}>
+        <Anchor to={'/question/'.concat(props.data.question_id)}>
           <PrimaryButton>詳細を見る</PrimaryButton>
         </Anchor>
       </InfoCardButtons>

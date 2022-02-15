@@ -45,13 +45,13 @@ const App = () => {
                       <Route exact path='/group'>
                         <GroupList />
                       </Route>
-                      <Route exact path='/users'>
+                      <Route exact path='/user'>
                         <UserList />
                       </Route>
-                      <Route exact path='/questions'>
+                      <Route exact path='/question'>
                         <QuestionList />
                       </Route>
-                      <Route exact path='/teachingMaterials'>
+                      <Route exact path='/book'>
                         <BookList />
                       </Route>
                       <Route exact path='/'>
@@ -60,14 +60,14 @@ const App = () => {
 
                       {/* 詳細ページのルーティング */}
 
-                      <Route render={() => <GroupDetail />} path='/group/detail/:id(\d+)' />
+                      <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
 
-                      <Route render={() => <BookDetail />} path='/book/detail/:id(\d+)' />
+                      <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
 
-                      <Route render={() => <QuestionDetail />} path='/question/detail/:id(\d+)' />
+                      <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
 
                       {/*  問題作成・編集ページのルーティング */}
-                      <Route render={() => <CreateBlankQuestion />} path='/question/create/blank' />
+                      <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
                     </Switch>
                   </div>
                 </MuiThemeProvider>
