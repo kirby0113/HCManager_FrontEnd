@@ -1,4 +1,6 @@
+import {useContext} from 'react';
 import styled from 'styled-components';
+import {AuthContext} from '../../contexts/AuthContext';
 
 const StyledHome = styled.div`
   font-size: 25px;
@@ -8,7 +10,13 @@ const StyledHome = styled.div`
 `;
 
 const Home = () => {
-  return <StyledHome>HelloCManager制作中です</StyledHome>;
+  const {authData} = useContext(AuthContext);
+  return (
+    <StyledHome>
+      HelloCManager制作中です
+      {authData && <div>ログイン者：{authData.name}</div>}
+    </StyledHome>
+  );
 };
 
 export default Home;
