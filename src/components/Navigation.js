@@ -1,11 +1,22 @@
+import styled from 'styled-components';
+
 import {Anchor} from './Utilities/Anchor';
 
 import {MenuItem, Drawer} from 'material-ui';
 import {useContext} from 'react';
 import {AuthContext} from '../contexts/AuthContext';
 
+const UserDataText = styled.div`
+  font-size: 16px;
+  text-align: center;
+`;
+
+const UserDataTexts = styled.div`
+  margin-top: 40px;
+`;
+
 const Navigation = (props) => {
-  const {authData} = useContext(AuthContext);
+  const {authData, setAuthData} = useContext(AuthContext);
   return (
     <Drawer docked={false} width={200} open={props.open} onRequestChange={() => props.setOpenNavigation(false)}>
       <Anchor to='/' onClick={() => props.setOpenNavigation(false)}>
@@ -26,6 +37,15 @@ const Navigation = (props) => {
           <Anchor to='/book' onClick={() => props.setOpenNavigation(false)}>
             <MenuItem>教材一覧</MenuItem>
           </Anchor>
+          <Anchor
+            to='/'
+            onClick={() => {
+              setAuthData(undefined);
+              props.setOpenNavigation(false);
+            }}
+          >
+            <MenuItem>ログアウト</MenuItem>
+          </Anchor>
         </div>
       ) : (
         <div>
@@ -36,6 +56,13 @@ const Navigation = (props) => {
             <MenuItem>ログイン</MenuItem>
           </Anchor>
         </div>
+      )}
+
+      {authData && (
+        <UserDataTexts>
+          <UserDataText>ログイン中</UserDataText>
+          <UserDataText>{authData.name}</UserDataText>
+        </UserDataTexts>
       )}
     </Drawer>
   );
