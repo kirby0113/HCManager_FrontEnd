@@ -22,6 +22,7 @@ import CreateBlankQuestion from './pages/Question/create/CreateBlankQuestion';
 
 //認証ページ
 import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
 
 //ContextのProvider
 import {QuestionProvider} from './contexts/QuestionContext';
@@ -76,6 +77,7 @@ const App = () => {
 
                         {/* 認証ページ のルーティング*/}
                         <Route render={() => <Register />} path='/register' />
+                        <Route render={() => <Login />} path='/login' />
                       </Switch>
                     </div>
                   </MuiThemeProvider>
