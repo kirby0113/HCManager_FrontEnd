@@ -40,6 +40,10 @@ const Register = () => {
   const {selectUser, setSelectUser, initSelectUser, loginUser} = useUser();
   const {setAuthData, authData} = useContext(AuthContext);
 
+  if (authData) {
+    return <Redirect to='/' />;
+  }
+
   const onRegister = () => {
     if (selectUser.mail == '' || selectUser.password == '') {
       alert('全ての項目を入力してください。');

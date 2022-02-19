@@ -16,12 +16,20 @@ import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 import {LoadingWindow} from '../../components/Utilities/Loading';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {useContext} from 'react';
+import {AuthContext} from '../../contexts/AuthContext';
+import {Redirect} from 'react-router';
 
 const GroupList = () => {
   const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
 
   useEffect(() => {
     setOffset(0);

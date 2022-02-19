@@ -60,7 +60,7 @@ const Navigation = (props) => {
 
       {authData && (
         <UserDataTexts>
-          <UserDataText>ログイン中</UserDataText>
+          <UserDataText>{authData.role}でログイン中</UserDataText>
           <UserDataText>{authData.name}</UserDataText>
         </UserDataTexts>
       )}
