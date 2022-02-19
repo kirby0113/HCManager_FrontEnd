@@ -52,12 +52,17 @@ export const useUser = () => {
   };
 
   const registerUser = async (jsonData) => {
-    return await registerUserAPI(jsonData).then((json) => {
-      console.log(json);
+    return await registerUserAPI(jsonData).then(() => {
+      return loginUser(jsonData);
     });
   };
 
-  const loginUser = async () => {};
+  const loginUser = async (jsonData) => {
+    return await loginUserAPI(jsonData).then((json) => {
+      console.log(json);
+      return json;
+    });
+  };
 
   const initSelectUser = () => {
     setSelectUser({

@@ -1,9 +1,11 @@
-import {useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {PageTitle} from '../../components/Utilities/Title';
 import styled from 'styled-components';
 
 import {useUser} from '../../hooks/useUser';
 import {Button} from '@material-ui/core';
+import {AuthContext} from '../../contexts/AuthContext';
+import {Redirect} from 'react-router';
 
 const RegisterForm = styled.div`
   margin-top: 100px;
@@ -36,6 +38,7 @@ const CreateGroupButton = styled(Button)`
 
 const Register = () => {
   const {selectUser, setSelectUser, initSelectUser, registerUser} = useUser();
+  const {setAuthData, authData} = useContext(AuthContext);
 
   const onRegister = () => {
     if (selectUser.name == '' || selectUser.mail == '' || selectUser.role == '' || selectUser.password == '') {
@@ -43,14 +46,16 @@ const Register = () => {
       return;
     }
     if (confirm('データを作成してよろしいですか？')) {
-      registerUser(selectUser);
+      registerUser(selectUser).then((json) => {
+        console.log('tes');
+        setAuthData(json);
+      });
     }
   };
 
-  useEffect(() => {
-    initSelectUser();
-  }, []);
-  return (
+  return authData ? (
+    <Redirect to='/'></Redirect>
+  ) : (
     <div>
       <PageTitle color='blue'>新規登録</PageTitle>
       <RegisterForm>
