@@ -24,6 +24,14 @@ const Navigation = (props) => {
       <Anchor to='/book' onClick={() => props.setOpenNavigation(false)}>
         <MenuItem>教材一覧</MenuItem>
       </Anchor>
+
+      <Anchor to='/register' onClick={() => props.setOpenNavigation(false)}>
+        <MenuItem>新規登録</MenuItem>
+      </Anchor>
+
+      <Anchor to='/login' onClick={() => props.setOpenNavigation(false)}>
+        <MenuItem>ログイン</MenuItem>
+      </Anchor>
     </Drawer>
   );
 };

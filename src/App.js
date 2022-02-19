@@ -20,6 +20,9 @@ import QuestionDetail from './pages/Question/QuestionDetail';
 //問題作成・編集ページ
 import CreateBlankQuestion from './pages/Question/create/CreateBlankQuestion';
 
+//認証ページ
+import Register from './pages/Auth/Register';
+
 //ContextのProvider
 import {QuestionProvider} from './contexts/QuestionContext';
 import {BookProvider} from './contexts/BookContext';
@@ -68,6 +71,9 @@ const App = () => {
 
                       {/*  問題作成・編集ページのルーティング */}
                       <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
+
+                      {/* 認証ページ のルーティング*/}
+                      <Route render={() => <Register />} path='/register' />
                     </Switch>
                   </div>
                 </MuiThemeProvider>
