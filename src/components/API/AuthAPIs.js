@@ -12,7 +12,7 @@ export const loginUser = async (jsonData) => {
 };
 
 export const registerUser = async (jsonData) => {
-  return await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
+  return await fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({

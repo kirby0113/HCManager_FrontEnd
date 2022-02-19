@@ -35,7 +35,17 @@ const CreateGroupButton = styled(Button)`
 `;
 
 const Register = () => {
-  const {selectUser, setSelectUser, initSelectUser} = useUser();
+  const {selectUser, setSelectUser, initSelectUser, registerUser} = useUser();
+
+  const onRegister = () => {
+    if (selectUser.name == '' || selectUser.mail == '' || selectUser.role == '' || selectUser.password == '') {
+      alert('全ての項目を入力してください。');
+      return;
+    }
+    if (confirm('データを作成してよろしいですか？')) {
+      registerUser(selectUser);
+    }
+  };
 
   useEffect(() => {
     initSelectUser();
@@ -85,7 +95,13 @@ const Register = () => {
             onChange={(e) => setSelectUser({...selectUser, password: e.target.value})}
           ></input>
         </InputUnit>
-        <CreateGroupButton variant='contained' color='primary' onClick={() => {}}>
+        <CreateGroupButton
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            onRegister();
+          }}
+        >
           登録
         </CreateGroupButton>
       </RegisterForm>
