@@ -14,8 +14,17 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 import {useQuestion} from '../../hooks/useQuestion';
 import {usePagination} from '../../hooks/usePagination';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {AuthContext} from '../../contexts/AuthContext';
+import {useContext} from 'react';
+import {Redirect} from 'react-router';
 
 const QuestionList = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
+
   const [loading, setLoading] = useState(true);
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {questions, setQuestions, getQuestions} = useQuestion();

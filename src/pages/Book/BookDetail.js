@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 
-import {useParams} from 'react-router';
+import {Redirect, useParams} from 'react-router';
 
 import QuestionInfo from '../../components/pages/Questions/QuestionInfo';
 
@@ -20,8 +20,15 @@ import {useQuestion} from '../../hooks/useQuestion';
 import {getBook} from '../../components/API/BookAPIs';
 import {getQuestions} from '../../components/API/QuestionAPIs';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {AuthContext} from '../../contexts/AuthContext';
+import {useContext} from 'react';
 
 const BookDetail = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
   const param = useParams();
   const {users, getUser} = useUser();
   const {updateBook, addRecode, removeRecode, getRecodes} = useBook();

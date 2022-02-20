@@ -7,6 +7,8 @@ import {
   deleteUser as deleteUserAPI,
 } from '../components/API/UserAPIs';
 
+import {loginUser as loginUserAPI, registerUser as registerUserAPI} from '../components/API/AuthAPIs';
+
 import {UserContext} from '../contexts/UserContext';
 
 export const useUser = () => {
@@ -49,6 +51,19 @@ export const useUser = () => {
     });
   };
 
+  const registerUser = async (jsonData) => {
+    return await registerUserAPI(jsonData).then(() => {
+      return loginUser(jsonData);
+    });
+  };
+
+  const loginUser = async (jsonData) => {
+    return await loginUserAPI(jsonData).then((json) => {
+      console.log(json);
+      return json;
+    });
+  };
+
   const initSelectUser = () => {
     setSelectUser({
       name: '',
@@ -70,5 +85,7 @@ export const useUser = () => {
     createUsers,
     getUser,
     getUsers,
+    registerUser,
+    loginUser,
   };
 };

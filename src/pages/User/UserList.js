@@ -25,6 +25,9 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 import {useUser} from '../../hooks/useUser';
 import {usePagination} from '../../hooks/usePagination';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {useContext} from 'react';
+import {AuthContext} from '../../contexts/AuthContext';
+import {Redirect} from 'react-router';
 
 const UserTable = styled(TableContainer)`
   position: relative;
@@ -34,6 +37,12 @@ const UserTable = styled(TableContainer)`
 `;
 
 const UserList = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
+
   const {users, setUsers, selectUser, setSelectUser, getUsers, createUser, createUsers, updateUser, deleteUser} =
     useUser();
   const {perPage, setPerPage, offset, setOffset} = usePagination();

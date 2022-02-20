@@ -14,8 +14,16 @@ import {PrimaryButton} from '../../components/Buttons/PrimaryButton';
 import {AddButtonList} from '../../components/Buttons/Lists/AddButtonList';
 import {LoadingWindow} from '../../components/Utilities/Loading';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {useContext} from 'react';
+import {AuthContext} from '../../contexts/AuthContext';
+import {Redirect} from 'react-router';
 
 const BookList = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
   const {books, createBook, getBooks, setBooks} = useBook();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {users} = useUser();

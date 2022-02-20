@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import parse, {domToReact} from 'html-react-parser';
-import {useParams} from 'react-router';
+import {Redirect, useParams} from 'react-router';
 
 import {PageTitle, PageSubTitle} from '../../components/Utilities/Title';
 import {Label} from '../../components/Utilities/Card/Label';
@@ -14,6 +14,8 @@ import {LoadingWindow} from '../../components/Utilities/Loading';
 import {useQuestion} from '../../hooks/useQuestion';
 import {useUser} from '../../hooks/useUser';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {AuthContext} from '../../contexts/AuthContext';
+import {useContext} from 'react';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -76,6 +78,12 @@ const QuestionCardView = styled.div`
 `;
 
 const QuestionDetail = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
+
   const param = useParams();
   const {selectQuestion, getQuestion} = useQuestion();
   const [loading, setLoading] = useState(true);

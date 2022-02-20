@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {useParams} from 'react-router';
+import {Redirect, useParams} from 'react-router';
 
 import styled from 'styled-components';
 
@@ -15,12 +15,20 @@ import {Label} from '../../components/Utilities/Card/Label';
 import {EditGroupModal} from '../../components/Modals/Edit/EditGroupModal';
 import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelationButtonList';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {useContext} from 'react';
+import {AuthContext} from '../../contexts/AuthContext';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
 `;
 
 const GroupDetail = () => {
+  const {authData} = useContext(AuthContext);
+
+  if (!authData) {
+    return <Redirect to='/' />;
+  }
+
   const param = useParams();
 
   const [GroupData, setGroupData] = useState();

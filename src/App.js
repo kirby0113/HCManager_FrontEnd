@@ -20,62 +20,73 @@ import QuestionDetail from './pages/Question/QuestionDetail';
 //問題作成・編集ページ
 import CreateBlankQuestion from './pages/Question/create/CreateBlankQuestion';
 
+//認証ページ
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+
 //ContextのProvider
 import {QuestionProvider} from './contexts/QuestionContext';
 import {BookProvider} from './contexts/BookContext';
 import {UserProvider} from './contexts/UserContext';
 import {GroupProvider} from './contexts/GroupContext';
 import {PaginationProvider} from './contexts/PaginationContext';
+import {AuthProvider} from './contexts/AuthContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
     <Router>
-      <PaginationProvider>
-        <GroupProvider>
-          <BookProvider>
-            <QuestionProvider>
-              <UserProvider>
-                <MuiThemeProvider>
-                  <div>
-                    <Header></Header>
-                    <Switch>
-                      {/* 一覧ページのルーティング */}
-                      <Route exact path='/group'>
-                        <GroupList />
-                      </Route>
-                      <Route exact path='/user'>
-                        <UserList />
-                      </Route>
-                      <Route exact path='/question'>
-                        <QuestionList />
-                      </Route>
-                      <Route exact path='/book'>
-                        <BookList />
-                      </Route>
-                      <Route exact path='/'>
-                        <Home />
-                      </Route>
+      <AuthProvider>
+        <PaginationProvider>
+          <GroupProvider>
+            <BookProvider>
+              <QuestionProvider>
+                <UserProvider>
+                  <MuiThemeProvider>
+                    <div>
+                      <Header></Header>
+                      <Switch>
+                        {/* 一覧ページのルーティング */}
+                        <Route exact path='/group'>
+                          <GroupList />
+                        </Route>
+                        <Route exact path='/user'>
+                          <UserList />
+                        </Route>
+                        <Route exact path='/question'>
+                          <QuestionList />
+                        </Route>
+                        <Route exact path='/book'>
+                          <BookList />
+                        </Route>
+                        <Route exact path='/'>
+                          <Home />
+                        </Route>
 
-                      {/* 詳細ページのルーティング */}
+                        {/* 詳細ページのルーティング */}
 
-                      <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
+                        <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
 
-                      <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
+                        <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
 
-                      <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
+                        <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
 
-                      {/*  問題作成・編集ページのルーティング */}
-                      <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
-                    </Switch>
-                  </div>
-                </MuiThemeProvider>
-              </UserProvider>
-            </QuestionProvider>
-          </BookProvider>
-        </GroupProvider>
-      </PaginationProvider>
+                        {/*  問題作成・編集ページのルーティング */}
+                        <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
+
+                        {/* 認証ページ のルーティング*/}
+                        <Route render={() => <Register />} path='/register' />
+                        <Route render={() => <Login />} path='/login' />
+                      </Switch>
+                    </div>
+                  </MuiThemeProvider>
+                </UserProvider>
+              </QuestionProvider>
+            </BookProvider>
+          </GroupProvider>
+        </PaginationProvider>
+      </AuthProvider>
     </Router>
   );
 };
