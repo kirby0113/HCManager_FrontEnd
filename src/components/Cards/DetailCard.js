@@ -21,7 +21,7 @@ const StyledDetailCardContent = styled.div`
   padding-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 20px;
+  grid-row-gap: 30px;
 `;
 
 const StyledDetailCardSummary = styled.div`
