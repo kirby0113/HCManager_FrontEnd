@@ -6,6 +6,7 @@ import {useUser} from '../../hooks/useUser';
 import {Button} from '@material-ui/core';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const RegisterForm = styled.div`
   margin-top: 100px;
@@ -66,6 +67,7 @@ const Register = () => {
   ) : (
     <div>
       <PageTitle color='blue'>ログイン</PageTitle>
+      <Breadcrumbs />
       <RegisterForm>
         <InputUnit>
           <label htmlFor='mailaddress'>メールアドレス</label>
