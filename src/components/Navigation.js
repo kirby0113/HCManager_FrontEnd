@@ -37,15 +37,20 @@ const Navigation = (props) => {
           <Anchor to='/book' onClick={() => props.setOpenNavigation(false)}>
             <MenuItem>教材一覧</MenuItem>
           </Anchor>
-          <Anchor
-            to='/'
-            onClick={() => {
-              setAuthData(undefined);
-              props.setOpenNavigation(false);
-            }}
-          >
-            <MenuItem>ログアウト</MenuItem>
-          </Anchor>
+          <div style={{marginTop: '40px'}}>
+            <Anchor to='/userData' onClick={() => props.setOpenNavigation(false)}>
+              <MenuItem>ユーザーページ</MenuItem>
+            </Anchor>
+            <Anchor
+              to='/'
+              onClick={() => {
+                setAuthData(undefined);
+                props.setOpenNavigation(false);
+              }}
+            >
+              <MenuItem>ログアウト</MenuItem>
+            </Anchor>
+          </div>
         </div>
       ) : (
         <div>
@@ -59,10 +64,12 @@ const Navigation = (props) => {
       )}
 
       {authData && (
-        <UserDataTexts>
-          <UserDataText>{authData.role}でログイン中</UserDataText>
-          <UserDataText>{authData.name}</UserDataText>
-        </UserDataTexts>
+        <div>
+          <UserDataTexts>
+            <UserDataText>{authData.role}でログイン中</UserDataText>
+            <UserDataText>{authData.name}</UserDataText>
+          </UserDataTexts>
+        </div>
       )}
     </Drawer>
   );
