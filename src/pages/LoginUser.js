@@ -9,19 +9,46 @@ import {PageTitle} from '../components/Utilities/Title';
 import {Label} from '../components/Utilities/Card/Label';
 import {useState} from 'react';
 import {PrimaryButton} from '../components/Buttons/PrimaryButton';
+import {useUser} from '../hooks/useUser';
+
+const CardContentUnit = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  @media screen and (max-width: 790px) {
+    grid-template-columns: max-content 1fr;
+  }
+`;
 
 const ButtonContent = styled.div`
   margin: 20px 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 
 const LoginUser = () => {
-  const {authData} = useContext(AuthContext);
+  const {authData, setAuthData} = useContext(AuthContext);
+  const {selectUser, setSelectUser, updateUser} = useUser();
 
   const [onEdit, setOnEdit] = useState(false);
 
   const onSave = () => {
+    if (selectUser.name == '' || selectUser.mail == '' || selectUser.role == '' || selectUser.password == '') {
+      alert('全ての項目を入力してください。');
+      return;
+    }
+
+    console.log(selectUser);
+    console.log(authData);
+
+    if (confirm('ユーザデータを修正してもよろしいですか？')) {
+      updateUser(selectUser).then(() => {
+        setAuthData({...authData, mail: selectUser.mail, name: selectUser.name, role: selectUser.role});
+      });
+      setOnEdit(false);
+    }
+  };
+
+  const onClose = () => {
     setOnEdit(false);
   };
 
@@ -39,29 +66,84 @@ const LoginUser = () => {
       <Breadcrumbs />
       <DetailCard>
         {onEdit ? (
-          ''
+          <DetailCardContent>
+            <CardContentUnit>
+              <Label>ユーザー名</Label>
+              <input
+                id='ユーザー名'
+                value={selectUser.name}
+                onChange={(e) => {
+                  setSelectUser({...selectUser, name: e.target.value});
+                }}
+              />
+            </CardContentUnit>
+            <CardContentUnit>
+              <Label>メールアドレス</Label>
+              <input
+                id='メールアドレス'
+                value={selectUser.mail}
+                onChange={(e) => {
+                  setSelectUser({...selectUser, mail: e.target.value});
+                }}
+              />
+            </CardContentUnit>
+            <CardContentUnit>
+              <Label>権限</Label>
+              <select
+                id='username'
+                value={selectUser.role}
+                onChange={(e) => setSelectUser({...selectUser, role: e.target.value})}
+              >
+                <option value=''></option>
+                <option value='教授者'>教授者</option>
+                <option value='学習者'>学習者</option>
+                <option value='学習終了者'>学習終了者</option>
+                <option value='問題作成者'>問題作成者</option>
+              </select>
+            </CardContentUnit>
+            <CardContentUnit>
+              <Label>パスワード</Label>
+              <input
+                id='パスワード'
+                value={selectUser.password}
+                onChange={(e) => {
+                  setSelectUser({...selectUser, password: e.target.value});
+                }}
+              />
+            </CardContentUnit>
+          </DetailCardContent>
         ) : (
           <DetailCardContent>
-            <div>
+            <CardContentUnit>
               <Label>ユーザーID</Label>
               {authData.user_id}
-            </div>
-            <div>
+            </CardContentUnit>
+            <CardContentUnit>
               <Label>ユーザー名</Label>
               {authData.name}
-            </div>
-            <div>
+            </CardContentUnit>
+            <CardContentUnit>
               <Label>メールアドレス</Label>
               {authData.mail}
-            </div>
-            <div>
+            </CardContentUnit>
+            <CardContentUnit>
               <Label>権限</Label>
               {authData.role}
-            </div>
+            </CardContentUnit>
           </DetailCardContent>
         )}
         {onEdit ? (
           <ButtonContent>
+            <PrimaryButton
+              color='secondary'
+              sizeX='large'
+              sizeY='small'
+              onClick={() => {
+                onClose();
+              }}
+            >
+              保存しない
+            </PrimaryButton>
             <PrimaryButton
               color='primary'
               sizeX='large'
@@ -80,6 +162,13 @@ const LoginUser = () => {
               sizeX='large'
               sizeY='small'
               onClick={() => {
+                setSelectUser({
+                  user_id: authData.user_id,
+                  mail: authData.mail,
+                  name: authData.name,
+                  role: authData.role,
+                  password: '',
+                });
                 setOnEdit(true);
               }}
             >
