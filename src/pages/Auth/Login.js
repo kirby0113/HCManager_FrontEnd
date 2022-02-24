@@ -50,9 +50,12 @@ const Register = () => {
       alert('全ての項目を入力してください。');
       return;
     }
-    if (confirm('データを作成してよろしいですか？')) {
+    if (confirm('ログインしてよろしいですか？')) {
       loginUser(selectUser).then((json) => {
-        console.log('tes');
+        if (json.status && json.status === 'fail') {
+          alert(json.message);
+          return;
+        }
         setAuthData(json);
       });
     }
