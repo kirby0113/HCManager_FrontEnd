@@ -19,9 +19,11 @@ export const loginUser = async (jsonData) => {
       if (!res.ok) {
         throw new AuthError(res);
       }
-      res.json();
+      return res.json();
     })
-    .then((json) => json)
+    .then((json) => {
+      return {...json, status: 'success'};
+    })
     .catch((error) => {
       console.error('ログイン失敗', error);
       return {status: 'fail', message: 'ログインに失敗しました。'};
