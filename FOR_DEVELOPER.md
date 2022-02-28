@@ -118,6 +118,7 @@ contexts/
 ```
 ### 説明
 - APIから取得したデータをそれぞれ管理するために、Contextを作成しています。
+- データ管理方法としてはReduxが挙げられますが、本システムはContextで実装を行います。
 - 基本的には、取得したデータを入れるStateと編集・作成Modal等で使用するためのState(select〇〇という名前)を作ってます。
 #### 例外として、以下のものがあります。
 #####  AuthContext
@@ -127,6 +128,13 @@ contexts/
 - 各ページのページネーション状態の表示状態を管理するためのContext。
 - perPageとoffsetのStateを作成してます。（前ページのページネーションをすべてこれで管理）
 - ページ表示の時に大体リセットします。
+
+#### 補足
+- 現状の実装だと、無駄なレンダリングが発生してしまう可能性があるみたいです。
+- 参考　→　[正しく使うReactContext](https://zenn.dev/yuta_ura/articles/react-context-api)
+
+### 参考URL
+- [Context React公式](https://ja.reactjs.org/docs/context.html)
 
 
 ## カスタムフック
@@ -145,4 +153,65 @@ hooks/
 ### 説明
 - APIからのデータ取得・登録・更新・削除といった処理を一つにまとめています。
 - 基本的には前述したContextと併せて使用します。
+- カスタムフック名は必ず、useから始まるファイル名となります。
 - ここで作成したカスタムフックを各ページで必要に応じて利用することで、コードの重複等を避けています。
+
+
+### 参考URL
+- [独自フックの作成 React公式](https://ja.reactjs.org/docs/context.html)
+- [Context API と use Reducer で custom hook を作るときのテンプレート](https://blog.ojisan.io/context-reducer-custom-hook/)
+
+## コンポーネント
+
+### ディレクトリ
+```
++---components ページで使うコンポーネント群
+    |   
+    |   +---API　API処理を記述したファイル群
+    |   |       
+    |   +---Buttons　各ページで使用するボタン群やボタンのリスト表示
+    |   |           
+    |   +---Cards　詳細ページ・一覧ページで使うCardコンポーネント群
+    |   |           
+    |   +---Forms　Form内で使うコンポーネント群
+    |   |       
+    |   +---Function
+    |   |
+    |   +---Modals　作成や編集用のModalコンポーネント群
+    |   |           
+    |   +---pages 各ページ専用のコンポーネント定義
+    |   |           
+    |   +---Pagination 一覧ページで使うページネーション用コンポーネント
+    |   |       
+    |   \---Utilities その他分類に困ったコンポーネント入れ
+    |       |---Anchor.js リンク表示
+    |       |---Loading.js　ローディング画面
+    |       |---Title.js　各画面のタイトル
+    |       |   
+    |       \---Card　問題詳細のみで使う（？）コンポーネント入れ
+    |               CodeBoard.js
+    |               Label.js
+    |               QuestionBoard.js
+```
+
+### 説明
+- 各ページで使うコンポーネントをまとめています。
+- コンポーネントの作成には「[styled-components](https://styled-components.com/)」を採用しています。
+- 例外としてAPIについてはAPI処理を記述したファイルが入っています（ディレクトリ位置が悪いかも）
+- コンポーネント開発パッケージとしては「[Storybook](https://storybook.js.org/)」も存在しますが、今回は採用してません。（必要に応じて採用も考えてみてください。）
+
+### 参考URL
+- [流行りのstyled-componentsとは？](https://zenn.dev/syu/articles/0f92abf7f0b5c5)
+- [CSS-in-JS 初学者視点でどのライブラリが使いやすいかの比較](https://qiita.com/ay-kapi/items/b0e50ae702ccfe46fdd5)
+
+## API周り
+
+### 説明
+- APIの実装には、javascriptの機能であるfetchを使ってます。
+- 本システムで使用するAPIは「[HelloC_API](https://github.com/HIT-matsumotolab/HelloC_API)」です。 
+- 非同期処理となるので、Promise,async,awaitの理解が必要です。
+
+### 参考URL
+- [図解 1から学ぶJavaScriptの非同期処理](https://qiita.com/ryosuketter/items/dd467f827c1b93a74d76)
+- [fetch,async/awaitでAjax通信](https://qiita.com/mczkzk/items/468ed4b36dbfa5121ca4)
+- [async/await構文で書いたFetch APIからJSONデータを読み込む](https://www.i-ryo.com/entry/2020/06/05/192657)
