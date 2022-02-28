@@ -1,11 +1,42 @@
 # HelloCManager
+HelloC Managerのフロントエンドシステムです。
 
-# 概要
-- HelloC Managerのフロントエンドシステム
- 
-# 使用方法
+## 概要
+- [HelloC Manager](https://github.com/HIT-matsumotolab/HelloC_API)をAPIとしたフロントエンドシステムです。
 
-- パッケージをインストール
+## 開発環境・技術選定
+
+### OS・フレームワーク等
+- Windows 10
+- JavaScript
+- React (v17.0.2)
+
+### パッケージ
+
+#### CSS in JS
+- styled-components (v5.3.1)
+
+#### デザインライブラリ
+- material-ui/core (v4.12.3)
+- material-ui/icons (v4.11.2)
+
+#### 問題作成のForm管理
+- react-final-form (v6.5.7)
+
+#### 問題文表示用
+- query-string (v7.0.1)
+- papaparse (v5.3.1)
+- html-react-parser (v1.4.5)
+
+#### ルーティング管理
+- react-router (v5.2.1)
+
+#### ページネーション
+- react-pagination (v5.2.1)
+
+## インストール・実行方法
+
+- リポジトリをクローン
 ```
 npm install
 ```
@@ -14,12 +45,4 @@ npm install
 ```
 npm run start
 ```
-localhost:8000に表示されます。
 
-- APIのリンクを修正
-compoents/APILink.js内の以下コードを修正
-```
-const APILink = 'http://192.168.100.130:4000';
-```
-この状態だと、IPアドレス192.168.100.130のlocalhost:4000にアクセスとなります。<br>
-現状はここを直さないとエラーが表示され機能しなくなります。
