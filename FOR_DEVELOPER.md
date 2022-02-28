@@ -104,3 +104,29 @@ HelloCManager
         |           
         \---User
 ```
+
+## Context
+### ディレクトリ
+```
+contexts/
+   |---AuthContext.js
+   |---BookContext.js
+   |---GroupContext.js
+   |---PaginationContext.js
+   |---QuestionContext.js
+   |---UserContext.js
+```
+### 説明
+- APIから取得したデータをそれぞれ管理するために、Contextを作成しています。
+- 基本的には、取得したデータを入れるStateと編集・作成Modal等で使用するためのState(select〇〇という名前)を作ってます。
+#### 例外として、以下のものがあります。
+#####  AuthContext
+- 認証しているか確認するためのContext。
+- ログイン時にAPIから認証データを取得し、このContextに保存します。（ユーザーページなどで使用）
+##### PaginationContext
+- 各ページのページネーション状態の表示状態を管理するためのContext。
+- perPageとoffsetのStateを作成してます。（前ページのページネーションをすべてこれで管理）
+- ページ表示の時に大体リセットします。
+
+
+## カスタムフック
