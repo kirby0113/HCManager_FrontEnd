@@ -31,6 +31,13 @@
 #### ページネーション
 - react-pagination (v5.2.1)
 
+#### コード整形
+- eslint-config-prettier (v8.3.0)
+- eslint-plugin-jest (v24.4.0)
+- eslint-plugin-prettier (v3.4.0)
+- eslint-plugin-react (v7.24.0)
+- prettier (v2.3.2)
+
 ## 大まかなディレクトリ（2022/02/28時点）
 ```
 HelloCManager
@@ -215,3 +222,15 @@ hooks/
 - [図解 1から学ぶJavaScriptの非同期処理](https://qiita.com/ryosuketter/items/dd467f827c1b93a74d76)
 - [fetch,async/awaitでAjax通信](https://qiita.com/mczkzk/items/468ed4b36dbfa5121ca4)
 - [async/await構文で書いたFetch APIからJSONデータを読み込む](https://www.i-ryo.com/entry/2020/06/05/192657)
+
+## コード整形
+
+### 説明
+- コード整形ツールとして、eslintとprettierを導入しています。
+- これらを導入することによって、コードの品質を一定以上維持しています。
+- これらの設定は、.prettierrcファイルと.eslintrcファイルから行えます。（必要に応じて変更してください。）
+
+### 参考URL
+- [VS CodeでESlint、Prettierを使用したReact環境を構築する](https://harkerhack.com/vscode-react-eslint-prettier/)
+- [決定版！イマドキのESLint設定！](https://dev.classmethod.jp/articles/eslint-configurations-2020/)
+- [Prettierの使い方＆おすすめ設定を紹介](https://ma-vericks.com/vscode-prettier/)
