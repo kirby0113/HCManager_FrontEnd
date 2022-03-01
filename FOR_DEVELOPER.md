@@ -234,3 +234,15 @@ hooks/
 - [VS CodeでESlint、Prettierを使用したReact環境を構築する](https://harkerhack.com/vscode-react-eslint-prettier/)
 - [決定版！イマドキのESLint設定！](https://dev.classmethod.jp/articles/eslint-configurations-2020/)
 - [Prettierの使い方＆おすすめ設定を紹介](https://ma-vericks.com/vscode-prettier/)
+
+## ルーティング
+
+### 説明
+- ルーティングの実装には、react-routerを採用しています。
+- SwitchコンポーネントとRouteコンポーネントを使うことで、URLに沿ったレンダリングを行います。
+- 詳細ページの表示など、IDが必要な場面ではuseParamを使用し、URLのクエリから情報の取得も可能です。
+- Redirectコンポーネントを使用することで、ログイン状態によってリダイレクト処理を行うといったことも可能です。
+
+### 参考
+- [入門者でもわかるReact Routerを使用したルーティング設定の基礎](https://reffect.co.jp/react/react-router)
+- [react-routerでログイン後にリダイレクトさせる](https://zenn.dev/dove/articles/688ee7852078f6)
