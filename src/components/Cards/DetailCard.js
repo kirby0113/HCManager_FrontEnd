@@ -21,7 +21,13 @@ const StyledDetailCardContent = styled.div`
   padding-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 20px;
+  grid-row-gap: 30px;
+  grid-column-gap: 20px;
+
+  @media screen and (max-width: 790px) {
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
 `;
 
 const StyledDetailCardSummary = styled.div`

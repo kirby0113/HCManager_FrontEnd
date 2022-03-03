@@ -6,6 +6,7 @@ import {useUser} from '../../hooks/useUser';
 import {Button} from '@material-ui/core';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
+import {Breadcrumbs} from '../../components/Breadcrumbs';
 
 const RegisterForm = styled.div`
   margin-top: 100px;
@@ -49,9 +50,12 @@ const Register = () => {
       alert('全ての項目を入力してください。');
       return;
     }
-    if (confirm('データを作成してよろしいですか？')) {
+    if (confirm('ログインしてよろしいですか？')) {
       loginUser(selectUser).then((json) => {
-        console.log('tes');
+        if (json.status && json.status === 'fail') {
+          alert(json.message);
+          return;
+        }
         setAuthData(json);
       });
     }
@@ -66,6 +70,7 @@ const Register = () => {
   ) : (
     <div>
       <PageTitle color='blue'>ログイン</PageTitle>
+      <Breadcrumbs />
       <RegisterForm>
         <InputUnit>
           <label htmlFor='mailaddress'>メールアドレス</label>

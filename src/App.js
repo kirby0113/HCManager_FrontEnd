@@ -24,6 +24,9 @@ import CreateBlankQuestion from './pages/Question/create/CreateBlankQuestion';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 
+//ログイン者のデータ表示ページ
+import LoginUser from './pages/LoginUser';
+
 //ContextのProvider
 import {QuestionProvider} from './contexts/QuestionContext';
 import {BookProvider} from './contexts/BookContext';
@@ -78,6 +81,9 @@ const App = () => {
                         {/* 認証ページ のルーティング*/}
                         <Route render={() => <Register />} path='/register' />
                         <Route render={() => <Login />} path='/login' />
+
+                        {/* ログイン者のデータ表示ルーティング */}
+                        <Route render={() => <LoginUser />} path='/userData' />
                       </Switch>
                     </div>
                   </MuiThemeProvider>
