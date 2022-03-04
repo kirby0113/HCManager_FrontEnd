@@ -52,11 +52,18 @@ const Register = () => {
     }
     if (confirm('データを作成してよろしいですか？')) {
       registerUser(selectUser).then((json) => {
-        console.log('tes');
-        setAuthData(json);
+        if (json.status && json.status === 'fail') {
+          alert(json.content);
+          return;
+        }
+        setAuthData(json.content);
       });
     }
   };
+
+  useEffect(() => {
+    initSelectUser();
+  }, []);
 
   return authData ? (
     <Redirect to='/'></Redirect>
