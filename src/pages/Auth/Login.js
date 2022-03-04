@@ -53,10 +53,10 @@ const Register = () => {
     if (confirm('ログインしてよろしいですか？')) {
       loginUser(selectUser).then((json) => {
         if (json.status && json.status === 'fail') {
-          alert(json.message);
+          alert(json.content);
           return;
         }
-        setAuthData(json);
+        setAuthData(json.content);
       });
     }
   };
