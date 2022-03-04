@@ -1,4 +1,4 @@
-import {loginErrorCatch} from './error/Auth';
+import {loginErrorCatch, registerErrorCatch} from './error/Auth';
 
 class AuthError extends Error {
   constructor(response) {
@@ -17,14 +17,11 @@ export const loginUser = async (jsonData) => {
       password: jsonData.password,
     }),
   })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
         throw new AuthError(res);
       }
-      return res.json();
-    })
-    .then((json) => {
-      return {status: 'success', content: json};
+      return {status: 'success', content: await res.json()};
     })
     .catch((error) => {
       console.error('ログイン失敗', error);
@@ -47,9 +44,18 @@ export const registerUser = async (jsonData) => {
       password: jsonData.password,
     }),
   })
-    .then((res) => res.json())
-    .then((json) => json)
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new AuthError(res);
+      }
+      return {status: 'success', content: await res.json()};
+    })
     .catch((error) => {
-      console.log(error);
+      console.error('新規登録失敗', error);
+      if (error.status === undefined) {
+        return registerErrorCatch(-1);
+      } else {
+        return registerErrorCatch(error.status);
+      }
     });
 };
