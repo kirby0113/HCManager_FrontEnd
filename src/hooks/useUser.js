@@ -52,14 +52,16 @@ export const useUser = () => {
   };
 
   const registerUser = async (jsonData) => {
-    return await registerUserAPI(jsonData).then(() => {
+    return await registerUserAPI(jsonData).then((json) => {
+      if (json.status && json.status === 'fail') {
+        return json;
+      }
       return loginUser(jsonData);
     });
   };
 
   const loginUser = async (jsonData) => {
     return await loginUserAPI(jsonData).then((json) => {
-      console.log(json);
       return json;
     });
   };
