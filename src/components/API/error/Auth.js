@@ -14,3 +14,21 @@ export const loginErrorCatch = (status) => {
     }
   }
 };
+
+export const registerErrorCatch = (status) => {
+  switch (status) {
+    case -1: {
+      return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
+    }
+    case 404: {
+      return {
+        status: 'fail',
+        content:
+          'ログインに失敗しました。APIが見つからないか、定義されていない権限情報を入力している可能性があります。',
+      };
+    }
+    default: {
+      return {status: 'fail', content: 'ログインに失敗しました。定義されていないエラーです。'};
+    }
+  }
+};
