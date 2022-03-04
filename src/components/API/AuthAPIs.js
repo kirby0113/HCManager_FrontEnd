@@ -1,3 +1,5 @@
+import {loginErrorCatch} from './error/Auth';
+
 class AuthError extends Error {
   constructor(response) {
     super(`${response.status} for ${response.url}`);
@@ -22,14 +24,14 @@ export const loginUser = async (jsonData) => {
       return res.json();
     })
     .then((json) => {
-      return {...json, status: 'success'};
+      return {status: 'success', content: json};
     })
     .catch((error) => {
+      console.error('ログイン失敗', error);
       if (error.status === undefined) {
-        return {status: 'fail', message: 'ログインに失敗しました。ネットワークエラーです。'};
+        return loginErrorCatch(-1);
       } else {
-        console.error('ログイン失敗', error);
-        return {status: 'fail', message: 'ログインに失敗しました。パスワードが違います。'};
+        return loginErrorCatch(error.status);
       }
     });
 };
