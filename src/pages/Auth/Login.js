@@ -45,7 +45,7 @@ const Register = () => {
     return <Redirect to='/' />;
   }
 
-  const onRegister = () => {
+  const onLogin = () => {
     if (selectUser.mail == '' || selectUser.password == '') {
       alert('全ての項目を入力してください。');
       return;
@@ -60,10 +60,6 @@ const Register = () => {
       });
     }
   };
-
-  useEffect(() => {
-    initSelectUser();
-  }, []);
 
   return authData ? (
     <Redirect to='/'></Redirect>
@@ -94,7 +90,7 @@ const Register = () => {
           variant='contained'
           color='primary'
           onClick={() => {
-            onRegister();
+            onLogin();
           }}
         >
           ログイン
