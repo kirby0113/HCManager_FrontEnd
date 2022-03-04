@@ -25,8 +25,12 @@ export const loginUser = async (jsonData) => {
       return {...json, status: 'success'};
     })
     .catch((error) => {
-      console.error('ログイン失敗', error);
-      return {status: 'fail', message: 'ログインに失敗しました。'};
+      if (error.status === undefined) {
+        return {status: 'fail', message: 'ログインに失敗しました。ネットワークエラーです。'};
+      } else {
+        console.error('ログイン失敗', error);
+        return {status: 'fail', message: 'ログインに失敗しました。パスワードが違います。'};
+      }
     });
 };
 
@@ -42,5 +46,8 @@ export const registerUser = async (jsonData) => {
     }),
   })
     .then((res) => res.json())
-    .then((json) => json);
+    .then((json) => json)
+    .catch((error) => {
+      console.log(error);
+    });
 };
