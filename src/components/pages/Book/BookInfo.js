@@ -17,7 +17,13 @@ const BookInfo = (props) => {
   const {getUser} = useUser();
 
   useEffect(() => {
-    getUser(props.data.user_id).then((json) => setUser(json));
+    getUser(props.data.user_id).then((json) => {
+      if (json.status === 'success') {
+        setUser(json);
+      } else {
+        setUser({name: '取得失敗'});
+      }
+    });
   }, []);
 
   return (

@@ -55,7 +55,13 @@ const BookDetail = () => {
           access_key: json.access_key,
           user_id: json.user_id,
         });
-        return await getUser(json.user_id).then((json) => setCreatedBy(json.name));
+        return await getUser(json.user_id).then((json) => {
+          if (json.status === 'success') {
+            setCreatedBy(json.name);
+          } else {
+            setCreatedBy('取得失敗');
+          }
+        });
       })
       .then(() => getQuestions().then((json) => setQuestions(json)))
       .then(() => setLoading(false));
@@ -70,7 +76,13 @@ const BookDetail = () => {
     if (confirm('編集を保存しますか？')) {
       updateBook(param.id, bookPost).then((json) => {
         setBook(json);
-        getUser(json.user_id).then((json) => setCreatedBy(json.name));
+        getUser(json.user_id).then((json) => {
+          if (json.status === 'success') {
+            setCreatedBy(json.content.name);
+          } else {
+            setCreatedBy('取得失敗');
+          }
+        });
       });
       setIsOpenModal(false);
     }

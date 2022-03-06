@@ -10,8 +10,10 @@ import {
 import {loginUser as loginUserAPI, registerUser as registerUserAPI} from '../components/API/AuthAPIs';
 
 import {UserContext} from '../contexts/UserContext';
+import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useUser = () => {
+  const {setError, setIsOpenError} = useContext(ErrorContext);
   const {users, setUsers, selectUser, setSelectUser} = useContext(UserContext);
 
   const updateUser = async (data) => {
@@ -41,7 +43,13 @@ export const useUser = () => {
   };
 
   const getUser = async (id) => {
-    return await getUserAPI(id);
+    return await getUserAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return json;
+    });
   };
 
   const getUsers = async () => {

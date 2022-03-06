@@ -94,7 +94,11 @@ const QuestionDetail = () => {
     getQuestion(param['id']).then((json) =>
       getUser(json.user_id)
         .then((json) => {
-          return setCreatedBy(json.name);
+          if (json.status === 'success') {
+            setCreatedBy(json.content.name);
+          } else {
+            setCreatedBy('取得失敗');
+          }
         })
         .then(() => setLoading(false))
     );
