@@ -12,7 +12,9 @@ export const useGroup = () => {
 
   const getGroups = async () => {
     return await getGroupsAPI().then((json) => {
-      setGroups(json);
+      if (json.status === 'success') {
+        setGroups(json.content);
+      }
       return json;
     });
   };
