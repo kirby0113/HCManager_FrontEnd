@@ -37,11 +37,7 @@ const GroupList = () => {
   useEffect(() => {
     setOffset(0);
     setLoading(true);
-    getGroups().then((json) => {
-      if (json.status && json.status === 'fail') {
-        setIsOpenError(true);
-        setError(json.content);
-      }
+    getGroups().then(() => {
       setLoading(false);
     });
   }, []);

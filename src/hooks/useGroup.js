@@ -6,9 +6,11 @@ import {
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
 } from '../components/API/GroupAPIs';
+import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useGroup = () => {
   const {groups, setGroups, selectGroup, setSelectGroup} = useContext(GroupContext);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   const getGroups = async () => {
     return await getGroupsAPI().then((json) => {
@@ -20,7 +22,14 @@ export const useGroup = () => {
   };
 
   const getGroup = async (id) => {
-    return await getGroupAPI(id);
+    return await getGroupAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setGroups(json.content);
+      }
+    });
   };
 
   const createGroup = async (data) => {
