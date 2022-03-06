@@ -19,6 +19,8 @@ import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
+import {ErrorContext} from '../../contexts/ErrorContext';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const GroupList = () => {
   const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
@@ -26,6 +28,7 @@ const GroupList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const {authData} = useContext(AuthContext);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   if (!authData) {
     return <Redirect to='/' />;
@@ -34,7 +37,13 @@ const GroupList = () => {
   useEffect(() => {
     setOffset(0);
     setLoading(true);
-    getGroups().then(() => setLoading(false));
+    getGroups().then((json) => {
+      if (json.status && json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      setLoading(false);
+    });
   }, []);
 
   const openCreateModal = () => {
@@ -76,6 +85,10 @@ const GroupList = () => {
           )}
         </div>
       )}
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
