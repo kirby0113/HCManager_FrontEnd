@@ -36,63 +36,66 @@ import {PaginationProvider} from './contexts/PaginationContext';
 import {AuthProvider} from './contexts/AuthContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {ErrorProvider} from './contexts/ErrorContext';
 
 const App = () => {
   return (
     <Router>
-      <AuthProvider>
-        <PaginationProvider>
-          <GroupProvider>
-            <BookProvider>
-              <QuestionProvider>
-                <UserProvider>
-                  <MuiThemeProvider>
-                    <div>
-                      <Header></Header>
-                      <Switch>
-                        {/* 一覧ページのルーティング */}
-                        <Route exact path='/group'>
-                          <GroupList />
-                        </Route>
-                        <Route exact path='/user'>
-                          <UserList />
-                        </Route>
-                        <Route exact path='/question'>
-                          <QuestionList />
-                        </Route>
-                        <Route exact path='/book'>
-                          <BookList />
-                        </Route>
-                        <Route exact path='/'>
-                          <Home />
-                        </Route>
+      <ErrorProvider>
+        <AuthProvider>
+          <PaginationProvider>
+            <GroupProvider>
+              <BookProvider>
+                <QuestionProvider>
+                  <UserProvider>
+                    <MuiThemeProvider>
+                      <div>
+                        <Header></Header>
+                        <Switch>
+                          {/* 一覧ページのルーティング */}
+                          <Route exact path='/group'>
+                            <GroupList />
+                          </Route>
+                          <Route exact path='/user'>
+                            <UserList />
+                          </Route>
+                          <Route exact path='/question'>
+                            <QuestionList />
+                          </Route>
+                          <Route exact path='/book'>
+                            <BookList />
+                          </Route>
+                          <Route exact path='/'>
+                            <Home />
+                          </Route>
 
-                        {/* 詳細ページのルーティング */}
+                          {/* 詳細ページのルーティング */}
 
-                        <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
+                          <Route render={() => <GroupDetail />} path='/group/:id(\d+)' />
 
-                        <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
+                          <Route render={() => <BookDetail />} path='/book/:id(\d+)' />
 
-                        <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
+                          <Route render={() => <QuestionDetail />} path='/question/:id(\d+)' />
 
-                        {/*  問題作成・編集ページのルーティング */}
-                        <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
+                          {/*  問題作成・編集ページのルーティング */}
+                          <Route render={() => <CreateBlankQuestion />} path='/question/createBlank' />
 
-                        {/* 認証ページ のルーティング*/}
-                        <Route render={() => <Register />} path='/register' />
-                        <Route render={() => <Login />} path='/login' />
+                          {/* 認証ページ のルーティング*/}
+                          <Route render={() => <Register />} path='/register' />
+                          <Route render={() => <Login />} path='/login' />
 
-                        {/* ログイン者のデータ表示ルーティング */}
-                        <Route render={() => <LoginUser />} path='/userData' />
-                      </Switch>
-                    </div>
-                  </MuiThemeProvider>
-                </UserProvider>
-              </QuestionProvider>
-            </BookProvider>
-          </GroupProvider>
-        </PaginationProvider>
-      </AuthProvider>
+                          {/* ログイン者のデータ表示ルーティング */}
+                          <Route render={() => <LoginUser />} path='/userData' />
+                        </Switch>
+                      </div>
+                    </MuiThemeProvider>
+                  </UserProvider>
+                </QuestionProvider>
+              </BookProvider>
+            </GroupProvider>
+          </PaginationProvider>
+        </AuthProvider>
+      </ErrorProvider>
     </Router>
   );
 };
