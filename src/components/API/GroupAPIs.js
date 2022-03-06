@@ -1,6 +1,6 @@
 import {GroupsAPI} from '../../APILink';
 
-import {getGroupsErrorCatch} from './error/Group';
+import {createGroupErrorCatch, getGroupErrorCatch, getGroupsErrorCatch} from './error/Group';
 
 class GroupError extends Error {
   constructor(response) {
@@ -22,7 +22,7 @@ export const getGroups = async () => {
       return {status: 'success', content: json};
     })
     .catch((error) => {
-      console.error('ログイン失敗', error);
+      console.error(error);
       if (error.status === undefined) {
         return getGroupsErrorCatch(-1);
       } else {
@@ -33,8 +33,23 @@ export const getGroups = async () => {
 
 export const getGroup = async (id) => {
   return await fetch(GroupsAPI + `${id}`)
-    .then((res) => res.json())
-    .then((json) => json);
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getGroupErrorCatch(-1);
+      } else {
+        return getGroupErrorCatch(error.status);
+      }
+    });
 };
 
 export const createGroup = async (data) => {
@@ -47,9 +62,22 @@ export const createGroup = async (data) => {
       access_key: data.access_key,
       user_id: data.user_id,
     }),
-  }).then((res) => {
-    if (res.errors || res.error) {
-      throw new Error('GroupCreateError');
-    }
-  });
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return createGroupErrorCatch(-1);
+      } else {
+        return createGroupErrorCatch(error.status);
+      }
+    });
 };

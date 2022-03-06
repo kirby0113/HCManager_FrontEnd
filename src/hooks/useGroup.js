@@ -10,14 +10,16 @@ import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useGroup = () => {
   const {groups, setGroups, selectGroup, setSelectGroup} = useContext(GroupContext);
-  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
+  const {setError, setIsOpenError} = useContext(ErrorContext);
 
   const getGroups = async () => {
     return await getGroupsAPI().then((json) => {
-      if (json.status === 'success') {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
         setGroups(json.content);
       }
-      return json;
     });
   };
 
@@ -33,7 +35,13 @@ export const useGroup = () => {
   };
 
   const createGroup = async (data) => {
-    return await createGroupAPI(data).then(() => getGroups());
+    return await createGroupAPI(data).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      getGroups();
+    });
   };
 
   const deleteGroup = () => {};
