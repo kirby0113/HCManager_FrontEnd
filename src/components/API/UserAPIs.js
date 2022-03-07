@@ -1,5 +1,5 @@
 import {UsersAPI} from '../../APILink';
-import {getUserErrorCatch} from './error/User';
+import {getUserErrorCatch, getUsersErrorCatch} from './error/User';
 
 class UserError extends Error {
   constructor(response) {
@@ -34,10 +34,22 @@ export const getUser = async (id) => {
 export const getUsers = async () => {
   //全ユーザー取得
   return await fetch(UsersAPI) //api
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new UserError(res);
+      }
+      return res.json();
+    })
     .then((json) => {
-      // console.log(json);
-      return json;
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getUsersErrorCatch(-1);
+      } else {
+        return getUsersErrorCatch(error.status);
+      }
     });
 };
 

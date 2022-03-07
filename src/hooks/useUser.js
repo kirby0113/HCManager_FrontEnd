@@ -54,7 +54,12 @@ export const useUser = () => {
 
   const getUsers = async () => {
     return await getUsersAPI().then((json) => {
-      setUsers(json);
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setUsers(json.content);
+      }
       return json;
     });
   };
