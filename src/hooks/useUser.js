@@ -17,8 +17,13 @@ export const useUser = () => {
   const {users, setUsers, selectUser, setSelectUser} = useContext(UserContext);
 
   const updateUser = async (data) => {
-    return await editUser(data).then(() => {
-      return getUsers();
+    return await editUser(data).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        return getUsers();
+      }
     });
   };
 

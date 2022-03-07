@@ -1,5 +1,5 @@
 import {UsersAPI} from '../../APILink';
-import {createUserErrorCatch, getUserErrorCatch, getUsersErrorCatch} from './error/User';
+import {createUserErrorCatch, editUserErrorCatch, getUserErrorCatch, getUsersErrorCatch} from './error/User';
 
 class UserError extends Error {
   constructor(response) {
@@ -95,7 +95,24 @@ export const editUser = async (jsonData) => {
       role: jsonData.role,
       password: jsonData.password,
     }),
-  });
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new UserError(res);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return editUserErrorCatch(-1);
+      } else {
+        return editUserErrorCatch(error.status);
+      }
+    });
 };
 
 export const deleteUser = async (id) => {
