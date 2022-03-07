@@ -63,7 +63,7 @@ const UserList = () => {
   };
 
   const CreateUserFetch = () => {
-    createUser(selectUser).then((json) => setUsers(json));
+    createUser(selectUser);
   };
 
   const onCreateUsers = () => {
