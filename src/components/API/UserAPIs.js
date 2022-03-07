@@ -100,10 +100,9 @@ export const editUser = async (jsonData) => {
       if (!res.ok) {
         throw new UserError(res);
       }
-      return res.json();
     })
-    .then((json) => {
-      return {status: 'success', content: json};
+    .then(() => {
+      return {status: 'success', content: 'ユーザー編集が正常に完了しました！'};
     })
     .catch((error) => {
       console.error(error);

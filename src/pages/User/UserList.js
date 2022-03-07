@@ -59,7 +59,7 @@ const UserList = () => {
   const [submitUsers, setSubmitUsers] = useState();
 
   const EditUserFetch = () => {
-    updateUser(selectUser).then((json) => setUsers(json));
+    updateUser(selectUser);
   };
 
   const CreateUserFetch = () => {
