@@ -28,8 +28,13 @@ export const useUser = () => {
   };
 
   const deleteUser = async (id) => {
-    return await deleteUserAPI(id).then(() => {
-      return getUsers();
+    return await deleteUserAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        return getUsers();
+      }
     });
   };
 

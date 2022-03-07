@@ -1,5 +1,11 @@
 import {UsersAPI} from '../../APILink';
-import {createUserErrorCatch, editUserErrorCatch, getUserErrorCatch, getUsersErrorCatch} from './error/User';
+import {
+  createUserErrorCatch,
+  deleteUserErrorCatch,
+  editUserErrorCatch,
+  getUserErrorCatch,
+  getUsersErrorCatch,
+} from './error/User';
 
 class UserError extends Error {
   constructor(response) {
@@ -117,6 +123,21 @@ export const editUser = async (jsonData) => {
 export const deleteUser = async (id) => {
   return await fetch(UsersAPI + '/' + id, {
     method: 'DELETE',
-  }) //api
-    .then((res) => res);
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new UserError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: 'ユーザー削除が正常に完了しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return deleteUserErrorCatch(-1);
+      } else {
+        return deleteUserErrorCatch(error.status);
+      }
+    });
 };
