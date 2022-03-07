@@ -28,6 +28,8 @@ import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
 
 const UserTable = styled(TableContainer)`
   position: relative;
@@ -50,6 +52,7 @@ const UserList = () => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenCreateUsersModal, setIsOpenCreateUsersModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   //ユーザー一括登録用
   const [csv, setCsv] = useState();
@@ -211,6 +214,10 @@ const UserList = () => {
           onClose={() => setIsOpenCreateUsersModal(false)}
         ></CreateUsersModal>
       )}
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
