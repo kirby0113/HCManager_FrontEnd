@@ -29,7 +29,11 @@ export const useUser = () => {
   };
 
   const createUser = async (data) => {
-    return await createUserAPI(data).then(() => {
+    return await createUserAPI(data).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
       return getUsers();
     });
   };
@@ -37,7 +41,12 @@ export const useUser = () => {
   const createUsers = async (datas) => {
     return await Promise.all(
       datas.map(async (data) => {
-        return await createUserAPI(data);
+        return await createUserAPI(data).then((json) => {
+          if (json.status === 'fail') {
+            setIsOpenError(true);
+            setError(json.content);
+          }
+        });
       })
     ).then(() => getUsers());
   };
