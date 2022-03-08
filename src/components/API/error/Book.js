@@ -116,3 +116,20 @@ export const addRecodeErrorCatch = (status) => {
     }
   }
 };
+
+export const removeRecodeErrorCatch = (status) => {
+  switch (status) {
+    case -1: {
+      return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
+    }
+    case 400: {
+      return {status: 'fail', content: '教材内問題の削除に失敗しました。API側でエラーが発生しました。'};
+    }
+    case 404: {
+      return {status: 'fail', content: '教材内問題の削除に失敗しました。指定した問題が見つかりません。'};
+    }
+    default: {
+      return {status: 'fail', content: '教材内問題の削除に失敗しました。定義されていないエラーです。'};
+    }
+  }
+};
