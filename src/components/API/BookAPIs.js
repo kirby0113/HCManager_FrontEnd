@@ -1,4 +1,13 @@
 import {BooksAPI} from '../../APILink';
+import {getBookErrorCatch} from './error/Book';
+
+class BookError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'AuthError';
+    this.status = response.status;
+  }
+}
 
 export const getBooks = async () => {
   return await fetch(BooksAPI) //api
@@ -12,9 +21,22 @@ export const getBooks = async () => {
 export const getBook = async (id) => {
   //id指定で1データ取る
   return await fetch(BooksAPI + '/' + id) //api
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+      return res.json();
+    })
     .then((json) => {
       return json;
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getBookErrorCatch(-1);
+      } else {
+        return getBookErrorCatch(error.status);
+      }
     });
 };
 
