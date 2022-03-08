@@ -85,11 +85,12 @@ export const useBook = () => {
   /* 教材内問題の登録・削除用 */
 
   const addRecode = async (postData) => {
-    return await addRecodeAPI(postData).then((json) => {
+    return await addRecodeAPI(postData).then(async (json) => {
       if (json.status === 'fail') {
         setIsOpenError(true);
         setError(json.content);
       }
+      return await getRecodes(postData.book_id);
     });
   };
 

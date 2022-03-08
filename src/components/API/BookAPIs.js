@@ -1,10 +1,11 @@
 import {BooksAPI} from '../../APILink';
 import {
+  addRecodeErrorCatch,
   createBookErrorCatch,
   deleteBookErrorCatch,
   getBookErrorCatch,
   getBooksErrorCatch,
-  getRecodeErrorCatch,
+  getRecodesErrorCatch,
   updateBookErrorCatch,
 } from './error/Book';
 
@@ -164,9 +165,9 @@ export const getRecodes = async (id) => {
     .catch((error) => {
       console.error(error);
       if (error.status === undefined) {
-        return getRecodeErrorCatch(-1);
+        return getRecodesErrorCatch(-1);
       } else {
-        return getRecodeErrorCatch(error.status);
+        return getRecodesErrorCatch(error.status);
       }
     });
 };
@@ -177,9 +178,22 @@ export const addRecode = async (jsonData) => {
     headers: {'Content-Type': 'application/json'},
     method: 'POST',
   }) //api groups/addBook
-    .then(() => getRecodes(jsonData.book_id))
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      return {status: 'success', content: json};
+    })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error(error);
+      if (error.status === undefined) {
+        return addRecodeErrorCatch(-1);
+      } else {
+        return addRecodeErrorCatch(error.status);
+      }
     });
 };
 
