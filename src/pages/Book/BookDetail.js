@@ -22,6 +22,8 @@ import {getQuestions} from '../../components/API/QuestionAPIs';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useContext} from 'react';
+import {ErrorContext} from '../../contexts/ErrorContext';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const BookDetail = () => {
   const {authData} = useContext(AuthContext);
@@ -40,6 +42,7 @@ const BookDetail = () => {
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
   const {questions, setQuestions} = useQuestion();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   const getQuestionInBook = () => {
     getRecodes(param['id']).then((json) => setQuestionInBook(json));
@@ -174,6 +177,9 @@ const BookDetail = () => {
       ) : (
         ''
       )}
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
