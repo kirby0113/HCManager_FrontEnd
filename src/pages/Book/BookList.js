@@ -24,7 +24,7 @@ const BookList = () => {
   if (!authData) {
     return <Redirect to='/' />;
   }
-  const {books, createBook, getBooks, setBooks} = useBook();
+  const {books, createBook, getBooks} = useBook();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {users} = useUser();
   const {bookPost, setBookPost} = useBookPost();
@@ -34,9 +34,7 @@ const BookList = () => {
   useEffect(() => {
     setOffset(0);
     setLoading(true);
-    getBooks()
-      .then((json) => setBooks(json))
-      .then(() => setLoading(false));
+    getBooks().then(() => setLoading(false));
   }, []);
 
   return loading ? (
