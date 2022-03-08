@@ -6,6 +6,7 @@ import {
   getBookErrorCatch,
   getBooksErrorCatch,
   getRecodesErrorCatch,
+  removeRecodeErrorCatch,
   updateBookErrorCatch,
 } from './error/Book';
 
@@ -204,8 +205,20 @@ export const removeRecode = async (jsonData) => {
     headers: {'Content-Type': 'application/json'},
     method: 'DELETE',
   }) //api groups/addBook
-    .then(() => getRecodes(jsonData.book_id))
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: '教材内問題の削除に成功しました！'};
+    })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error(error);
+      if (error.status === undefined) {
+        return removeRecodeErrorCatch(-1);
+      } else {
+        return removeRecodeErrorCatch(error.status);
+      }
     });
 };

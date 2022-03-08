@@ -95,7 +95,13 @@ export const useBook = () => {
   };
 
   const removeRecode = async (postData) => {
-    return await removeRecodeAPI(postData);
+    return await removeRecodeAPI(postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return await getRecodes(postData.book_id);
+    });
   };
 
   const getRecodes = async (id) => {
