@@ -32,9 +32,13 @@ export const useBook = () => {
   };
 
   const createBook = (postData) => {
-    createBookAPI(postData).then((json) => {
-      console.log(json);
-      setBooks(json);
+    createBookAPI(postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        return await getBooks();
+      }
     });
   };
 
