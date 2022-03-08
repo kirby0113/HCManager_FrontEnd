@@ -83,7 +83,7 @@ export const updateBookErrorCatch = (status) => {
   }
 };
 
-export const getRecodeErrorCatch = (status) => {
+export const getRecodesErrorCatch = (status) => {
   switch (status) {
     case -1: {
       return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
@@ -106,7 +106,7 @@ export const addRecodeErrorCatch = (status) => {
       return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
     }
     case 400: {
-      return {status: 'fail', content: '教材内問題の追加に失敗しました。API側でエラーが発生しました。'};
+      return {status: 'fail', content: '教材内問題の追加に失敗しました。登録済みの問題です。'};
     }
     case 404: {
       return {status: 'fail', content: '教材内問題の追加に失敗しました。指定した問題が見つかりません。'};
