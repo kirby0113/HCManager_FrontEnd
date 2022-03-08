@@ -50,8 +50,13 @@ export const useBook = () => {
     if (!confirm('教材名：' + name + ' 本当に削除しますか？')) {
       return;
     }
-    deleteBookAPI(id).then(() => {
-      window.location.reload(); //404がどうしても返されるので強制的にリロードしてます
+    deleteBookAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        window.location.reload(); //404がどうしても返されるので強制的にリロードしてます
+      }
     });
   };
 

@@ -1,5 +1,5 @@
 import {BooksAPI} from '../../APILink';
-import {createBookErrorCatch, getBookErrorCatch, getBooksErrorCatch} from './error/Book';
+import {createBookErrorCatch, deleteBookErrorCatch, getBookErrorCatch, getBooksErrorCatch} from './error/Book';
 
 class BookError extends Error {
   constructor(response) {
@@ -63,7 +63,6 @@ export const checkBookInQuestions = async (id) => {
 };
 
 export const createBook = async (jsonData) => {
-  console.log(jsonData);
   return await fetch(BooksAPI, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -96,7 +95,23 @@ export const createBook = async (jsonData) => {
 export const deleteBook = async (id) => {
   return await fetch(BooksAPI + '/' + id, {
     method: 'DELETE',
-  }).then(() => getBooks());
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: '教材削除に成功しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return deleteBookErrorCatch(-1);
+      } else {
+        return deleteBookErrorCatch(error.status);
+      }
+    });
 };
 
 export const updateBook = async (id, jsonData) => {
