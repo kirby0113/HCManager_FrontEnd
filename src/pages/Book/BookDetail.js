@@ -48,6 +48,7 @@ const BookDetail = () => {
   useEffect(() => {
     getBook(param.id)
       .then(async (json) => {
+        if (json.status === 'fail') throw new Error('教材取得失敗');
         setBook(json);
         setBookPost({
           name: json.name,
@@ -57,14 +58,17 @@ const BookDetail = () => {
         });
         return await getUser(json.user_id).then((json) => {
           if (json.status === 'success') {
-            setCreatedBy(json.name);
+            setCreatedBy(json.content.name);
           } else {
             setCreatedBy('取得失敗');
           }
         });
       })
       .then(() => getQuestions().then((json) => setQuestions(json)))
-      .then(() => setLoading(false));
+      .then(() => setLoading(false))
+      .catch(() => {
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {

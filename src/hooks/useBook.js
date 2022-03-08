@@ -13,9 +13,11 @@ import {
 } from '../components/API/BookAPIs';
 
 import {BookContext} from '../contexts/BookContext';
+import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useBook = () => {
   const {books, setBooks} = useContext(BookContext);
+  const {setError, setIsOpenError} = useContext(ErrorContext);
 
   const getBooks = async () => {
     return await getBooksAPI().then((json) => {
@@ -48,7 +50,13 @@ export const useBook = () => {
   };
 
   const getBook = async (id) => {
-    return await getBookAPI(id);
+    return await getBookAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return json;
+    });
   };
 
   /* 教材内問題の登録・削除用 */
