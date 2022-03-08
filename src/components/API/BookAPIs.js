@@ -1,5 +1,11 @@
 import {BooksAPI} from '../../APILink';
-import {createBookErrorCatch, deleteBookErrorCatch, getBookErrorCatch, getBooksErrorCatch} from './error/Book';
+import {
+  createBookErrorCatch,
+  deleteBookErrorCatch,
+  getBookErrorCatch,
+  getBooksErrorCatch,
+  updateBookErrorCatch,
+} from './error/Book';
 
 class BookError extends Error {
   constructor(response) {
@@ -125,8 +131,22 @@ export const updateBook = async (id, jsonData) => {
       user_id: jsonData.user_id,
     }),
   })
-    .then((res) => res)
-    .then(() => getBook(id));
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: '教材更新に成功しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return updateBookErrorCatch(-1);
+      } else {
+        return updateBookErrorCatch(error.status);
+      }
+    });
 };
 
 export const getRecodes = async (id) => {

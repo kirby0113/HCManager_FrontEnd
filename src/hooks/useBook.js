@@ -61,7 +61,15 @@ export const useBook = () => {
   };
 
   const updateBook = async (id, postData) => {
-    return await updateBookAPI(id, postData);
+    return await updateBookAPI(id, postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return json;
+      } else {
+        return {...json, content: await getBook(id)};
+      }
+    });
   };
 
   const getBook = async (id) => {

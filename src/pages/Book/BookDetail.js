@@ -78,15 +78,17 @@ const BookDetail = () => {
 
   const EditBookCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      updateBook(param.id, bookPost).then((json) => {
-        setBook(json);
-        getUser(json.user_id).then((json) => {
-          if (json.status === 'success') {
-            setCreatedBy(json.content.name);
-          } else {
-            setCreatedBy('取得失敗');
-          }
-        });
+      updateBook(param.id, bookPost).then((book) => {
+        if (book.status === 'success') {
+          setBook(book.content);
+          getUser(book.content.user_id).then((json) => {
+            if (json.status === 'success') {
+              setCreatedBy(json.content.name);
+            } else {
+              setCreatedBy('取得失敗');
+            }
+          });
+        }
       });
       setIsOpenModal(false);
     }
