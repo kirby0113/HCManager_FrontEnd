@@ -90,6 +90,7 @@ export const CreateTeachingMaterialModal = (props) => {
             value={props.BookPost.user_id}
             onChange={(e) => props.setBookPost({...props.BookPost, user_id: e.target.value})}
           >
+            <option value='' key='' selected></option>
             {props.Users
               ? props.Users.map((data) => (
                   <option value={data.user_id} key={data.user_id}>
