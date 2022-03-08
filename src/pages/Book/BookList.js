@@ -17,21 +17,25 @@ import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
+import {ErrorContext} from '../../contexts/ErrorContext';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const BookList = () => {
   const {authData} = useContext(AuthContext);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   if (!authData) {
     return <Redirect to='/' />;
   }
   const {books, createBook, getBooks} = useBook();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
-  const {users} = useUser();
+  const {users, getUsers} = useUser();
   const {bookPost, setBookPost} = useBookPost();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getUsers();
     setOffset(0);
     setLoading(true);
     getBooks().then(() => setLoading(false));
@@ -74,6 +78,10 @@ const BookList = () => {
       ) : (
         ''
       )}
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
