@@ -1,5 +1,5 @@
 import {BooksAPI} from '../../APILink';
-import {getBookErrorCatch} from './error/Book';
+import {getBookErrorCatch, getBooksErrorCatch} from './error/Book';
 
 class BookError extends Error {
   constructor(response) {
@@ -11,10 +11,22 @@ class BookError extends Error {
 
 export const getBooks = async () => {
   return await fetch(BooksAPI) //api
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
+      return res.json();
+    })
     .then((json) => {
-      // console.log(json);
-      return json;
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getBooksErrorCatch(-1);
+      } else {
+        return getBooksErrorCatch(error.status);
+      }
     });
 };
 

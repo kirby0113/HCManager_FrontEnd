@@ -21,6 +21,12 @@ export const useBook = () => {
 
   const getBooks = async () => {
     return await getBooksAPI().then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setBooks(json.content);
+      }
       return json;
     });
   };
