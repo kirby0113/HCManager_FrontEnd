@@ -85,7 +85,12 @@ export const useBook = () => {
   /* 教材内問題の登録・削除用 */
 
   const addRecode = async (postData) => {
-    return await addRecodeAPI(postData);
+    return await addRecodeAPI(postData).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+    });
   };
 
   const removeRecode = async (postData) => {
@@ -93,7 +98,15 @@ export const useBook = () => {
   };
 
   const getRecodes = async (id) => {
-    return await getRecodesAPI(id);
+    return await getRecodesAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return [];
+      } else {
+        return json.content;
+      }
+    });
   };
 
   return {books, setBooks, getBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecodes};

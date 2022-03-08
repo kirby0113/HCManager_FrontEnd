@@ -4,6 +4,7 @@ import {
   deleteBookErrorCatch,
   getBookErrorCatch,
   getBooksErrorCatch,
+  getRecodeErrorCatch,
   updateBookErrorCatch,
 } from './error/Book';
 
@@ -150,13 +151,24 @@ export const updateBook = async (id, jsonData) => {
 };
 
 export const getRecodes = async (id) => {
-  return await fetch(BooksAPI + '/' + id + '/questions').then((res) => {
-    if (res.status === 404) {
-      return [];
-    } else {
+  return await fetch(BooksAPI + '/' + id + '/questions')
+    .then((res) => {
+      if (!res.ok) {
+        throw new BookError(res);
+      }
       return res.json();
-    }
-  });
+    })
+    .then((json) => {
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getRecodeErrorCatch(-1);
+      } else {
+        return getRecodeErrorCatch(error.status);
+      }
+    });
 };
 
 export const addRecode = async (jsonData) => {
