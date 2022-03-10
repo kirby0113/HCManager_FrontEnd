@@ -17,6 +17,8 @@ import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useContext} from 'react';
 import {Redirect} from 'react-router';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
 
 const QuestionList = () => {
   const {authData} = useContext(AuthContext);
@@ -28,6 +30,7 @@ const QuestionList = () => {
   const [loading, setLoading] = useState(true);
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const {questions, setQuestions, getQuestions} = useQuestion();
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   useEffect(() => {
     setOffset(0);
@@ -63,6 +66,10 @@ const QuestionList = () => {
         ''
       )}
       <Pagination setOffset={setOffset} dataleng={questions ? questions.length : 0} perPage={perPage}></Pagination>
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
