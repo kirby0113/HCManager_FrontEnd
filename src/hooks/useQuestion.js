@@ -20,7 +20,12 @@ export const useQuestion = () => {
 
   const getQuestion = async (id) => {
     return await getQuestionAPI(id).then((json) => {
-      setSelectQuestion(json);
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setSelectQuestion(json.content);
+      }
       return json;
     });
   };
