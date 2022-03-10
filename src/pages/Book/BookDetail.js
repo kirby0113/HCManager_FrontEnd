@@ -22,6 +22,8 @@ import {getQuestions} from '../../components/API/QuestionAPIs';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useContext} from 'react';
+import {ErrorContext} from '../../contexts/ErrorContext';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const BookDetail = () => {
   const {authData} = useContext(AuthContext);
@@ -40,6 +42,7 @@ const BookDetail = () => {
   const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
   const {questions, setQuestions} = useQuestion();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   const getQuestionInBook = () => {
     getRecodes(param['id']).then((json) => setQuestionInBook(json));
@@ -48,6 +51,7 @@ const BookDetail = () => {
   useEffect(() => {
     getBook(param.id)
       .then(async (json) => {
+        if (json.status === 'fail') throw new Error('教材取得失敗');
         setBook(json);
         setBookPost({
           name: json.name,
@@ -55,10 +59,19 @@ const BookDetail = () => {
           access_key: json.access_key,
           user_id: json.user_id,
         });
-        return await getUser(json.user_id).then((json) => setCreatedBy(json.name));
+        return await getUser(json.user_id).then((json) => {
+          if (json.status === 'success') {
+            setCreatedBy(json.content.name);
+          } else {
+            setCreatedBy('取得失敗');
+          }
+        });
       })
       .then(() => getQuestions().then((json) => setQuestions(json)))
-      .then(() => setLoading(false));
+      .then(() => setLoading(false))
+      .catch(() => {
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -68,9 +81,17 @@ const BookDetail = () => {
 
   const EditBookCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      updateBook(param.id, bookPost).then((json) => {
-        setBook(json);
-        getUser(json.user_id).then((json) => setCreatedBy(json.name));
+      updateBook(param.id, bookPost).then((book) => {
+        if (book.status === 'success') {
+          setBook(book.content);
+          getUser(book.content.user_id).then((json) => {
+            if (json.status === 'success') {
+              setCreatedBy(json.content.name);
+            } else {
+              setCreatedBy('取得失敗');
+            }
+          });
+        }
       });
       setIsOpenModal(false);
     }
@@ -156,6 +177,9 @@ const BookDetail = () => {
       ) : (
         ''
       )}
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };

@@ -6,23 +6,42 @@ import {
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
 } from '../components/API/GroupAPIs';
+import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useGroup = () => {
   const {groups, setGroups, selectGroup, setSelectGroup} = useContext(GroupContext);
+  const {setError, setIsOpenError} = useContext(ErrorContext);
 
   const getGroups = async () => {
     return await getGroupsAPI().then((json) => {
-      setGroups(json);
-      return json;
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setGroups(json.content);
+      }
     });
   };
 
   const getGroup = async (id) => {
-    return await getGroupAPI(id);
+    return await getGroupAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setGroups(json.content);
+      }
+    });
   };
 
   const createGroup = async (data) => {
-    return await createGroupAPI(data).then(() => getGroups());
+    return await createGroupAPI(data).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      getGroups();
+    });
   };
 
   const deleteGroup = () => {};

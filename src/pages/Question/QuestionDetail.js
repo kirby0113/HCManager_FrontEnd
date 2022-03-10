@@ -16,6 +16,8 @@ import {useUser} from '../../hooks/useUser';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useContext} from 'react';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
 
 const replace = (node) => {
   if (node.children !== undefined && node.children.length > 0) {
@@ -89,12 +91,17 @@ const QuestionDetail = () => {
   const [loading, setLoading] = useState(true);
   const {getUser} = useUser();
   const [createdBy, setCreatedBy] = useState();
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   useEffect(() => {
     getQuestion(param['id']).then((json) =>
-      getUser(json.user_id)
+      getUser(json.content.user_id)
         .then((json) => {
-          return setCreatedBy(json.name);
+          if (json.status === 'success') {
+            setCreatedBy(json.content.name);
+          } else {
+            setCreatedBy('取得失敗');
+          }
         })
         .then(() => setLoading(false))
     );
@@ -115,6 +122,9 @@ const QuestionDetail = () => {
           <BlankQuestionDetail selectQuestion={selectQuestion} createdBy={createdBy}></BlankQuestionDetail>
         )}
       </DetailCard>
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };

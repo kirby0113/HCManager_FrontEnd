@@ -1,11 +1,20 @@
 import {QuestionsAPI} from '../../APILink';
+import {getQuestionErrorCatch, getQuestionsErrorCatch} from './error/Question';
 
 export const getQuestion = async (id) => {
   //id指定で1データ取る
   return await fetch(QuestionsAPI + '/' + id) //api
     .then((res) => res.json())
     .then((json) => {
-      return json;
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getQuestionErrorCatch(-1);
+      } else {
+        return getQuestionErrorCatch(error.status);
+      }
     });
 };
 
@@ -13,7 +22,15 @@ export const getQuestions = async () => {
   return await fetch(QuestionsAPI) //api
     .then((res) => res.json())
     .then((json) => {
-      return json;
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getQuestionsErrorCatch(-1);
+      } else {
+        return getQuestionsErrorCatch(error.status);
+      }
     });
 };
 

@@ -10,4 +10,5 @@ export const Color = {
   grey: '#d7d7d7',
   lightGrey: '#f4f4f4',
   white: '#fefefe',
+  error: '#ff0000',
 };

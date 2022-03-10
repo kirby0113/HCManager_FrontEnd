@@ -7,6 +7,8 @@ import {Button} from '@material-ui/core';
 import {AuthContext} from '../../contexts/AuthContext';
 import {Redirect} from 'react-router';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
 
 const RegisterForm = styled.div`
   margin-top: 100px;
@@ -41,29 +43,29 @@ const Register = () => {
   const {selectUser, setSelectUser, initSelectUser, loginUser} = useUser();
   const {setAuthData, authData} = useContext(AuthContext);
 
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
+
   if (authData) {
     return <Redirect to='/' />;
   }
 
-  const onRegister = () => {
+  const onLogin = () => {
     if (selectUser.mail == '' || selectUser.password == '') {
-      alert('全ての項目を入力してください。');
+      setIsOpenError(true);
+      setError('全ての項目を入力してください。');
       return;
     }
     if (confirm('ログインしてよろしいですか？')) {
       loginUser(selectUser).then((json) => {
         if (json.status && json.status === 'fail') {
-          alert(json.message);
+          setIsOpenError(true);
+          setError(json.content);
           return;
         }
-        setAuthData(json);
+        setAuthData(json.content);
       });
     }
   };
-
-  useEffect(() => {
-    initSelectUser();
-  }, []);
 
   return authData ? (
     <Redirect to='/'></Redirect>
@@ -94,12 +96,16 @@ const Register = () => {
           variant='contained'
           color='primary'
           onClick={() => {
-            onRegister();
+            onLogin();
           }}
         >
           ログイン
         </LoginButton>
       </RegisterForm>
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };

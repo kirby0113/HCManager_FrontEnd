@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {BooksAPI} from '../../../APILink';
 import {useUser} from '../../../hooks/useUser';
 import {Anchor} from '../../Utilities/Anchor';
 import {useBook} from '../../../hooks/useBook';
@@ -7,7 +6,6 @@ import {useBook} from '../../../hooks/useBook';
 import {PrimaryButton} from '../../Buttons/PrimaryButton';
 import {Label} from '../../Utilities/Card/Label';
 import {InfoCard, InfoCardDetail, InfoCardButtons} from '../../Cards/InfoCard';
-import {getBooks} from '../../API/BookAPIs';
 
 /* TM = TeachingMaterial */
 
@@ -17,7 +15,13 @@ const BookInfo = (props) => {
   const {getUser} = useUser();
 
   useEffect(() => {
-    getUser(props.data.user_id).then((json) => setUser(json));
+    getUser(props.data.user_id).then((json) => {
+      if (json.status === 'success') {
+        setUser(json.content);
+      } else {
+        setUser({name: '取得失敗'});
+      }
+    });
   }, []);
 
   return (

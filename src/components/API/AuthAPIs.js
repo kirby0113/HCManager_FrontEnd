@@ -1,3 +1,5 @@
+import {loginErrorCatch, registerErrorCatch} from './error/Auth';
+
 class AuthError extends Error {
   constructor(response) {
     super(`${response.status} for ${response.url}`);
@@ -15,18 +17,19 @@ export const loginUser = async (jsonData) => {
       password: jsonData.password,
     }),
   })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
         throw new AuthError(res);
       }
-      return res.json();
-    })
-    .then((json) => {
-      return {...json, status: 'success'};
+      return {status: 'success', content: await res.json()};
     })
     .catch((error) => {
       console.error('ログイン失敗', error);
-      return {status: 'fail', message: 'ログインに失敗しました。'};
+      if (error.status === undefined) {
+        return loginErrorCatch(-1);
+      } else {
+        return loginErrorCatch(error.status);
+      }
     });
 };
 
@@ -41,6 +44,18 @@ export const registerUser = async (jsonData) => {
       password: jsonData.password,
     }),
   })
-    .then((res) => res.json())
-    .then((json) => json);
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new AuthError(res);
+      }
+      return {status: 'success', content: await res.json()};
+    })
+    .catch((error) => {
+      console.error('新規登録失敗', error);
+      if (error.status === undefined) {
+        return registerErrorCatch(-1);
+      } else {
+        return registerErrorCatch(error.status);
+      }
+    });
 };

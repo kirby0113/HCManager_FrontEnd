@@ -13,20 +13,32 @@ import {
 } from '../components/API/BookAPIs';
 
 import {BookContext} from '../contexts/BookContext';
+import {ErrorContext} from '../contexts/ErrorContext';
 
 export const useBook = () => {
   const {books, setBooks} = useContext(BookContext);
+  const {setError, setIsOpenError} = useContext(ErrorContext);
 
   const getBooks = async () => {
     return await getBooksAPI().then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        setBooks(json.content);
+      }
       return json;
     });
   };
 
   const createBook = (postData) => {
-    createBookAPI(postData).then((json) => {
-      console.log(json);
-      setBooks(json);
+    createBookAPI(postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        return await getBooks();
+      }
     });
   };
 
@@ -38,31 +50,70 @@ export const useBook = () => {
     if (!confirm('教材名：' + name + ' 本当に削除しますか？')) {
       return;
     }
-    deleteBookAPI(id).then(() => {
-      window.location.reload(); //404がどうしても返されるので強制的にリロードしてます
+    deleteBookAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      } else {
+        window.location.reload(); //404がどうしても返されるので強制的にリロードしてます
+      }
     });
   };
 
   const updateBook = async (id, postData) => {
-    return await updateBookAPI(id, postData);
+    return await updateBookAPI(id, postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return json;
+      } else {
+        return {...json, content: await getBook(id)};
+      }
+    });
   };
 
   const getBook = async (id) => {
-    return await getBookAPI(id);
+    return await getBookAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return json;
+    });
   };
 
   /* 教材内問題の登録・削除用 */
 
   const addRecode = async (postData) => {
-    return await addRecodeAPI(postData);
+    return await addRecodeAPI(postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return await getRecodes(postData.book_id);
+    });
   };
 
   const removeRecode = async (postData) => {
-    return await removeRecodeAPI(postData);
+    return await removeRecodeAPI(postData).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return await getRecodes(postData.book_id);
+    });
   };
 
   const getRecodes = async (id) => {
-    return await getRecodesAPI(id);
+    return await getRecodesAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return [];
+      } else {
+        return json.content;
+      }
+    });
   };
 
   return {books, setBooks, getBooks, createBook, deleteBook, updateBook, getBook, addRecode, removeRecode, getRecodes};
