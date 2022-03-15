@@ -11,6 +11,7 @@ import GroupList from './pages/Group/GroupList';
 import UserList from './pages/User/UserList';
 import QuestionList from './pages/Question/QuestionList';
 import BookList from './pages/Book/BookList';
+import LogList from './pages/Log/LogList';
 
 //詳細ページ
 import GroupDetail from './pages/Group/GroupDetail';
@@ -67,6 +68,9 @@ const App = () => {
                           </Route>
                           <Route exact path='/'>
                             <Home />
+                          </Route>
+                          <Route exact path='/log'>
+                            <LogList />
                           </Route>
 
                           {/* 詳細ページのルーティング */}
