@@ -218,6 +218,99 @@ hooks/
 - 本システムで使用するAPIは「[HelloC_API](https://github.com/HIT-matsumotolab/HelloC_API)」です。 
 - 非同期処理となるので、Promise,async,awaitの理解が必要です。
 
+### エラー処理について
+- 本システムでは、API処理時にエラーを受け取った際、エラーメッセージを数秒表示する仕様となっています。
+
+#### エラーメッセージの表示例
+![unknown](https://user-images.githubusercontent.com/65604109/158304355-df234483-69ef-468e-8be1-a9a240812c12.png)
+
+#### エラーメッセージの管理
+
+- エラーメッセージの管理には、contexts/ErrorContextを使用します。
+
+##### ErrorContextのprops一覧
+
+|  prop名  |  型  |  機能  |
+| ---- | ---- | ---- |
+|  error   | String |  エラーメッセージの文字列の参照  |
+|  setError  | (String) => void |  エラーメッセージの保存（更新）  |
+|  isOpenError  | boolean |  エラーメッセージが表示されるか  |
+|  setIsOpenError  | (boolean) => void |  エラーメッセージの表示・非表示変更  |
+
+
+##### グループ一覧取得の際の使用例
+
+```
+import {useContext} from 'react';
+import {GroupContext} from '../contexts/GroupContext';
+import {ErrorContext} from '../contexts/ErrorContext';
+
+const {groups, setGroups, selectGroup, setSelectGroup} = useContext(GroupContext);
+const {setError, setIsOpenError} = useContext(ErrorContext);
+
+const getGroups = async () => {
+    return await getGroupsAPI().then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true); //エラーメッセージを表示
+        setError(json.content); //エラーメッセージを更新
+      } else {
+        setGroups(json.content);
+      }
+    });
+  };
+```
+
+#### レスポンスについて
+
+- APIから返されたレスポンスが正常な場合、以下のようなJsonを返します。
+
+```
+
+{
+    status: "success",
+    content: "APIから返されたJson、もしくはそれがない場合は正常に処理が行われたことを示すメッセージを入れておきます。"
+}
+
+```
+
+- レスポンスが以上だった場合、以下のようなJsonを返します。
+
+```
+
+{
+    status: "fail",
+    content: "エラーに対応したエラーメッセージを入れておきます。",
+}
+
+```
+
+#### エラーメッセージの分別
+- src/components/API/errorフォルダ内のファイルによって、APIからのレスポンスに対応したエラーメッセージを管理しています。
+- エラーメッセージの管理には、レスポンスに付属しているstatusCodeを使用します。
+- また、VPNなどのネットワーク接続が原因の場合、statusCodeは-1としています。
+
+##### ログイン時のエラーの場合
+
+```
+export const loginErrorCatch = (status) => {
+  switch (status) {
+    case -1: {
+      return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
+    }
+    case 404: {
+      return {status: 'fail', content: 'ログインに失敗しました。入力されたユーザー情報が見つかりません。'};
+    }
+    case 401: {
+      return {status: 'fail', content: 'ログインに失敗しました。パスワードが違います。'};
+    }
+    default: {
+      return {status: 'fail', content: 'ログインに失敗しました。定義されていないエラーです。'};
+    }
+  }
+};
+
+```
+
 ### 参考URL
 - [図解 1から学ぶJavaScriptの非同期処理](https://qiita.com/ryosuketter/items/dd467f827c1b93a74d76)
 - [fetch,async/awaitでAjax通信](https://qiita.com/mczkzk/items/468ed4b36dbfa5121ca4)
