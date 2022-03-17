@@ -1,6 +1,6 @@
 import {GroupsAPI} from '../../APILink';
 
-import {createGroupErrorCatch, getGroupErrorCatch, getGroupsErrorCatch} from './error/Group';
+import {createGroupErrorCatch, getGroupErrorCatch, getGroupInBooksErrorCatch, getGroupsErrorCatch} from './error/Group';
 
 class GroupError extends Error {
   constructor(response) {
@@ -78,6 +78,28 @@ export const createGroup = async (data) => {
         return createGroupErrorCatch(-1);
       } else {
         return createGroupErrorCatch(error.status);
+      }
+    });
+};
+
+export const getBooksInGroup = async (id) => {
+  return await fetch(`${GroupsAPI}/${id}/books`)
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      console.log(json[0].name);
+      return {status: 'success', content: json};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return getGroupInBooksErrorCatch(-1);
+      } else {
+        return getGroupInBooksErrorCatch(error.status);
       }
     });
 };

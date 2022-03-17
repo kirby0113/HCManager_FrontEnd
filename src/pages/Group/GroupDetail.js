@@ -17,6 +17,7 @@ import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelatio
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
+import {useGroup} from '../../hooks/useGroup';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -37,6 +38,8 @@ const GroupDetail = () => {
   const [Books, setBooks] = useState([]); //全てのBooksを入れておく
   const [Users, setUsers] = useState(); //Formで使用
 
+  const {getBooksInGroup} = useGroup();
+
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [BookPostBody, setBookPostBody] = useState({
@@ -52,21 +55,6 @@ const GroupDetail = () => {
     user_id: '',
   });
 
-  const getBookInGroup = () => {
-    if (typeof GroupData !== 'undefined') {
-      fetch(GroupsAPI + '/' + param['id'] + '/books') //api
-        .then((res) => res.json())
-        .then((json) => {
-          // console.log(json);
-          if (Array.isArray(json)) {
-            setBooksInGroup(json);
-          } else {
-            setBooksInGroup([json]);
-          }
-        });
-    }
-  };
-
   useEffect(() => {
     fetch(UsersAPI) //api
       .then((res) => res.json())
@@ -80,7 +68,11 @@ const GroupDetail = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
-        getBookInGroup();
+        getBooksInGroup(param['id']).then((json) => {
+          if (json.status === 'success') {
+            setBooksInGroup(json.content);
+          }
+        });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -92,7 +84,11 @@ const GroupDetail = () => {
       .then((response) => response)
       .then((data) => {
         console.log('Success:', data);
-        getBookInGroup();
+        getBooksInGroup(param['id']).then((json) => {
+          if (json.status === 'success') {
+            setBooksInGroup(json.content);
+          }
+        });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -167,7 +163,11 @@ const GroupDetail = () => {
 
   useEffect(() => {
     //Groupデータ更新時にグループに対応した教材を取得
-    getBookInGroup();
+    getBooksInGroup(param['id']).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   }, [GroupData]);
 
   useEffect(() => {
@@ -242,7 +242,7 @@ const GroupDetail = () => {
         <div className='TMList'>
           {BooksInGroup.map((data) => {
             console.log(data);
-            return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
+            return <BookInfo data={data} key={data.book_id}></BookInfo>;
           })}
         </div>
       ) : (

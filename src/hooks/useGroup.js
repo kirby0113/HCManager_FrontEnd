@@ -5,6 +5,7 @@ import {
   getGroups as getGroupsAPI,
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
+  getBooksInGroup as getBooksInGroupAPI,
 } from '../components/API/GroupAPIs';
 import {ErrorContext} from '../contexts/ErrorContext';
 
@@ -48,6 +49,18 @@ export const useGroup = () => {
 
   const updateGroup = () => {};
 
+  const getBooksInGroup = async (id) => {
+    return await getBooksInGroupAPI(id).then((json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return json;
+      } else {
+        return json;
+      }
+    });
+  };
+
   const selectGroupInit = () => {
     setSelectGroup({name: '', summary: '', access_key: '', user_id: ''});
   };
@@ -63,5 +76,6 @@ export const useGroup = () => {
     createGroup,
     deleteGroup,
     updateGroup,
+    getBooksInGroup,
   };
 };
