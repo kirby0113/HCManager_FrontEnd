@@ -18,7 +18,6 @@ import {useBookPost, useBook, useBookRecodePost} from '../../hooks/useBook';
 import {useQuestion} from '../../hooks/useQuestion';
 
 import {getBook} from '../../components/API/BookAPIs';
-import {getQuestions} from '../../components/API/QuestionAPIs';
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useContext} from 'react';
@@ -39,13 +38,16 @@ const BookDetail = () => {
   const [loading, setLoading] = useState(true);
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
-  const [questionInBook, setQuestionInBook] = useState(); //Bookに登録されてる問題
-  const {questions, setQuestions} = useQuestion();
+  const [questionInBook, setQuestionInBook] = useState([]); //Bookに登録されてる問題
+  const {questions, setQuestions, getQuestions} = useQuestion();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   const getQuestionInBook = () => {
-    getRecodes(param['id']).then((json) => setQuestionInBook(json));
+    getRecodes(param['id']).then((json) => {
+      setQuestionInBook(json);
+      console.log(json);
+    });
   };
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const BookDetail = () => {
           }
         });
       })
-      .then(() => getQuestions().then((json) => setQuestions(json)))
+      .then(() => getQuestions())
       .then(() => setLoading(false))
       .catch(() => {
         setLoading(false);
