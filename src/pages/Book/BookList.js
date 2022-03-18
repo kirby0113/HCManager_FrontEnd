@@ -57,17 +57,15 @@ const BookList = () => {
         </PrimaryButton>
       </AddButtonList>
       <SelectPerPage perPage={perPage} setPerPage={setPerPage} />
-      {books ? (
+      {books && (
         <InfoCardList>
           {books.slice(offset, Number(offset) + Number(perPage)).map((data) => (
             <BookInfo data={data} key={data.book_id}></BookInfo>
           ))}
         </InfoCardList>
-      ) : (
-        ''
       )}
       <Pagination setOffset={setOffset} dataleng={books ? books.length : 0} perPage={perPage}></Pagination>
-      {modalVisible ? (
+      {modalVisible && (
         <CreateTeachingMaterialModal
           BookPost={bookPost}
           setBookPost={setBookPost}
@@ -75,8 +73,6 @@ const BookList = () => {
           Users={users}
           createBookFetch={() => createBook(bookPost)}
         ></CreateTeachingMaterialModal>
-      ) : (
-        ''
       )}
 
       <ErrorMessageWrapper isOpen={isOpenError}>

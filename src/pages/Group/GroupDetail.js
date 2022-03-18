@@ -4,7 +4,7 @@ import {Redirect, useParams} from 'react-router';
 
 import styled from 'styled-components';
 
-import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
+import {UsersAPI} from '../../APILink';
 
 import BookInfo from '../../components/pages/Book/BookInfo';
 
@@ -17,6 +17,12 @@ import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelatio
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
+import {useGroup, useGroupPost} from '../../hooks/useGroup';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
+import {useBook} from '../../hooks/useBook';
+import {useUser} from '../../hooks/useUser';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -31,171 +37,93 @@ const GroupDetail = () => {
 
   const param = useParams();
 
-  const [GroupData, setGroupData] = useState();
   const [CreatedBy, setCreatedBy] = useState();
   const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
-  const [Books, setBooks] = useState([]); //全てのBooksを入れておく
-  const [Users, setUsers] = useState(); //Formで使用
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
+  const {books, setBooks, getBooks} = useBook();
+  const {users, getUser, getUsers} = useUser();
+  const {selectGroup, setSelectGroup, getGroup, updateGroup, getCollections, addCollection, removeCollection} =
+    useGroup();
+  const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const [BookPostBody, setBookPostBody] = useState({
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({group_id: param['id'], book_id: '1'}),
-  });
-
-  const [editGroupPostData, setEditGroupPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
-
-  const getBookInGroup = () => {
-    if (typeof GroupData !== 'undefined') {
-      fetch(GroupsAPI + '/' + param['id'] + '/books') //api
-        .then((res) => res.json())
-        .then((json) => {
-          // console.log(json);
-          if (Array.isArray(json)) {
-            setBooksInGroup(json);
-          } else {
-            setBooksInGroup([json]);
-          }
-        });
-    }
-  };
-
-  useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json);
-      });
-  }, []);
+  const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: ''});
 
   const registerBook = () => {
-    fetch(GroupsAPI + '/addBook', BookPostBody) //api groups/addBook
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-        getBookInGroup();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    addCollection(BookPostBody).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   };
 
   const removeBook = () => {
-    fetch(GroupsAPI + '/removeBook', BookPostBody) //api groups/removeBook
-      .then((response) => response)
-      .then((data) => {
-        console.log('Success:', data);
-        getBookInGroup();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    removeCollection(BookPostBody).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   };
 
   const BookPostChange = (id) => {
-    setBookPostBody({
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({group_id: param['id'], book_id: id}),
-    });
-    // console.log(BookPostBody);
-  };
-
-  const EditGroupFetch = () => {
-    //Group編集用Fetch
-    fetch(GroupsAPI + '/' + param['id'], {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: editGroupPostData.name,
-        summary: editGroupPostData.summary,
-        access_key: editGroupPostData.access_key,
-        user_id: editGroupPostData.user_id,
-      }),
-    }) //api
-      .then((res) => res.json())
-      .then(() => {
-        GroupDataFetch();
-      });
+    setBookPostBody({group_id: param['id'], book_id: id});
   };
 
   const EditGroupCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      EditGroupFetch();
+      updateGroup(groupPost).then((json) => {
+        if (json.status === 'success') {
+          setSelectGroup(json.content);
+          groupPostInit(json.content);
+        }
+      });
       setIsOpenModal(false);
-      // console.log(EditGroupPostData);
     }
   };
 
-  const GroupDataFetch = () => {
-    fetch(GroupsAPI + '/' + param['id']) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setGroupData(json);
-        // console.log(json);
-        setEditGroupPostData({
-          name: json.name,
-          summary: json.summary,
-          access_key: json.access_key,
-          user_id: json.user_id,
-        });
-      });
-  };
-
   useEffect(() => {
-    //最初にGroupデータを取得
-    GroupDataFetch();
+    //最初にGroupデータと関連教材を取得
+    getGroup(param['id'])
+      .then((json) => {
+        if (json.status === 'success') {
+          setSelectGroup(json.content);
+          groupPostInit(json.content);
+        }
+      })
+      .then(() => {
+        getUsers();
+      })
+      .then(() => {
+        getBooks();
+      });
+
+    getCollections(param['id']).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   }, []);
 
   useEffect(() => {
     //Groupデータ更新時に作成者名を取得
-    if (typeof GroupData !== 'undefined') {
-      fetch(UsersAPI + '/' + GroupData.user_id) //api
-        .then((res) => res.json())
-        .then((json) => {
-          setCreatedBy(json.name);
-        });
+    if (typeof selectGroup !== 'undefined') {
+      getUser(selectGroup.user_id).then((json) => {
+        setCreatedBy(json.content.name);
+      });
     }
-  }, [GroupData]);
-
-  useEffect(() => {
-    //Groupデータ更新時にグループに対応した教材を取得
-    getBookInGroup();
-  }, [GroupData]);
-
-  useEffect(() => {
-    //Groupデータ更新時に全ての教材を取得（教材登録などに使う）
-    if (typeof GroupData !== 'undefined') {
-      fetch(BooksAPI) //api
-        .then((res) => res.json())
-        .then((json) => {
-          //console.log(json);
-          if (Array.isArray(json)) {
-            setBooks(json);
-          } else {
-            setBooks([json]);
-          }
-        });
-    }
-  }, [GroupData]);
+  }, [selectGroup]);
 
   return (
     <div>
       <PageTitle color='blue'>グループ詳細</PageTitle>
       <Breadcrumbs />
       <GroupDetailCard>
-        {GroupData ? (
+        {selectGroup && (
           <DetailCardContent>
             <div>
               <Label>グループ名</Label>
-              {GroupData.name}
+              {selectGroup.name}
             </div>
             <div>
               <Label>作成者</Label>
@@ -203,19 +131,25 @@ const GroupDetail = () => {
             </div>
             <div>
               <Label>アクセスキー</Label>
-              {GroupData.access_key}
+              {selectGroup.access_key}
             </div>
             <div>
               <Label>作成日</Label>
-              {GroupData.created_at}
+              {selectGroup.created_at}
             </div>
           </DetailCardContent>
-        ) : (
-          ''
         )}
-        <DetailCardSummary title='グループ概略' text={GroupData ? GroupData.summary : ''} />
+        <DetailCardSummary title='グループ概略' text={selectGroup && selectGroup.summary} />
         <DetailCardButtons>
-          <PrimaryButton color='secondary' sizeX='large' sizeY='small' onClick={() => setIsOpenModal(true)}>
+          <PrimaryButton
+            color='secondary'
+            sizeX='large'
+            sizeY='small'
+            onClick={() => {
+              setIsOpenModal(true);
+              setGroupPost(selectGroup);
+            }}
+          >
             編集
           </PrimaryButton>
         </DetailCardButtons>
@@ -231,36 +165,36 @@ const GroupDetail = () => {
         }}
         label='教材名'
       >
-        {Books.map((data) => (
+        <option value='' key=''></option>
+        {books.map((data) => (
           <option value={data.book_id} key={data.book_id}>
             {data.name}
           </option>
         ))}
       </EditRelationButtonList>
 
-      {BooksInGroup ? (
-        <div className='TMList'>
+      {BooksInGroup && (
+        <InfoCardList>
           {BooksInGroup.map((data) => {
             console.log(data);
             return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
           })}
-        </div>
-      ) : (
-        ''
+        </InfoCardList>
       )}
 
-      {/* Modal*/}
-      {isOpenModal ? (
+      {isOpenModal && (
         <EditGroupModal
-          onChange={setEditGroupPostData}
+          onChange={setGroupPost}
           onSave={() => EditGroupCheck()}
-          postData={editGroupPostData}
-          users={Users}
+          postData={groupPost}
+          users={users}
           onClose={() => setIsOpenModal(false)}
         />
-      ) : (
-        ''
       )}
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };

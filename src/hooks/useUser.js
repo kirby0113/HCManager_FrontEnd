@@ -66,8 +66,10 @@ export const useUser = () => {
       if (json.status === 'fail') {
         setIsOpenError(true);
         setError(json.content);
+        return {status: json.status, content: '取得失敗'};
+      } else {
+        return json;
       }
-      return json;
     });
   };
 
