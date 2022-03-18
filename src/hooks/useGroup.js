@@ -5,6 +5,7 @@ import {
   getGroups as getGroupsAPI,
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
+  updateGroup as updateGroupAPI,
   getCollections as getCollectionsAPI,
   addCollection as addCollectionAPI,
   removeCollection as removeCollectionAPI,
@@ -48,7 +49,15 @@ export const useGroup = () => {
 
   const deleteGroup = () => {};
 
-  const updateGroup = () => {};
+  const updateGroup = async (data) => {
+    return await updateGroupAPI(data).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return await getGroup(data.group_id);
+    });
+  };
 
   const getCollections = async (id) => {
     return await getCollectionsAPI(id).then((json) => {

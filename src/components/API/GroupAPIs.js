@@ -7,6 +7,7 @@ import {
   getGroupsErrorCatch,
   addCollectionErrorCatch,
   removeCollectionErrorCatch,
+  updateGroupErrorCatch,
 } from './error/Group';
 
 class GroupError extends Error {
@@ -85,6 +86,35 @@ export const createGroup = async (data) => {
         return createGroupErrorCatch(-1);
       } else {
         return createGroupErrorCatch(error.status);
+      }
+    });
+};
+
+export const updateGroup = async (data) => {
+  return await fetch(`${GroupsAPI}/${data.group_id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: data.name,
+      summary: data.summary,
+      access_key: data.access_key,
+      user_id: data.user_id,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: 'クラスの編集が完了しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return updateGroupErrorCatch(-1);
+      } else {
+        return updateGroupErrorCatch(error.status);
       }
     });
 };
