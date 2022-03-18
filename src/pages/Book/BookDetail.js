@@ -26,21 +26,24 @@ import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/Erro
 
 const BookDetail = () => {
   const {authData} = useContext(AuthContext);
+  const param = useParams();
 
   if (!authData) {
     return <Redirect to='/' />;
   }
-  const param = useParams();
-  const {users, getUser} = useUser();
-  const {updateBook, addRecode, removeRecode, getRecodes} = useBook();
-  const {bookPost, setBookPost} = useBookPost();
+
   const {bookRecodePost, setBookRecodePost} = useBookRecodePost(param['id']);
   const [loading, setLoading] = useState(true);
   const [Book, setBook] = useState();
   const [createdBy, setCreatedBy] = useState();
   const [questionInBook, setQuestionInBook] = useState([]); //Bookに登録されてる問題
-  const {questions, setQuestions, getQuestions} = useQuestion();
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const {users, getUser} = useUser();
+  const {questions, setQuestions, getQuestions} = useQuestion();
+  const {updateBook, addRecode, removeRecode, getRecodes} = useBook();
+  const {bookPost, setBookPost} = useBookPost();
+
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
   const getQuestionInBook = () => {
