@@ -17,7 +17,7 @@ import {EditRelationButtonList} from '../../components/Buttons/Lists/EditRelatio
 import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
-import {useGroup} from '../../hooks/useGroup';
+import {useGroup, useGroupPost} from '../../hooks/useGroup';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 import {ErrorContext} from '../../contexts/ErrorContext';
@@ -37,26 +37,18 @@ const GroupDetail = () => {
 
   const param = useParams();
 
-  const [GroupData, setGroupData] = useState();
   const [CreatedBy, setCreatedBy] = useState();
   const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
   const [Users, setUsers] = useState(); //Formで使用
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
   const {books, setBooks, getBooks} = useBook();
   const {getUser} = useUser();
-
-  const {getCollections, addCollection, removeCollection} = useGroup();
+  const {selectGroup, setSelectGroup, getGroup, getCollections, addCollection, removeCollection} = useGroup();
+  const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: ''});
-
-  const [editGroupPostData, setEditGroupPostData] = useState({
-    name: '',
-    summary: '',
-    access_key: '',
-    user_id: '',
-  });
 
   useEffect(() => {
     fetch(UsersAPI) //api
@@ -84,7 +76,6 @@ const GroupDetail = () => {
 
   const BookPostChange = (id) => {
     setBookPostBody({group_id: param['id'], book_id: id});
-    console.log(BookPostBody);
   };
 
   const EditGroupFetch = () => {
@@ -93,15 +84,20 @@ const GroupDetail = () => {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        name: editGroupPostData.name,
-        summary: editGroupPostData.summary,
-        access_key: editGroupPostData.access_key,
-        user_id: editGroupPostData.user_id,
+        name: groupPost.name,
+        summary: groupPost.summary,
+        access_key: groupPost.access_key,
+        user_id: groupPost.user_id,
       }),
     }) //api
       .then((res) => res.json())
       .then(() => {
-        GroupDataFetch();
+        getGroup(param['id']).then((json) => {
+          if (json.status === 'success') {
+            setSelectGroup(json.content);
+            groupPostInit(json.content);
+          }
+        });
       });
   };
 
@@ -113,31 +109,24 @@ const GroupDetail = () => {
     }
   };
 
-  const GroupDataFetch = () => {
-    fetch(GroupsAPI + '/' + param['id']) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setGroupData(json);
-        // console.log(json);
-        setEditGroupPostData({
-          name: json.name,
-          summary: json.summary,
-          access_key: json.access_key,
-          user_id: json.user_id,
-        });
-      });
-  };
-
   useEffect(() => {
-    //最初にGroupデータを取得
-    GroupDataFetch();
-    getBooks();
+    //最初にGroupデータと関連教材を取得
+    getGroup(param['id'])
+      .then((json) => {
+        if (json.status === 'success') {
+          setSelectGroup(json.content);
+          groupPostInit(json.content);
+        }
+      })
+      .then(() => {
+        getBooks();
+      });
   }, []);
 
   useEffect(() => {
     //Groupデータ更新時に作成者名を取得
-    if (typeof GroupData !== 'undefined') {
-      getUser(GroupData.user_id).then((json) => {
+    if (typeof selectGroup !== 'undefined') {
+      getUser(selectGroup.user_id).then((json) => {
         setCreatedBy(json.content.name);
       });
     }
@@ -147,18 +136,18 @@ const GroupDetail = () => {
         setBooksInGroup(json.content);
       }
     });
-  }, [GroupData]);
+  }, [selectGroup]);
 
   return (
     <div>
       <PageTitle color='blue'>グループ詳細</PageTitle>
       <Breadcrumbs />
       <GroupDetailCard>
-        {GroupData && (
+        {selectGroup && (
           <DetailCardContent>
             <div>
               <Label>グループ名</Label>
-              {GroupData.name}
+              {selectGroup.name}
             </div>
             <div>
               <Label>作成者</Label>
@@ -166,17 +155,25 @@ const GroupDetail = () => {
             </div>
             <div>
               <Label>アクセスキー</Label>
-              {GroupData.access_key}
+              {selectGroup.access_key}
             </div>
             <div>
               <Label>作成日</Label>
-              {GroupData.created_at}
+              {selectGroup.created_at}
             </div>
           </DetailCardContent>
         )}
-        <DetailCardSummary title='グループ概略' text={GroupData ? GroupData.summary : ''} />
+        <DetailCardSummary title='グループ概略' text={selectGroup && selectGroup.summary} />
         <DetailCardButtons>
-          <PrimaryButton color='secondary' sizeX='large' sizeY='small' onClick={() => setIsOpenModal(true)}>
+          <PrimaryButton
+            color='secondary'
+            sizeX='large'
+            sizeY='small'
+            onClick={() => {
+              setIsOpenModal(true);
+              setGroupPost(selectGroup);
+            }}
+          >
             編集
           </PrimaryButton>
         </DetailCardButtons>
@@ -211,9 +208,9 @@ const GroupDetail = () => {
 
       {isOpenModal && (
         <EditGroupModal
-          onChange={setEditGroupPostData}
+          onChange={setGroupPost}
           onSave={() => EditGroupCheck()}
-          postData={editGroupPostData}
+          postData={groupPost}
           users={Users}
           onClose={() => setIsOpenModal(false)}
         />
