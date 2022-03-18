@@ -6,6 +6,7 @@ import {
   getCollectionsErrorCatch,
   getGroupsErrorCatch,
   addCollectionErrorCatch,
+  removeCollectionErrorCatch,
 } from './error/Group';
 
 class GroupError extends Error {
@@ -134,6 +135,34 @@ export const addCollection = async (data) => {
         return addCollectionErrorCatch(-1);
       } else {
         return addCollectionErrorCatch(error.status);
+      }
+    });
+};
+
+export const removeCollection = async (data) => {
+  console.log(data);
+  return await fetch(`${GroupsAPI}/removeBook`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      group_id: data.group_id,
+      book_id: data.book_id,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: 'クラス内教材削除に成功しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return removeCollectionErrorCatch(-1);
+      } else {
+        return removeCollectionErrorCatch(error.status);
       }
     });
 };
