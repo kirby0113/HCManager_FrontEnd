@@ -23,7 +23,7 @@ import {ErrorContext} from '../../contexts/ErrorContext';
 import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const GroupList = () => {
-  const {groups, setGroups, getGroups, createGroup} = useGroup();
+  const {groups, setGroups, getGroups, createGroup, deleteGroup} = useGroup();
   const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,7 +67,7 @@ const GroupList = () => {
           {groups && (
             <InfoCardList>
               {groups.slice(offset, Number(offset) + Number(perPage)).map((data) => (
-                <GroupInfo data={data} key={data.group_id} setGroups={setGroups}></GroupInfo>
+                <GroupInfo data={data} key={data.group_id} setGroups={setGroups} onDelete={deleteGroup}></GroupInfo>
               ))}
             </InfoCardList>
           )}
