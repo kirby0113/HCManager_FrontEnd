@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {GroupContext} from '../contexts/GroupContext';
 
 import {
@@ -112,4 +112,14 @@ export const useGroup = () => {
     addCollection,
     removeCollection,
   };
+};
+
+export const useGroupPost = () => {
+  const [groupPost, setGroupPost] = useState({group_id: '', name: '', summary: '', access_key: '', user_id: ''});
+
+  const groupPostInit = (json = {group_id: '', name: '', summary: '', access_key: '', user_id: ''}) => {
+    setGroupPost(json);
+  };
+
+  return {groupPost, setGroupPost, groupPostInit};
 };
