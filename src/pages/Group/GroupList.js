@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {useGroup} from '../../hooks/useGroup';
+import {useGroup, useGroupPost} from '../../hooks/useGroup';
 import {usePagination} from '../../hooks/usePagination';
 
 import GroupInfo from '../../components/pages/Group/GroupInfo';
@@ -23,7 +23,8 @@ import {ErrorContext} from '../../contexts/ErrorContext';
 import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 
 const GroupList = () => {
-  const {groups, setGroups, selectGroup, selectGroupInit, setSelectGroup, getGroups, createGroup} = useGroup();
+  const {groups, setGroups, getGroups, createGroup} = useGroup();
+  const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
   const {perPage, setPerPage, offset, setOffset} = usePagination();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,7 @@ const GroupList = () => {
   }, []);
 
   const openCreateModal = () => {
-    selectGroupInit();
+    groupPostInit();
     setModalVisible(true);
   };
 
@@ -74,9 +75,9 @@ const GroupList = () => {
           {modalVisible && (
             <CreateGroupModal
               onClose={() => setModalVisible(false)}
-              PostData={selectGroup}
-              setPostData={setSelectGroup}
-              CreateGroupFetch={() => createGroup(selectGroup)}
+              PostData={groupPost}
+              setPostData={setGroupPost}
+              CreateGroupFetch={() => createGroup(groupPost)}
             ></CreateGroupModal>
           )}
         </div>
