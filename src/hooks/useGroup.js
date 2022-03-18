@@ -5,7 +5,8 @@ import {
   getGroups as getGroupsAPI,
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
-  getBooksInGroup as getBooksInGroupAPI,
+  getCollections as getCollectionsAPI,
+  addCollection as addCollectionAPI,
 } from '../components/API/GroupAPIs';
 import {ErrorContext} from '../contexts/ErrorContext';
 
@@ -49,8 +50,8 @@ export const useGroup = () => {
 
   const updateGroup = () => {};
 
-  const getBooksInGroup = async (id) => {
-    return await getBooksInGroupAPI(id).then((json) => {
+  const getCollections = async (id) => {
+    return await getCollectionsAPI(id).then((json) => {
       if (json.status === 'fail') {
         setIsOpenError(true);
         setError(json.content);
@@ -58,6 +59,16 @@ export const useGroup = () => {
       } else {
         return json;
       }
+    });
+  };
+
+  const addCollection = async (data) => {
+    return await addCollectionAPI(data).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+      }
+      return await getCollections(data.group_id);
     });
   };
 
@@ -76,6 +87,7 @@ export const useGroup = () => {
     createGroup,
     deleteGroup,
     updateGroup,
-    getBooksInGroup,
+    getCollections,
+    addCollection,
   };
 };

@@ -1,6 +1,12 @@
 import {GroupsAPI} from '../../APILink';
 
-import {createGroupErrorCatch, getGroupErrorCatch, getGroupInBooksErrorCatch, getGroupsErrorCatch} from './error/Group';
+import {
+  createGroupErrorCatch,
+  getGroupErrorCatch,
+  getCollectionsErrorCatch,
+  getGroupsErrorCatch,
+  addCollectionErrorCatch,
+} from './error/Group';
 
 class GroupError extends Error {
   constructor(response) {
@@ -82,7 +88,7 @@ export const createGroup = async (data) => {
     });
 };
 
-export const getBooksInGroup = async (id) => {
+export const getCollections = async (id) => {
   return await fetch(`${GroupsAPI}/${id}/books`)
     .then((res) => {
       if (!res.ok) {
@@ -97,9 +103,37 @@ export const getBooksInGroup = async (id) => {
     .catch((error) => {
       console.error(error);
       if (error.status === undefined) {
-        return getGroupInBooksErrorCatch(-1);
+        return getCollectionsErrorCatch(-1);
       } else {
-        return getGroupInBooksErrorCatch(error.status);
+        return getCollectionsErrorCatch(error.status);
+      }
+    });
+};
+
+export const addCollection = async (data) => {
+  console.log(data);
+  return await fetch(`${GroupsAPI}/addBook`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      group_id: data.group_id,
+      book_id: data.book_id,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: 'クラス内教材追加に成功しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return addCollectionErrorCatch(-1);
+      } else {
+        return addCollectionErrorCatch(error.status);
       }
     });
 };
