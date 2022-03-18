@@ -4,7 +4,7 @@ import {Redirect, useParams} from 'react-router';
 
 import styled from 'styled-components';
 
-import {GroupsAPI, UsersAPI, BooksAPI} from '../../APILink';
+import {UsersAPI} from '../../APILink';
 
 import BookInfo from '../../components/pages/Book/BookInfo';
 
@@ -43,7 +43,8 @@ const GroupDetail = () => {
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
   const {books, setBooks, getBooks} = useBook();
   const {getUser} = useUser();
-  const {selectGroup, setSelectGroup, getGroup, getCollections, addCollection, removeCollection} = useGroup();
+  const {selectGroup, setSelectGroup, getGroup, updateGroup, getCollections, addCollection, removeCollection} =
+    useGroup();
   const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -78,34 +79,15 @@ const GroupDetail = () => {
     setBookPostBody({group_id: param['id'], book_id: id});
   };
 
-  const EditGroupFetch = () => {
-    //Group編集用Fetch
-    fetch(GroupsAPI + '/' + param['id'], {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: groupPost.name,
-        summary: groupPost.summary,
-        access_key: groupPost.access_key,
-        user_id: groupPost.user_id,
-      }),
-    }) //api
-      .then((res) => res.json())
-      .then(() => {
-        getGroup(param['id']).then((json) => {
-          if (json.status === 'success') {
-            setSelectGroup(json.content);
-            groupPostInit(json.content);
-          }
-        });
-      });
-  };
-
   const EditGroupCheck = () => {
     if (confirm('編集を保存しますか？')) {
-      EditGroupFetch();
+      updateGroup(groupPost).then((json) => {
+        if (json.status === 'success') {
+          setSelectGroup(json.content);
+          groupPostInit(json.content);
+        }
+      });
       setIsOpenModal(false);
-      // console.log(EditGroupPostData);
     }
   };
 
@@ -121,6 +103,12 @@ const GroupDetail = () => {
       .then(() => {
         getBooks();
       });
+
+    getCollections(param['id']).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -130,12 +118,6 @@ const GroupDetail = () => {
         setCreatedBy(json.content.name);
       });
     }
-
-    getCollections(param['id']).then((json) => {
-      if (json.status === 'success') {
-        setBooksInGroup(json.content);
-      }
-    });
   }, [selectGroup]);
 
   return (
