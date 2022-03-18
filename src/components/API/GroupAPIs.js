@@ -39,7 +39,7 @@ export const getGroups = async () => {
 };
 
 export const getGroup = async (id) => {
-  return await fetch(GroupsAPI + `${id}`)
+  return await fetch(`${GroupsAPI}/${id}`)
     .then((res) => {
       if (!res.ok) {
         throw new GroupError(res);
