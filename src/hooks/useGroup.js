@@ -31,9 +31,8 @@ export const useGroup = () => {
       if (json.status === 'fail') {
         setIsOpenError(true);
         setError(json.content);
-      } else {
-        setGroups(json.content);
       }
+      return json;
     });
   };
 
