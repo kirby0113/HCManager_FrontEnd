@@ -18,6 +18,7 @@ import {Breadcrumbs} from '../../components/Breadcrumbs';
 import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useGroup} from '../../hooks/useGroup';
+import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -38,15 +39,11 @@ const GroupDetail = () => {
   const [Books, setBooks] = useState([]); //全てのBooksを入れておく
   const [Users, setUsers] = useState(); //Formで使用
 
-  const {getBooksInGroup} = useGroup();
+  const {getCollections, addCollection} = useGroup();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const [BookPostBody, setBookPostBody] = useState({
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({group_id: param['id'], book_id: '1'}),
-  });
+  const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: '1'});
 
   const [editGroupPostData, setEditGroupPostData] = useState({
     name: '',
@@ -64,19 +61,11 @@ const GroupDetail = () => {
   }, []);
 
   const registerBook = () => {
-    fetch(GroupsAPI + '/addBook', BookPostBody) //api groups/addBook
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-        getBooksInGroup(param['id']).then((json) => {
-          if (json.status === 'success') {
-            setBooksInGroup(json.content);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    addCollection(BookPostBody).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   };
 
   const removeBook = () => {
@@ -84,7 +73,7 @@ const GroupDetail = () => {
       .then((response) => response)
       .then((data) => {
         console.log('Success:', data);
-        getBooksInGroup(param['id']).then((json) => {
+        getCollections(param['id']).then((json) => {
           if (json.status === 'success') {
             setBooksInGroup(json.content);
           }
@@ -96,11 +85,7 @@ const GroupDetail = () => {
   };
 
   const BookPostChange = (id) => {
-    setBookPostBody({
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({group_id: param['id'], book_id: id}),
-    });
+    setBookPostBody({group_id: param['id'], book_id: id});
     // console.log(BookPostBody);
   };
 
@@ -163,7 +148,7 @@ const GroupDetail = () => {
 
   useEffect(() => {
     //Groupデータ更新時にグループに対応した教材を取得
-    getBooksInGroup(param['id']).then((json) => {
+    getCollections(param['id']).then((json) => {
       if (json.status === 'success') {
         setBooksInGroup(json.content);
       }
@@ -239,12 +224,12 @@ const GroupDetail = () => {
       </EditRelationButtonList>
 
       {BooksInGroup ? (
-        <div className='TMList'>
+        <InfoCardList>
           {BooksInGroup.map((data) => {
             console.log(data);
             return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
           })}
-        </div>
+        </InfoCardList>
       ) : (
         ''
       )}
