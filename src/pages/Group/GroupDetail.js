@@ -242,7 +242,7 @@ const GroupDetail = () => {
         <div className='TMList'>
           {BooksInGroup.map((data) => {
             console.log(data);
-            return <BookInfo data={data} key={data.book_id}></BookInfo>;
+            return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
           })}
         </div>
       ) : (
