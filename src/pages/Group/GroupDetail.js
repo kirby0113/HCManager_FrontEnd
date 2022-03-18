@@ -19,6 +19,8 @@ import {useContext} from 'react';
 import {AuthContext} from '../../contexts/AuthContext';
 import {useGroup} from '../../hooks/useGroup';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
+import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
+import {ErrorContext} from '../../contexts/ErrorContext';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -38,12 +40,13 @@ const GroupDetail = () => {
   const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
   const [Books, setBooks] = useState([]); //全てのBooksを入れておく
   const [Users, setUsers] = useState(); //Formで使用
+  const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
 
-  const {getCollections, addCollection} = useGroup();
+  const {getCollections, addCollection, removeCollection} = useGroup();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: '1'});
+  const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: ''});
 
   const [editGroupPostData, setEditGroupPostData] = useState({
     name: '',
@@ -69,24 +72,16 @@ const GroupDetail = () => {
   };
 
   const removeBook = () => {
-    fetch(GroupsAPI + '/removeBook', BookPostBody) //api groups/removeBook
-      .then((response) => response)
-      .then((data) => {
-        console.log('Success:', data);
-        getCollections(param['id']).then((json) => {
-          if (json.status === 'success') {
-            setBooksInGroup(json.content);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    removeCollection(BookPostBody).then((json) => {
+      if (json.status === 'success') {
+        setBooksInGroup(json.content);
+      }
+    });
   };
 
   const BookPostChange = (id) => {
     setBookPostBody({group_id: param['id'], book_id: id});
-    // console.log(BookPostBody);
+    console.log(BookPostBody);
   };
 
   const EditGroupFetch = () => {
@@ -216,6 +211,7 @@ const GroupDetail = () => {
         }}
         label='教材名'
       >
+        <option value='' key=''></option>
         {Books.map((data) => (
           <option value={data.book_id} key={data.book_id}>
             {data.name}
@@ -246,6 +242,10 @@ const GroupDetail = () => {
       ) : (
         ''
       )}
+
+      <ErrorMessageWrapper isOpen={isOpenError}>
+        <ErrorMessage text={error} onClose={() => setIsOpenError(false)} />
+      </ErrorMessageWrapper>
     </div>
   );
 };
