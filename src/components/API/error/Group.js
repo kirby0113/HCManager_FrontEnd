@@ -66,6 +66,27 @@ export const updateGroupErrorCatch = (status) => {
   }
 };
 
+export const deleteGroupErrorCatch = (status) => {
+  switch (status) {
+    case -1: {
+      return {status: 'fail', content: 'ネットワークエラーです。VPNの接続状況などを確認してください。'};
+    }
+    case 400: {
+      return {
+        status: 'fail',
+        content:
+          'クラス更新に失敗しました。API側でエラーが発生しました。クラス内教材が登録されている場合、削除が行えません。',
+      };
+    }
+    case 404: {
+      return {status: 'fail', content: 'クラス更新に失敗しました。該当のクラスが見つかりません。'};
+    }
+    default: {
+      return {status: 'fail', content: 'クラス更新に失敗しました。定義されていないエラーです。'};
+    }
+  }
+};
+
 export const getCollectionsErrorCatch = (status) => {
   switch (status) {
     case -1: {
