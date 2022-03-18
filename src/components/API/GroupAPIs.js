@@ -8,6 +8,7 @@ import {
   addCollectionErrorCatch,
   removeCollectionErrorCatch,
   updateGroupErrorCatch,
+  deleteGroupErrorCatch,
 } from './error/Group';
 
 class GroupError extends Error {
@@ -115,6 +116,38 @@ export const updateGroup = async (data) => {
         return updateGroupErrorCatch(-1);
       } else {
         return updateGroupErrorCatch(error.status);
+      }
+    });
+};
+
+export const checkBooksInGroup = async (id) => {
+  return await fetch(GroupsAPI + '/' + id + '/books').then((res) => {
+    if (res.status === 404) {
+      return {status: 'ok', content: '削除可能'};
+    } else {
+      return {status: 'fail', content: '登録されている教材があるため、削除できませんでした。'};
+    }
+  });
+};
+
+export const deleteGroup = async (id) => {
+  return await fetch(`${GroupsAPI}/${id}`, {
+    method: 'DELETE',
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new GroupError(res);
+      }
+    })
+    .then(() => {
+      return {status: 'success', content: 'クラスの削除が完了しました！'};
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.status === undefined) {
+        return deleteGroupErrorCatch(-1);
+      } else {
+        return deleteGroupErrorCatch(error.status);
       }
     });
 };

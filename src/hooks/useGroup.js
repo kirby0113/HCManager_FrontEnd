@@ -6,9 +6,11 @@ import {
   getGroup as getGroupAPI,
   createGroup as createGroupAPI,
   updateGroup as updateGroupAPI,
+  deleteGroup as deleteGroupAPI,
   getCollections as getCollectionsAPI,
   addCollection as addCollectionAPI,
   removeCollection as removeCollectionAPI,
+  checkBooksInGroup,
 } from '../components/API/GroupAPIs';
 import {ErrorContext} from '../contexts/ErrorContext';
 
@@ -24,6 +26,7 @@ export const useGroup = () => {
       } else {
         setGroups(json.content);
       }
+      return json;
     });
   };
 
@@ -47,7 +50,23 @@ export const useGroup = () => {
     });
   };
 
-  const deleteGroup = () => {};
+  const deleteGroup = async (id) => {
+    return await checkBooksInGroup(id).then(async (json) => {
+      if (json.status === 'fail') {
+        setIsOpenError(true);
+        setError(json.content);
+        return;
+      } else {
+        return await deleteGroupAPI(id).then(async (json) => {
+          if (json.status === 'fail') {
+            setIsOpenError(true);
+            setError(json.content);
+          }
+          return await getGroups();
+        });
+      }
+    });
+  };
 
   const updateGroup = async (data) => {
     return await updateGroupAPI(data).then(async (json) => {
