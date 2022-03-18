@@ -39,10 +39,9 @@ const GroupDetail = () => {
 
   const [CreatedBy, setCreatedBy] = useState();
   const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
-  const [Users, setUsers] = useState(); //Formで使用
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
   const {books, setBooks, getBooks} = useBook();
-  const {getUser} = useUser();
+  const {users, getUser, getUsers} = useUser();
   const {selectGroup, setSelectGroup, getGroup, updateGroup, getCollections, addCollection, removeCollection} =
     useGroup();
   const {groupPost, setGroupPost, groupPostInit} = useGroupPost();
@@ -50,14 +49,6 @@ const GroupDetail = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [BookPostBody, setBookPostBody] = useState({group_id: param['id'], book_id: ''});
-
-  useEffect(() => {
-    fetch(UsersAPI) //api
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json);
-      });
-  }, []);
 
   const registerBook = () => {
     addCollection(BookPostBody).then((json) => {
@@ -99,6 +90,9 @@ const GroupDetail = () => {
           setSelectGroup(json.content);
           groupPostInit(json.content);
         }
+      })
+      .then(() => {
+        getUsers();
       })
       .then(() => {
         getBooks();
@@ -193,7 +187,7 @@ const GroupDetail = () => {
           onChange={setGroupPost}
           onSave={() => EditGroupCheck()}
           postData={groupPost}
-          users={Users}
+          users={users}
           onClose={() => setIsOpenModal(false)}
         />
       )}
