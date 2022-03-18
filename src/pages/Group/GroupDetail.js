@@ -21,6 +21,8 @@ import {useGroup} from '../../hooks/useGroup';
 import {InfoCardList} from '../../components/Cards/Lists/InfoCardList';
 import {ErrorMessage, ErrorMessageWrapper} from '../../components/Utilities/ErrorMessage';
 import {ErrorContext} from '../../contexts/ErrorContext';
+import {useBook} from '../../hooks/useBook';
+import {useUser} from '../../hooks/useUser';
 
 const GroupDetailCard = styled(DetailCard)`
   padding-top: 30px;
@@ -38,9 +40,10 @@ const GroupDetail = () => {
   const [GroupData, setGroupData] = useState();
   const [CreatedBy, setCreatedBy] = useState();
   const [BooksInGroup, setBooksInGroup] = useState([]); //Groupに対応したBooksを入れておく
-  const [Books, setBooks] = useState([]); //全てのBooksを入れておく
   const [Users, setUsers] = useState(); //Formで使用
   const {error, setError, isOpenError, setIsOpenError} = useContext(ErrorContext);
+  const {books, setBooks, getBooks} = useBook();
+  const {getUser} = useUser();
 
   const {getCollections, addCollection, removeCollection} = useGroup();
 
@@ -128,21 +131,17 @@ const GroupDetail = () => {
   useEffect(() => {
     //最初にGroupデータを取得
     GroupDataFetch();
+    getBooks();
   }, []);
 
   useEffect(() => {
     //Groupデータ更新時に作成者名を取得
     if (typeof GroupData !== 'undefined') {
-      fetch(UsersAPI + '/' + GroupData.user_id) //api
-        .then((res) => res.json())
-        .then((json) => {
-          setCreatedBy(json.name);
-        });
+      getUser(GroupData.user_id).then((json) => {
+        setCreatedBy(json.content.name);
+      });
     }
-  }, [GroupData]);
 
-  useEffect(() => {
-    //Groupデータ更新時にグループに対応した教材を取得
     getCollections(param['id']).then((json) => {
       if (json.status === 'success') {
         setBooksInGroup(json.content);
@@ -150,28 +149,12 @@ const GroupDetail = () => {
     });
   }, [GroupData]);
 
-  useEffect(() => {
-    //Groupデータ更新時に全ての教材を取得（教材登録などに使う）
-    if (typeof GroupData !== 'undefined') {
-      fetch(BooksAPI) //api
-        .then((res) => res.json())
-        .then((json) => {
-          //console.log(json);
-          if (Array.isArray(json)) {
-            setBooks(json);
-          } else {
-            setBooks([json]);
-          }
-        });
-    }
-  }, [GroupData]);
-
   return (
     <div>
       <PageTitle color='blue'>グループ詳細</PageTitle>
       <Breadcrumbs />
       <GroupDetailCard>
-        {GroupData ? (
+        {GroupData && (
           <DetailCardContent>
             <div>
               <Label>グループ名</Label>
@@ -190,8 +173,6 @@ const GroupDetail = () => {
               {GroupData.created_at}
             </div>
           </DetailCardContent>
-        ) : (
-          ''
         )}
         <DetailCardSummary title='グループ概略' text={GroupData ? GroupData.summary : ''} />
         <DetailCardButtons>
@@ -212,26 +193,23 @@ const GroupDetail = () => {
         label='教材名'
       >
         <option value='' key=''></option>
-        {Books.map((data) => (
+        {books.map((data) => (
           <option value={data.book_id} key={data.book_id}>
             {data.name}
           </option>
         ))}
       </EditRelationButtonList>
 
-      {BooksInGroup ? (
+      {BooksInGroup && (
         <InfoCardList>
           {BooksInGroup.map((data) => {
             console.log(data);
             return <BookInfo data={data.book} key={data.book_id}></BookInfo>;
           })}
         </InfoCardList>
-      ) : (
-        ''
       )}
 
-      {/* Modal*/}
-      {isOpenModal ? (
+      {isOpenModal && (
         <EditGroupModal
           onChange={setEditGroupPostData}
           onSave={() => EditGroupCheck()}
@@ -239,8 +217,6 @@ const GroupDetail = () => {
           users={Users}
           onClose={() => setIsOpenModal(false)}
         />
-      ) : (
-        ''
       )}
 
       <ErrorMessageWrapper isOpen={isOpenError}>
